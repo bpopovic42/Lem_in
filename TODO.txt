@@ -1,0 +1,16 @@
+PROJECT STRUCTURE :
+Import libft
+Create repository structure
+Create Project's Makefile
+
+PROJECT DESIGN :
+1.
+Create needed data structures and associated handling functions
+Read and treat the input into previously created structures
+Test the strength resulting parser
+2.
+Implement DFS algorithm on your structures
+Check if DFS's found paths are correct
+3.
+Determine the optimal way to send your ants with the given paths
+Carefully check that every project's requirements are properly met
