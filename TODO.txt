@@ -1,5 +1,5 @@
 PROJECT STRUCTURE :
-Import libft
+Import libft [DONE]
 Create repository structure
 Create Project's Makefile
 
