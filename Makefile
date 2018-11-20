@@ -15,21 +15,21 @@ ODIR		=	./objs
 # **************************************************************************** #
 # Lem_in :
 
-# LMN_FILES	=	$(addprefix $(LMNDIR)/, \
-		#srcs.c)
+LMN_FILES	=	$(addprefix $(LMNDIR)/, \
+		main.c init_graph.c get_input.c)
 
 # **************************************************************************** #
 # Complete path :
 
-# LMN_SRCS	=	$(addprefix $(SDIR)/, $(LMN_FILES))
+LMN_SRCS	=	$(addprefix $(SDIR)/, $(LMN_FILES))
 
 ############################## OBJS ############################################
 
-#LMN_OBJS	=	$(LMN_FILES:.c=.o)
+LMN_OBJS	=	$(LMN_FILES:.c=.o)
 
-#LMN_OBJ		=	$(addprefix $(ODIR)/, $(LMN_OBJS))
+LMN_OBJ		=	$(addprefix $(ODIR)/, $(LMN_OBJS))
 
-#OBJ			=	$(LMN_OBJ)
+OBJ			=	$(LMN_OBJ)
 
 ############################## INCS ############################################
 
@@ -39,7 +39,7 @@ LFT_INC_DIR	=	$(addprefix $(LFTDIR)/, $(IDIR))
 
 LFT_INC		=	$(addprefix $(LFTDIR)/, $(IDIR)/libft.h)
 
-#LMN_INC		=	$(addprefix $(IDIR)/, lem_in.h)
+LMN_INC		=	$(addprefix $(IDIR)/, lem_in.h)
 
 HEADERS		=	$(LFT_INC) #$(LMN_INC)
 
@@ -55,7 +55,7 @@ CFLAGS		=	$(DEBUG) $(if $(SILENT), , -Wall -Wextra -Werror)
 
 all			:	$(NAME)
 
-$(NAME)	:	$(LFT) #$(LMN_OBJ) $(LMN_INC)
+$(NAME)	:	$(LFT) $(LMN_OBJ) $(LMN_INC)
 			@$(CC) $(CFLAGS) -o $(NAME) $(LMN_OBJ) $(LFT) $(INCS)
 			@$(IF_CMP)
 			@echo $(BG)[$(BLB)LEM_IN $(BG)COMPILED$(BG)]$(X)
