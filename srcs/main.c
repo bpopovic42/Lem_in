@@ -6,11 +6,27 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/19 22:56:40 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/11/27 19:31:20 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/11/27 19:55:28 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
+
+static void		free_room(void *room)
+{
+	t_room *data;
+
+	data = (t_room*)room;
+	if (data->comment)
+		free(data->comment);
+	if (data->name)
+		free(data->name);
+	if (data->links)
+		free(data->links);
+	if (data->position)
+		free(data->position);
+
+}
 
 static void		free_data(t_graph *graph, char **input)
 {
@@ -26,6 +42,7 @@ static void		free_data(t_graph *graph, char **input)
 	free(input);
 	input = NULL;
 	graph->size = 0;
+	ft_vector_free(graph->rooms, &free_room);
 	graph->rooms = NULL;
 }
 
