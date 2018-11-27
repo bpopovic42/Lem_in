@@ -1,7 +1,7 @@
 PROJECT STRUCTURE :
 Import libft [DONE]
-Create repository structure
-Create Project's Makefile
+Create repository structure [DONE]
+Create Project's Makefile [DONE]
 
 PROJECT DESIGN :
 1.
