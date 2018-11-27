@@ -20,6 +20,7 @@ typedef struct		s_pos
 typedef struct		s_room
 {
 	char			*comment;
+	char			*name;
 	struct s_links	*links;
 	struct s_pos	*position;
 }					t_room;
@@ -27,14 +28,16 @@ typedef struct		s_room
 typedef struct		s_graph
 {
 	size_t			size;
-	t_hash			*rooms;
+	t_vect			*rooms;
 }					t_graph;
 
 /*
 ** FUNCTIONS
 */
 
-void		init_graph(t_graph *graph);
-char		**get_input();
+void	init_graph(t_graph *graph);
+char	**get_input();
+int		get_ants_nbr(char **input, unsigned int *ants);
+int		get_rooms(char **input, t_graph *graph);
 
 #endif
