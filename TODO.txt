@@ -16,4 +16,4 @@ Determine the optimal way to send your ants with the given paths
 Carefully check that every project's requirements are properly met
 
 TO FIX :
-Invalid read in ft_strchr, check it with '-g -fsanitize=address' flags
+Leaks from get_rooms vector handling
