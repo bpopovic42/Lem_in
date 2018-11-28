@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/19 23:21:56 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/11/20 14:25:18 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/11/28 16:42:38 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ char			**get_input()
 		ft_perror("get_input: failed to properly read input.");
 	ft_strdel(&line);
 	/* Split input_str into a string array */
-	if (!(input_array = ft_strsplit(input_str, '\n')))
+	if (!(input_array = ft_strsplit(input_str, "\n")))
 		ft_perror("get_input: split failed.");
 	ft_strdel(&input_str);
 	return (input_array);
