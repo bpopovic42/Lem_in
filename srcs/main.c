@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/19 22:56:40 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/11/27 19:55:28 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/11/29 17:55:16 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void		free_room(void *room)
 		free(data->links);
 	if (data->position)
 		free(data->position);
-
+	free(room);
 }
 
 static void		free_data(t_graph *graph, char **input)

@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 18:41:55 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/11/28 19:51:51 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/11/29 19:43:17 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int		get_rooms(char **input, t_graph *graph)
 {
 	int		i;
 	char	*comment_ptr;
+	char	**tmp;
 
 	i = 1;
 	comment_ptr = NULL;
@@ -50,7 +51,9 @@ int		get_rooms(char **input, t_graph *graph)
 		/* Call input recording function */
 		else if (input[i])
 		{
-			record_room(graph, ft_strsplit(input[i], WSPCS), comment_ptr);
+			tmp = ft_strsplit(input[i], WSPCS);
+			record_room(graph, tmp, comment_ptr);
+			ft_delarray(tmp);
 		}
 		i++;
 	}
