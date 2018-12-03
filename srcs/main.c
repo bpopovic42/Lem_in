@@ -6,11 +6,12 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/19 22:56:40 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/11/29 17:55:16 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/12/03 20:29:17 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
+#include "ft_printf.h"
 
 static void		free_room(void *room)
 {
@@ -68,6 +69,31 @@ int		main(void)
 		exit_error("main: invalid ants input", &graph, input);
 	if (get_rooms(input, &graph) < 0)
 		exit_error("main: bad formatted rooms input", &graph, input);
+	ft_printf("Ants nbr = %d\n", ants);
+	size_t i = 0;
+	t_room *ptr;
+	while (i < graph.rooms->size)
+	{
+		ptr = ft_vector_get(graph.rooms, i);
+		ft_printf("Room [%s] :\n", ptr->name);
+		ft_printf("Comment = %s\n", ptr->comment);
+		ft_printf("Position = %d, %d\n\n", ptr->position->x, ptr->position->y);
+		i++;
+	}
+
+	/*
+	** HASH TABLES TESTING
+	*/
+	t_htable	*table;
+	t_hash		*ptr1;
+	t_hash		*ptr2;
+
+	table = ft_hash_newtable(100);
+	ptr1 = ft_hashnew("gros", "lard", ft_strlen("lard"));
+	ft_hashpush(table, ptr1);
+	ptr2 = ft_hashget(table, "gros");
+	ft_putstr((char*)ptr2->data);
+
 	/* Apply path-finding algorithm to find shortest paths */
 	/* Apply algorithm to find most efficient paths depending on ants quantity */
 	/* Output solution */
