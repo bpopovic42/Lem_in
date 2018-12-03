@@ -2,6 +2,7 @@ PROJECT STRUCTURE :
 Import libft [DONE]
 Create repository structure [DONE]
 Create Project's Makefile [DONE]
+Finish implementing & test hash tables [WIP]
 
 PROJECT DESIGN :
 1.
