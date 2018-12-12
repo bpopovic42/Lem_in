@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 18:41:55 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/11/29 19:43:17 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/12/12 17:15:35 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ static void		record_room(t_graph *graph, char **room, char *comment)
 {
 	t_room	*new_room;
 	t_pos	*coord;
+	t_hash	*new_hash;
 
 	if (!room)
 		ft_putstr("no room");
@@ -28,7 +29,9 @@ static void		record_room(t_graph *graph, char **room, char *comment)
 	new_room->name = ft_strdup(room[0]);
 	new_room->links = NULL;
 	new_room->position = coord;
-	ft_vector_append(graph->rooms, new_room);
+	ft_vector_append(graph->rooms_list, ft_strdup(room[0]));
+	new_hash = ft_hashnew(new_room->name, new_room, sizeof(*new_room));
+	ft_hashpush(graph->rooms, new_hash);
 }
 
 int		get_rooms(char **input, t_graph *graph)
@@ -39,7 +42,7 @@ int		get_rooms(char **input, t_graph *graph)
 
 	i = 1;
 	comment_ptr = NULL;
-	graph->rooms = ft_vector_init(sizeof(t_room), 0);
+	graph->rooms = ft_hash_newtable(100);
 	/* While lines contains 3 words and/or starts by a '#'*/
 	while (input[i] && (ft_count_words(input[i], WSPCS) == 3 || *input[i] == '#'))
 	{
@@ -54,6 +57,7 @@ int		get_rooms(char **input, t_graph *graph)
 			tmp = ft_strsplit(input[i], WSPCS);
 			record_room(graph, tmp, comment_ptr);
 			ft_delarray(tmp);
+			comment_ptr = NULL;
 		}
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/19 22:56:40 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/12/03 20:29:17 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/12/12 19:44:25 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,36 @@
 
 static void		free_room(void *room)
 {
-	t_room *data;
-
-	data = (t_room*)room;
-	if (data->comment)
-		free(data->comment);
-	if (data->name)
-		free(data->name);
-	if (data->links)
-		free(data->links);
-	if (data->position)
-		free(data->position);
+	ft_strdel((char**)&room);
 	free(room);
+}
+
+static void		free_hashtable(t_htable *hash_table)
+{
+	size_t	i;
+	t_hash	*ptr;
+
+	i = 0;
+	while (i < hash_table->size)
+	{
+		if (hash_table->table[i])
+		{
+			if (hash_table->table[i]->next)
+			{
+				ptr = hash_table->table[i]->next;
+				while (ptr)
+				{
+					free(ptr->data);
+					ptr->data = NULL;
+					ptr = ptr->next;
+				}
+			}
+		}
+		free(hash_table->table[i]);
+		i++;
+	}
+	free(hash_table->table);
+	free(hash_table);
 }
 
 static void		free_data(t_graph *graph, char **input)
@@ -43,7 +61,8 @@ static void		free_data(t_graph *graph, char **input)
 	free(input);
 	input = NULL;
 	graph->size = 0;
-	ft_vector_free(graph->rooms, &free_room);
+	ft_vector_free(graph->rooms_list, &free_room);
+	free_hashtable(graph->rooms);
 	graph->rooms = NULL;
 }
 
@@ -72,27 +91,16 @@ int		main(void)
 	ft_printf("Ants nbr = %d\n", ants);
 	size_t i = 0;
 	t_room *ptr;
-	while (i < graph.rooms->size)
+	t_hash *hash;
+	while (i < graph.rooms_list->size)
 	{
-		ptr = ft_vector_get(graph.rooms, i);
+		hash = ft_hashget(graph.rooms, graph.rooms_list->data[i]);
+		ptr = hash->data;
 		ft_printf("Room [%s] :\n", ptr->name);
 		ft_printf("Comment = %s\n", ptr->comment);
 		ft_printf("Position = %d, %d\n\n", ptr->position->x, ptr->position->y);
 		i++;
 	}
-
-	/*
-	** HASH TABLES TESTING
-	*/
-	t_htable	*table;
-	t_hash		*ptr1;
-	t_hash		*ptr2;
-
-	table = ft_hash_newtable(100);
-	ptr1 = ft_hashnew("gros", "lard", ft_strlen("lard"));
-	ft_hashpush(table, ptr1);
-	ptr2 = ft_hashget(table, "gros");
-	ft_putstr((char*)ptr2->data);
 
 	/* Apply path-finding algorithm to find shortest paths */
 	/* Apply algorithm to find most efficient paths depending on ants quantity */

@@ -28,7 +28,8 @@ typedef struct		s_room
 typedef struct		s_graph
 {
 	size_t			size;
-	t_vect			*rooms;
+	t_vect			*rooms_list;
+	t_htable		*rooms;
 }					t_graph;
 
 /*
