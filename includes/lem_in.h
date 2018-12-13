@@ -22,13 +22,14 @@ typedef struct		s_room
 	char			*comment;
 	char			*name;
 	struct s_links	*links;
-	struct s_pos	*position;
+	struct s_pos	pos;
 }					t_room;
 
 typedef struct		s_graph
 {
 	size_t			size;
-	t_vect			*rooms_list;
+	t_room			*start;
+	t_room			*end;
 	t_htable		*rooms;
 }					t_graph;
 
