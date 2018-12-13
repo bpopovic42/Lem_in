@@ -74,6 +74,7 @@ clean		:
 	@$(MAKE) clean -C $(LFTDIR)
 	@/bin/rm -f $(OBJ)
 	@/bin/rm -rf $(ODIR)
+	@/bin/rm -rf $(DBGDIR)
 	@echo $(BG)[$(BLB)LEM_IN $(BG)CLEANED$(BG)]$(X)
 
 fclean		:	clean
@@ -84,11 +85,13 @@ re			:	fclean all
 
 ############################## UTIL ############################################
 
-MKODIR 		=	if [ ! -d $(ODIR) ]; then \
+DBGDIR		=	$(NAME).dSYM
+
+MKODIR		=	if [ ! -d $(ODIR) ]; then \
 			/bin/mkdir -p $(ODIR); \
 			/bin/mkdir -p $(ODIR)/lem_in; fi
 
-CMP 		=	if [ ! -e .cmp ]; then \
+CMP			=	if [ ! -e .cmp ]; then \
 				echo $(BY)Compiling $(B)Project $(X)files...$(BY); \
 				touch .cmp; fi
 
