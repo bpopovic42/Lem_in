@@ -6,37 +6,43 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 18:41:55 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/12/13 20:04:37 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/12/14 18:12:03 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 #include "ft_printf.h"
 
-static void		record_room(t_graph *graph, char **room, char *comment)
+static t_room	*new_room(char *name, char *com, t_links *links, t_pos *coord)
 {
 	t_room	*new_room;
-	t_pos	coord;
-	t_hash	*new_hash;
 
-	if (!room)
-		ft_putstr("no room");
-	coord.x = ft_atoi(room[1]);
-	coord.y = ft_atoi(room[2]);
 	if (!(new_room = malloc(sizeof(*new_room))))
 		exit(-1);
-	new_room->comment = ft_strdup(comment);
-	new_room->name = ft_strdup(room[0]);
-	new_room->links = NULL;
-	new_room->pos = coord;
-	new_hash = ft_hashnew(new_room->name, new_room, sizeof(*new_room));
+	new_room->comment = ft_strdup(com);
+	new_room->name = ft_strdup(name);
+	new_room->links = links;
+	new_room->pos = *coord;
+	return (new_room);
+}
+
+static void		record_room(t_graph *graph, char **room_data, char *comment)
+{
+	t_pos	coord;
+	t_room	*room;
+	t_hash	*new_hash;
+
+	coord.x = ft_atoi(room_data[1]);
+	coord.y = ft_atoi(room_data[2]);
+	room = new_room(room_data[0], comment, NULL, &coord);
+	new_hash = ft_hashnew(room->name, room, sizeof(*room));
 	ft_hashpush(graph->rooms, new_hash);
 	if (comment)
 	{
 		if (!(ft_strcmp(comment, "##start")))
-			graph->start = new_room;
+			graph->start = room;
 		else if (!(ft_strcmp(comment, "##end")))
-			graph->end = new_room;
+			graph->end = room;
 	}
 }
 
@@ -46,18 +52,23 @@ int		get_rooms(char **input, t_graph *graph)
 	char	*comment_ptr;
 	char	**tmp;
 
-	i = 1;
+	i = 0;
 	comment_ptr = NULL;
 	graph->rooms = ft_hash_newtable(100);
 	/* While lines contains 3 words and/or starts by a '#'*/
-	while (input[i] && (ft_count_words(input[i], WSPCS) == 3 || *input[i] == '#'))
+	while (input[i++])
 	{
-		/* If line is a comment */
-		/* Save a pointer to it */
-		if (*input[i] == '#')
+		if (!(ft_count_words(input[i], WSPCS) == 3 || *input[i] == '#'))
+		{
+			if (ft_count_words(input[i], WSPCS) == 1 && i > 1 && ft_strchr(input[i], '-'))
+				break;
+			else
+				return (-1);
+		}
+		/* If line is a comment keep a pointer to it */
+		else if (*input[i] == '#')
 			comment_ptr = input[i];
 		/* Else line must be a room definition or end of array*/
-		/* Call input recording function */
 		else if (input[i])
 		{
 			tmp = ft_strsplit(input[i], WSPCS);
@@ -65,7 +76,6 @@ int		get_rooms(char **input, t_graph *graph)
 			ft_delarray(tmp);
 			comment_ptr = NULL;
 		}
-		i++;
 	}
 	return (0);
 }

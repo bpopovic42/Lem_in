@@ -37,8 +37,9 @@ typedef struct		s_graph
 ** FUNCTIONS
 */
 
+int		get_stdin_data(unsigned int *ants_nbr, t_graph *graph);
 void	init_graph(t_graph *graph);
-char	**get_input();
+char	**input_to_array(void);
 int		get_ants_nbr(char **input, unsigned int *ants);
 int		get_rooms(char **input, t_graph *graph);
 

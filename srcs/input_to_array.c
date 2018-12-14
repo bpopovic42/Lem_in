@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_input.c                                        :+:      :+:    :+:   */
+/*   input_to_array.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/19 23:21:56 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/11/28 16:42:38 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/12/14 16:54:51 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void		append_line_to(char *line, char **dst)
 	ft_strdel(&tmp);
 }
 
-char			**get_input()
+char			**input_to_array(void)
 {
 	int		ret;
 	char	*line;

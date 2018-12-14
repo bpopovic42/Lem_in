@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/19 22:56:40 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/12/13 20:05:29 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/12/14 18:01:25 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,45 +24,33 @@ static void		free_room(void *room)
 	free(room);
 }
 
-static void		free_data(t_graph *graph, char **input)
+static void		free_data(t_graph *graph)
 {
-	int i;
-
-	i = -1;
-	while (input[++i])
-		ft_strdel(&input[i]);
-	free(input);
-	input = NULL;
 	graph->size = 0;
 	ft_hash_freetable(graph->rooms->table, graph->rooms->size, &free_room);
 	free(graph->rooms);
 	graph->rooms = NULL;
 }
 
-static int		exit_error(const char *msg, t_graph *graph, char **input)
+static int		exit_error(const char *msg, t_graph *graph)
 {
-	free_data(graph, input);
-	ft_putendl(msg);
+	free_data(graph);
+	ft_putendl_fd(msg, STDERR);
 	return (-1);
 }
 
 int		main(void)
 {
-	/* Create needed structures */
-	unsigned int	ants;
+	unsigned int	ants_nbr;
 	t_graph			graph;
-	char			**input;
 
-	ants = 0;
-	init_graph(&graph);
-	/* Check and read input into previously created structures */
-	input = get_input();
-	if (get_ants_nbr(input, &ants) < 0)
-		exit_error("main: invalid ants input", &graph, input);
-	if (get_rooms(input, &graph) < 0)
-		exit_error("main: bad formatted rooms input", &graph, input);
-	ft_printf("Ants nbr = %d\n\n", ants);
 
+	if (get_stdin_data(&ants_nbr, &graph) < 0)
+		return (exit_error("main: input error", &graph));
+	if (!graph.start || !graph.end)
+		return (exit_error("main: missing start or end room", &graph));
+
+	ft_printf("Ants nbr = %d\n\n", ants_nbr);
 	ft_printf("Start = [%s]\n", graph.start->name);
 	ft_printf("Pos = [%d,%d]\n\n", graph.start->pos.x, graph.start->pos.y);
 	/* Apply path-finding algorithm to find shortest paths */
@@ -70,6 +58,6 @@ int		main(void)
 	/* Output solution */
 	/* Clean allocated memory */
 	/* Exit */
-	free_data(&graph, input);
+	free_data(&graph);
 	return (0);
 }
