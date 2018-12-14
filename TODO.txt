@@ -5,6 +5,7 @@ Create Project's Makefile [DONE]
 Fix leaks [DONE]
 Test hash tables [WIP]
 Clean code before treating rooms links
+Test and handle parsing error cases properly
 
 PROJECT DESIGN :
 1.
