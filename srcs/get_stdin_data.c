@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/14 16:59:13 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/12/14 17:07:18 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/12/14 20:43:16 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,13 @@ static void		free_data(char **input)
 		ft_strdel(&input[i]);
 	free(input);
 	input = NULL;
+}
+
+static int		exit_error(const char *msg, char **input)
+{
+	free_data(input);
+	ft_putendl_fd(msg, STDERR);
+	return (-1);
 }
 
 int		get_stdin_data(unsigned int *ants_nbr, t_graph *graph)
