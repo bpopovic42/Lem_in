@@ -1,0 +1,234 @@
+[ 2_nbr_of_ants ] :
+main: input error
+[ 2_rooms_same_name ] :
+Ants nbr = 1
+
+Start = [1]
+Pos = [1,1]
+
+[ 2_rooms_same_name_again ] :
+main: input error
+[ 3_coordinates ] :
+Ants nbr = 3
+
+Start = [0]
+Pos = [1,2]
+
+[ L_room1 ] :
+main: input error
+[ L_room2 ] :
+main: input error
+[ ant_after_start ] :
+main: input error
+[ ant_max_int ] :
+main: input error
+[ ant_min_int ] :
+main: input error
+[ ant_text ] :
+main: input error
+[ ant_zero ] :
+main: input error
+[ ants_after_start ] :
+main: input error
+[ ants_text ] :
+main: input error
+[ bad_nbr_ant ] :
+main: input error
+[ bad_rooms ] :
+main: input error
+[ curquitest ] :
+Ants nbr = 2147483647
+
+Start = [start]
+Pos = [0,0]
+
+[ double_as_position ] :
+main: input error
+[ dual_start ] :
+main: input error
+[ duplicate_command ] :
+main: input error
+[ duplicate_command2 ] :
+main: input error
+[ duplicate_name ] :
+main: input error
+[ empty ] :
+[ empty_anthill ] :
+[ empty_line_in_link ] :
+main: input error
+[ empty_line_link ] :
+main: input error
+[ empty_line_room ] :
+main: input error
+[ end_no_room ] :
+main: missing start or end room
+[ end_twice ] :
+main: input error
+[ false_test1 ] :
+main: input error
+[ false_test10 ] :
+main: input error
+[ false_test11 ] :
+main: input error
+[ false_test12 ] :
+[ false_test13 ] :
+main: input error
+[ false_test14 ] :
+[ false_test15 ] :
+Ants nbr = 19
+
+Start = [D.trump]
+Pos = [23,3]
+
+[ false_test16 ] :
+main: input error
+[ false_test17 ] :
+main: input error
+[ false_test2 ] :
+main: input error
+[ false_test3 ] :
+main: input error
+[ false_test4 ] :
+main: input error
+[ false_test5 ] :
+main: input error
+[ false_test6 ] :
+main: input error
+[ false_test7 ] :
+main: input error
+[ false_test8 ] :
+main: input error
+[ false_test9 ] :
+main: input error
+[ hyphen_room ] :
+main: input error
+[ long_max_x_y ] :
+main: input error
+[ long_min_y ] :
+main: input error
+[ max_int_ants ] :
+main: input error
+[ min_int_ants ] :
+main: input error
+[ negatif_ants2 ] :
+[ negative_ants ] :
+main: input error
+[ no-tubes-but_comms ] :
+[ no_ant1 ] :
+Ants nbr = 0
+
+Start = [start]
+Pos = [23,3]
+
+[ no_ant2 ] :
+main: missing start or end room
+[ no_ants_line ] :
+Ants nbr = 0
+
+Start = [start]
+Pos = [23,3]
+
+[ no_ants_line2 ] :
+main: missing start or end room
+[ no_end1 ] :
+main: input error
+[ no_end2 ] :
+main: missing start or end room
+[ no_end3 ] :
+main: missing start or end room
+[ no_ends1 ] :
+main: input error
+[ no_ends2 ] :
+main: missing start or end room
+[ no_links1 ] :
+[ no_links2 ] :
+main: input error
+[ no_room1 ] :
+main: input error
+[ no_room2 ] :
+main: input error
+[ no_rooms ] :
+main: input error
+[ no_solution1 ] :
+main: input error
+[ no_solution2 ] :
+Ants nbr = 12
+
+Start = [0]
+Pos = [1,2]
+
+[ no_solution3 ] :
+main: input error
+[ no_solution4 ] :
+main: input error
+[ no_start ] :
+main: missing start or end room
+[ no_start1 ] :
+main: input error
+[ no_start2 ] :
+main: missing start or end room
+[ no_tube ] :
+[ no_tube1 ] :
+[ np_start_1 ] :
+main: input error
+[ np_start_2 ] :
+main: missing start or end room
+[ number_of_ants_negative ] :
+[ number_of_ants_zero ] :
+Ants nbr = 0
+
+Start = [1]
+Pos = [1,1]
+
+[ only_ants ] :
+main: input error
+[ only_comments ] :
+[ only_comments_with_starts_and_end ] :
+[ only_comms ] :
+[ only_links ] :
+main: input error
+[ only_text ] :
+[ overflow ] :
+[ room_starting_with_ht ] :
+main: missing start or end room
+[ room_with_position_as_double ] :
+main: missing start or end room
+[ self_linked ] :
+main: input error
+[ self_linked2 ] :
+main: input error
+[ short_loop ] :
+main: input error
+[ space_before_comment ] :
+main: input error
+[ space_before_link ] :
+main: input error
+[ start_as_end ] :
+main: input error
+[ start_as_end2 ] :
+main: input error
+[ start_as_link ] :
+main: input error
+[ start_is_end ] :
+main: input error
+[ start_is_end2 ] :
+main: input error
+[ start_twice ] :
+main: missing start or end room
+[ start_twice_again ] :
+main: input error
+[ test_bad_lines ] :
+main: input error
+[ test_bad_lines2 ] :
+main: input error
+[ too_many_ants ] :
+[ two_colonies ] :
+main: input error
+[ weird_name ] :
+Ants nbr = 10
+
+Start = [lem-in]
+Pos = [0,1]
+
+[ wrong_room_y ] :
+main: input error
