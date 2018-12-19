@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/19 22:56:40 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/12/14 18:01:25 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/12/19 17:02:09 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,12 @@ static void		free_room(void *room)
 static void		free_data(t_graph *graph)
 {
 	graph->size = 0;
-	ft_hash_freetable(graph->rooms->table, graph->rooms->size, &free_room);
-	free(graph->rooms);
-	graph->rooms = NULL;
+	if (graph->rooms)
+	{
+		ft_hash_freetable(graph->rooms->table, graph->rooms->size, &free_room);
+		free(graph->rooms);
+		graph->rooms = NULL;
+	}
 }
 
 static int		exit_error(const char *msg, t_graph *graph)
