@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_rooms.c                                        :+:      :+:    :+:   */
+/*   get_room.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 18:41:55 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/12/14 18:12:03 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/12/19 19:07:40 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ static t_room	*new_room(char *name, char *com, t_links *links, t_pos *coord)
 
 	if (!(new_room = malloc(sizeof(*new_room))))
 		exit(-1);
-	new_room->comment = ft_strdup(com);
+	if (com)
+		new_room->comment = ft_strdup(com);
 	new_room->name = ft_strdup(name);
 	new_room->links = links;
 	new_room->pos = *coord;
@@ -46,36 +47,39 @@ static void		record_room(t_graph *graph, char **room_data, char *comment)
 	}
 }
 
-int		get_rooms(char **input, t_graph *graph)
+int		check_position_conflict(t_graph *graph, int x, int y)
 {
-	int		i;
-	char	*comment_ptr;
-	char	**tmp;
+	int i;
+	t_hash *room_ptr;
 
 	i = 0;
-	comment_ptr = NULL;
-	graph->rooms = ft_hash_newtable(100);
-	/* While lines contains 3 words and/or starts by a '#'*/
-	while (input[i++])
+	room_ptr = NULL;
+	if (graph->rooms && graph->rooms->size != 0)
 	{
-		if (!(ft_count_words(input[i], WSPCS) == 3 || *input[i] == '#'))
+		while (i < (int)graph->room_list->size)
 		{
-			if (ft_count_words(input[i], WSPCS) == 1 && i > 1 && ft_strchr(input[i], '-'))
-				break;
-			else
-				return (-1);
-		}
-		/* If line is a comment keep a pointer to it */
-		else if (*input[i] == '#')
-			comment_ptr = input[i];
-		/* Else line must be a room definition or end of array*/
-		else if (input[i])
-		{
-			tmp = ft_strsplit(input[i], WSPCS);
-			record_room(graph, tmp, comment_ptr);
-			ft_delarray(tmp);
-			comment_ptr = NULL;
+			room_ptr = ft_hashget(graph->rooms, graph->room_list->data[i]);
+			if (room_ptr)
+			{
+				t_room *test = room_ptr->data;
+				if (test->pos.x == (size_t)x && test->pos.y == (size_t)y)
+					return (1);
+			}
+			i++;
 		}
 	}
+	return (0);
+}
+
+int		get_room(char *input, char *comment, t_graph *graph)
+{
+	char **tmp;
+
+	tmp = ft_strsplit(input, WSPCS);
+	ft_vector_append(graph->room_list, (void*)ft_strdup(tmp[0]));
+	if (check_position_conflict(graph, ft_atoi(tmp[1]), ft_atoi(tmp[2])))
+		return (-1);
+	record_room(graph, tmp, comment);
+	ft_delarray(tmp);
 	return (0);
 }

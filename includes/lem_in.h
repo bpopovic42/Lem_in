@@ -30,6 +30,7 @@ typedef struct		s_graph
 	size_t			size;
 	t_room			*start;
 	t_room			*end;
+	t_vect			*room_list;
 	t_htable		*rooms;
 }					t_graph;
 
@@ -37,10 +38,9 @@ typedef struct		s_graph
 ** FUNCTIONS
 */
 
-int		get_stdin_data(unsigned int *ants_nbr, t_graph *graph);
 void	init_graph(t_graph *graph);
-char	**input_to_array(void);
+int		parse_input(unsigned int *ants_nbr, t_graph *graph);
 int		get_ants_nbr(char **input, unsigned int *ants);
-int		get_rooms(char **input, t_graph *graph);
+int		get_room(char *input, char *comment, t_graph *graph);
 
 #endif

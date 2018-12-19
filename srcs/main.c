@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/19 22:56:40 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/12/19 17:02:09 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/12/19 17:53:24 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int		main(void)
 	t_graph			graph;
 
 
-	if (get_stdin_data(&ants_nbr, &graph) < 0)
+	if (parse_input(&ants_nbr, &graph) < 0)
 		return (exit_error("main: input error", &graph));
 	if (!graph.start || !graph.end)
 		return (exit_error("main: missing start or end room", &graph));
