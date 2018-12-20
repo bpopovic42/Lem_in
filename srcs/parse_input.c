@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/14 16:59:13 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/12/20 18:41:13 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/12/20 19:39:43 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 static void parse_command(char *line, char **command)
 {
-	ft_putendl(line);
 	if (*command[1] == '#')
 	{
 		if (*command)
@@ -33,7 +32,6 @@ static int	parse_line(const char *line, char *cmd, t_graph *graph)
 	int ret;
 
 	ret = 0;
-	ft_putendl(line);
 	if (line[0] == 'L')
 		ret = -1;
 	else if (ft_count_words(line, WSPCS) == 1 && ft_strchr(line, '-'))
@@ -42,8 +40,8 @@ static int	parse_line(const char *line, char *cmd, t_graph *graph)
 		ret = get_room((char*)line, (char*)cmd, graph);
 	else
 		ret = -1;
-	if (cmd)
-		ft_strdel(&cmd);
+	//if (cmd)
+	//	ft_strdel(&cmd);
 	return (ret);
 }
 
@@ -64,6 +62,8 @@ int parse_input(unsigned int *ants, t_graph *graph)
 			parse_command(line, &command);
 		else
 			ret = parse_line(line, command, graph);
+		if (ret >= 0)
+			ft_putendl(line);
 	}
 	return (ret);
 }

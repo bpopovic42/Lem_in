@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 17:52:41 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/12/20 17:26:51 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/12/20 19:40:10 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ static int		get_ants_nbr_if_valid(const char *str, unsigned int *output)
 
 int			get_ants_nbr(char *input, unsigned int *ants)
 {
-	ft_putendl(input);
 	if (get_ants_nbr_if_valid(input, ants) < 0)
 		return (-1);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 18:41:55 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/12/20 16:52:00 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/12/20 19:37:04 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,10 @@ static t_room	*new_room(char *name, char *com, t_links *links, t_pos *coord)
 	if (!(new_room = malloc(sizeof(*new_room))))
 		exit(-1);
 	if (com)
+	{
 		new_room->comment = ft_strdup(com);
+		com = NULL;
+	}
 	new_room->name = ft_strdup(name);
 	new_room->links = links;
 	new_room->pos = *coord;
