@@ -6,12 +6,17 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/19 22:56:40 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/12/19 17:53:24 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/12/20 17:33:13 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 #include "ft_printf.h"
+
+__attribute__((unused)) static int fun_abs(int a)
+{
+	return (a * (1 - 2 * (a < 0)));
+}
 
 static void		free_room(void *room)
 {
@@ -42,19 +47,31 @@ static int		exit_error(const char *msg, t_graph *graph)
 	return (-1);
 }
 
+void			lemin_perror(const char *msg, int critical)
+{
+	if (ERR_DBG)
+		ft_printf(critical ? "{red}" : "{yellow}");
+	if (critical || ERR_DBG)
+		ft_putstr("ERROR");
+	if (ERR_DBG)
+	{
+		ft_printf(": %s{eoc}\n", msg);
+	}
+}
+
 int		main(void)
 {
 	unsigned int	ants_nbr;
 	t_graph			graph;
 
-
+	ants_nbr = 0;
+	init_graph(&graph);
 	if (parse_input(&ants_nbr, &graph) < 0)
 		return (exit_error("main: input error", &graph));
 	if (!graph.start || !graph.end)
 		return (exit_error("main: missing start or end room", &graph));
 
-	ft_printf("Ants nbr = %d\n\n", ants_nbr);
-	ft_printf("Start = [%s]\n", graph.start->name);
+	ft_printf("\nStart = [%s]\n", graph.start->name);
 	ft_printf("Pos = [%d,%d]\n\n", graph.start->pos.x, graph.start->pos.y);
 	/* Apply path-finding algorithm to find shortest paths */
 	/* Apply algorithm to find most efficient paths depending on ants quantity */

@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 18:41:55 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/12/19 19:07:40 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/12/20 16:52:00 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,11 +75,15 @@ int		get_room(char *input, char *comment, t_graph *graph)
 {
 	char **tmp;
 
-	tmp = ft_strsplit(input, WSPCS);
-	ft_vector_append(graph->room_list, (void*)ft_strdup(tmp[0]));
-	if (check_position_conflict(graph, ft_atoi(tmp[1]), ft_atoi(tmp[2])))
-		return (-1);
-	record_room(graph, tmp, comment);
-	ft_delarray(tmp);
-	return (0);
+	if (input)
+	{
+		tmp = ft_strsplit(input, WSPCS);
+		ft_vector_append(graph->room_list, (void*)ft_strdup(tmp[0]));
+		if (check_position_conflict(graph, ft_atoi(tmp[1]), ft_atoi(tmp[2])))
+			return (-1);
+		record_room(graph, tmp, comment);
+		ft_delarray(tmp);
+		return (0);
+	}
+	return (-1);
 }

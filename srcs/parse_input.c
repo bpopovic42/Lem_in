@@ -6,48 +6,64 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/14 16:59:13 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/12/19 19:11:59 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/12/20 18:41:13 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 #include "get_next_line.h"
 
-int parse_input(unsigned int *ants_nbr, t_graph *graph)
+static void parse_command(char *line, char **command)
+{
+	ft_putendl(line);
+	if (*command[1] == '#')
+	{
+		if (*command)
+			ft_strdel(command);
+		if (!(*command = ft_strdup(line)))
+		{
+			lemin_perror("get_command: ft_strdup failure.", 1);
+			exit(-1);
+		}
+	}
+}
+
+static int	parse_line(const char *line, char *cmd, t_graph *graph)
+{
+	int ret;
+
+	ret = 0;
+	ft_putendl(line);
+	if (line[0] == 'L')
+		ret = -1;
+	else if (ft_count_words(line, WSPCS) == 1 && ft_strchr(line, '-'))
+		ret = 0; //parse link
+	else if (ft_count_words(line, WSPCS) == 3)
+		ret = get_room((char*)line, (char*)cmd, graph);
+	else
+		ret = -1;
+	if (cmd)
+		ft_strdel(&cmd);
+	return (ret);
+}
+
+int parse_input(unsigned int *ants, t_graph *graph)
 {
 	int		ret;
 	char	*line;
-	int		line_count;
-	char	*comment_ptr;
+	char	*command;
 
 	ret = 0;
 	line = NULL;
-	line_count = 0;
-	comment_ptr = NULL;
-	init_graph(graph);
-	graph->room_list = ft_vector_init(sizeof(char*), 0);
-	graph->rooms = ft_hash_newtable(100);
-	while ((ret = get_next_line(STDIN, &line)) > 0)
+	command = NULL;
+	while (ret >= 0 && (ret = get_next_line(STDIN, &line)) > 0)
 	{
-		if (line_count == 0)
-		{
-			if (get_ants_nbr(&line, ants_nbr) < 0)
-				return (-1);
-		}
+		if (*ants == 0)
+			ret = get_ants_nbr(line, ants);
 		else if (line[0] == '#')
-			comment_ptr = ft_strdup(line);
-		else if (ft_count_words(line, WSPCS) == 3)
-		{
-			if (get_room(line, comment_ptr, graph) < 0)
-				return (-1);
-			comment_ptr = NULL;
-		}
-		else if (ft_count_words(line, WSPCS) == 1 && ft_strchr(line, '-'))
-			ft_putstr_fd(line, 1);
-		//	get_link();
+			parse_command(line, &command);
 		else
-			return (-1);
-		line_count++;
+			ret = parse_line(line, command, graph);
 	}
-	return (0);
+	return (ret);
 }
