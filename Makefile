@@ -69,6 +69,7 @@ $(ODIR)/%.o	:	$(SDIR)/%.c $(HEADERS)
 			@echo -n $@
 
 $(LFT)		:
+		@$(IF_NO_LFT)
 		@$(MAKE) DEBUG="$(DEBUG)" -C $(LFTDIR)
 
 clean		:
@@ -100,6 +101,9 @@ IF_CMP		=	if [ -e .cmp ]; then \
 			$(CLR); \
 			echo $(UP) $(CUT) $(UP); \
 			/bin/rm -f .cmp; fi
+
+IF_NO_LFT	=	if [ ! -e libft/ ]; then \
+					git clone https://github.com/bpopovic42/libft; fi
 
 ############################## DISPLAY #########################################
 
