@@ -6,31 +6,28 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 18:41:55 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/12/20 19:37:04 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/12/22 22:33:06 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 #include "ft_printf.h"
 
-static t_room	*new_room(char *name, char *com, t_links *links, t_pos *coord)
+static t_room	*new_room(char *name, char **com, t_links *links, t_pos *coord)
 {
 	t_room	*new_room;
 
 	if (!(new_room = malloc(sizeof(*new_room))))
 		exit(-1);
-	if (com)
-	{
-		new_room->comment = ft_strdup(com);
-		com = NULL;
-	}
+	new_room->comment = *com;
+	*com = NULL;
 	new_room->name = ft_strdup(name);
 	new_room->links = links;
 	new_room->pos = *coord;
 	return (new_room);
 }
 
-static void		record_room(t_graph *graph, char **room_data, char *comment)
+static void		record_room(t_graph *graph, char **room_data, char **comment)
 {
 	t_pos	coord;
 	t_room	*room;
@@ -41,11 +38,11 @@ static void		record_room(t_graph *graph, char **room_data, char *comment)
 	room = new_room(room_data[0], comment, NULL, &coord);
 	new_hash = ft_hashnew(room->name, room, sizeof(*room));
 	ft_hashpush(graph->rooms, new_hash);
-	if (comment)
+	if (room->comment)
 	{
-		if (!(ft_strcmp(comment, "##start")))
+		if (!(ft_strcmp(room->comment, "##start")))
 			graph->start = room;
-		else if (!(ft_strcmp(comment, "##end")))
+		else if (!(ft_strcmp(room->comment, "##end")))
 			graph->end = room;
 	}
 }
@@ -74,7 +71,7 @@ int		check_position_conflict(t_graph *graph, int x, int y)
 	return (0);
 }
 
-int		get_room(char *input, char *comment, t_graph *graph)
+int		get_room(char *input, char **comment, t_graph *graph)
 {
 	char **tmp;
 

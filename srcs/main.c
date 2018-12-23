@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/19 22:56:40 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/12/20 19:43:12 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/12/23 01:36:23 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void		free_data(t_graph *graph)
 	graph->size = 0;
 	if (graph->room_list)
 	{
-		ft_vector_free(graph->room_list, &ft_strdel);
+		ft_vector_free(graph->room_list, (void(*)(void*))&ft_strdel);
 		graph->room_list = NULL;
 	}
 	if (graph->rooms)
@@ -48,7 +48,7 @@ static void		free_data(t_graph *graph)
 static int		exit_error(const char *msg, t_graph *graph)
 {
 	free_data(graph);
-	ft_putendl_fd(msg, STDERR);
+	lemin_perror(msg, 1);
 	return (-1);
 }
 

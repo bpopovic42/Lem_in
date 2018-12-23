@@ -42,7 +42,7 @@ typedef struct		s_graph
 void	init_graph(t_graph *graph);
 int		parse_input(unsigned int *ants_nbr, t_graph *graph);
 int		get_ants_nbr(char *input, unsigned int *ants);
-int		get_room(char *input, char *comment, t_graph *graph);
+int		get_room(char *input, char **comment, t_graph *graph);
 void	lemin_perror(const char *msg, int critical);
 
 #endif

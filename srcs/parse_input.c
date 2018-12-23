@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/14 16:59:13 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/12/20 19:39:43 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/12/22 22:35:29 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 
 static void parse_command(char *line, char **command)
 {
-	if (*command[1] == '#')
+	if (line && line[1] == '#')
 	{
-		if (*command)
+		if (*command != NULL)
 			ft_strdel(command);
 		if (!(*command = ft_strdup(line)))
 		{
@@ -27,7 +27,7 @@ static void parse_command(char *line, char **command)
 	}
 }
 
-static int	parse_line(const char *line, char *cmd, t_graph *graph)
+static int	parse_line(const char *line, char **cmd, t_graph *graph)
 {
 	int ret;
 
@@ -37,11 +37,9 @@ static int	parse_line(const char *line, char *cmd, t_graph *graph)
 	else if (ft_count_words(line, WSPCS) == 1 && ft_strchr(line, '-'))
 		ret = 0; //parse link
 	else if (ft_count_words(line, WSPCS) == 3)
-		ret = get_room((char*)line, (char*)cmd, graph);
+		ret = get_room((char*)line, cmd, graph);
 	else
 		ret = -1;
-	//if (cmd)
-	//	ft_strdel(&cmd);
 	return (ret);
 }
 
@@ -61,9 +59,11 @@ int parse_input(unsigned int *ants, t_graph *graph)
 		else if (line[0] == '#')
 			parse_command(line, &command);
 		else
-			ret = parse_line(line, command, graph);
+			ret = parse_line(line, &command, graph);
 		if (ret >= 0)
 			ft_putendl(line);
+		ft_strdel(&line);
 	}
+	ft_strdel(&line);
 	return (ret);
 }
