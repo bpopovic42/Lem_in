@@ -6,6 +6,7 @@ Fix leaks [DONE]
 Test hash tables [WIP]
 Clean code before treating rooms links
 Test and handle parsing error cases properly
+Use a makefile rule to import libft instead of using a submodule
 
 PROJECT DESIGN :
 1.
