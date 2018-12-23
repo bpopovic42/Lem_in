@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 18:41:55 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/12/22 22:33:06 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/12/23 21:58:34 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ int		get_room(char *input, char **comment, t_graph *graph)
 
 	if (input)
 	{
+		if (ft_strchr(input, '-'))
+			return (-1);
 		tmp = ft_strsplit(input, WSPCS);
 		ft_vector_append(graph->room_list, (void*)ft_strdup(tmp[0]));
 		if (check_position_conflict(graph, ft_atoi(tmp[1]), ft_atoi(tmp[2])))
