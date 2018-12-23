@@ -42,6 +42,10 @@ function test_each_file_in_dir () {
 	done;
 }
 
+if [ ! -e $TEST_OUT_DIR ]; then
+	mkdir $TEST_OUT_DIR
+fi
+
 if [ $LEAKS == 1 ]; then
 	make re DEBUG=-g
 elif [ ! -e $EXE ]; then
