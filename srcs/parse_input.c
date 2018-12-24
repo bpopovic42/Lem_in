@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/14 16:59:13 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/12/22 22:35:29 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/12/24 01:04:40 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,18 +29,17 @@ static void parse_command(char *line, char **command)
 
 static int	parse_line(const char *line, char **cmd, t_graph *graph)
 {
-	int ret;
 
-	ret = 0;
 	if (line[0] == 'L')
-		ret = -1;
+		return (-1);
 	else if (ft_count_words(line, WSPCS) == 1 && ft_strchr(line, '-'))
-		ret = 0; //parse link
+		return (0); //parse link
 	else if (ft_count_words(line, WSPCS) == 3)
-		ret = get_room((char*)line, cmd, graph);
-	else
-		ret = -1;
-	return (ret);
+	{
+		if (create_room_if_valid((char*)line, cmd, graph) < 0)
+			return (-1);
+	}
+	return (0);
 }
 
 int parse_input(unsigned int *ants, t_graph *graph)
