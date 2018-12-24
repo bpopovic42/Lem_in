@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/19 22:56:40 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/12/23 22:00:07 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/12/24 01:41:07 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,6 @@
 __attribute__((unused)) static int fun_abs(int a)
 {
 	return (a * (1 - 2 * (a < 0)));
-}
-
-static void		free_room(void *room)
-{
-	if (((t_room*)room)->comment != NULL)
-		ft_strdel(&(((t_room*)room)->comment));
-	ft_strdel(&(((t_room*)room)->name));
-	//free(((t_room*)room)->links);
-	((t_room*)room)->pos.x = 0;
-	((t_room*)room)->pos.y = 0;
-	free(room);
 }
 
 static void		free_data(t_graph *graph)
