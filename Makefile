@@ -16,8 +16,8 @@ ODIR		=	./objs
 # Lem_in :
 
 LMN_FILES	=	$(addprefix $(LMNDIR)/, \
-		main.c init_graph.c get_ants_nbr.c get_room.c \
-		parse_input.c)
+		main.c init_graph.c get_ants_nbr.c \
+		parse_input.c create_room_if_valid.c utils.c)
 
 # **************************************************************************** #
 # Complete path :

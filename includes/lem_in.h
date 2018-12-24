@@ -14,8 +14,8 @@ typedef struct		s_links
 
 typedef struct		s_pos
 {
-	size_t			x;
-	size_t			y;
+	int				x;
+	int				y;
 }					t_pos;
 
 typedef struct		s_room
@@ -42,7 +42,8 @@ typedef struct		s_graph
 void	init_graph(t_graph *graph);
 int		parse_input(unsigned int *ants_nbr, t_graph *graph);
 int		get_ants_nbr(char *input, unsigned int *ants);
-int		get_room(char *input, char **comment, t_graph *graph);
+int		create_room_if_valid(char *input, char **comment, t_graph *graph);
 void	lemin_perror(const char *msg, int critical);
+void	free_room(void *room);
 
 #endif
