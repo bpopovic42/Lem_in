@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/14 16:59:13 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/12/25 14:03:17 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/12/25 15:13:01 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,10 @@ static void		parse_command(char *line, char **cmd)
 static int		parse_line(const char *line, char **cmd, t_graph *graph)
 {
 	if (line[0] == 'L')
+	{
+		lemin_perror("Line beginning by 'L'.");
 		return (-1);
+	}
 	else if (ft_count_words(line, WSPCS) == 1 && ft_strchr(line, '-'))
 		return (0); //parse link
 	else if (ft_count_words(line, WSPCS) == 3)

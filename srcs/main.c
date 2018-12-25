@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/19 22:56:40 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/12/25 14:51:26 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/12/25 15:12:14 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,9 @@ static void		free_data(t_graph *graph)
 	}
 }
 
-static int		exit_error(const char *msg, t_graph *graph)
+static int		exit_error(t_graph *graph)
 {
 	free_data(graph);
-	lemin_perror(msg);
 	return (-1);
 }
 
@@ -58,9 +57,12 @@ int		main(void)
 	ants = 0;
 	init_graph(&graph);
 	if (parse_input(&ants, &graph) < 0)
-		return (exit_error("main: input error", &graph));
+		return (exit_error(&graph));
 	if (!graph.start || !graph.end)
-		return (exit_error("main: missing start or end room", &graph));
+	{
+		lemin_perror("No start and/or end room.");
+		return (exit_error(&graph));
+	}
 
 	ft_printf("\nStart = [%s]\n", graph.start->name);
 	ft_printf("Pos = [%d,%d]\n\n", graph.start->pos.x, graph.start->pos.y);

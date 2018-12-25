@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 18:41:55 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/12/25 14:52:06 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/12/25 15:10:02 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,20 @@ static int		is_valid(char **input)
 	x = input[1];
 	y = input[2];
 	if (ft_strchr(room, '-'))
+	{
+		lemin_perror("Room name contains '-'.");
 		return (0);
+	}
 	else if (!ft_is_valid_int(x) || !ft_is_valid_int(y))
+	{
+		lemin_perror("Invalid integer representation in room's coordinates");
 		return (0);
+	}
 	else if (ft_atoi(x) < 0 || ft_atoi(y) < 0)
+	{
+		lemin_perror("Negative integer in room coordinates.");
 		return (0);
+	}
 	else
 		return (1);
 }
@@ -77,9 +86,15 @@ static int		room_has_conflict(t_graph *graph, t_room *room)
 		if ((ptr = ft_hashget_data(graph->rooms, graph->room_list->data[i])))
 		{
 			if (!ft_strcmp(room->name, ptr->name))
+			{
+				lemin_perror("Duplicated room name.");
 				return (1);
+			}
 			else if (room->pos.x == ptr->pos.x && room->pos.y == ptr->pos.y)
+			{
+				lemin_perror("Duplicated room coordinates.");
 				return (1);
+			}
 		}
 		i++;
 	}
