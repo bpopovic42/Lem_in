@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/19 22:56:40 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/12/24 01:41:07 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/12/25 14:51:26 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,30 +37,27 @@ static void		free_data(t_graph *graph)
 static int		exit_error(const char *msg, t_graph *graph)
 {
 	free_data(graph);
-	lemin_perror(msg, 1);
+	lemin_perror(msg);
 	return (-1);
 }
 
-void			lemin_perror(const char *msg, int critical)
+void			lemin_perror(const char *msg)
 {
 	if (ERR_DBG)
-		ft_printf(critical ? "{red}" : "{yellow}");
-	if (critical || ERR_DBG)
-		ft_putstr("ERROR");
+		ft_printf("{red}");
+	ft_putstr("ERROR");
 	if (ERR_DBG)
-	{
 		ft_printf(": %s{eoc}\n", msg);
-	}
 }
 
 int		main(void)
 {
-	unsigned int	ants_nbr;
-	t_graph			graph;
+	int		ants;
+	t_graph	graph;
 
-	ants_nbr = 0;
+	ants = 0;
 	init_graph(&graph);
-	if (parse_input(&ants_nbr, &graph) < 0)
+	if (parse_input(&ants, &graph) < 0)
 		return (exit_error("main: input error", &graph));
 	if (!graph.start || !graph.end)
 		return (exit_error("main: missing start or end room", &graph));
@@ -70,8 +67,6 @@ int		main(void)
 	/* Apply path-finding algorithm to find shortest paths */
 	/* Apply algorithm to find most efficient paths depending on ants quantity */
 	/* Output solution */
-	/* Clean allocated memory */
-	/* Exit */
 	free_data(&graph);
 	return (0);
 }
