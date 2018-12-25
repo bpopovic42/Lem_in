@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 18:41:55 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/12/24 01:41:21 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/12/25 14:52:06 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,23 +45,26 @@ static t_room	*record_room(t_graph *graph, char **room_data, char **comment)
 	return (room);
 }
 
-static int		check_coord(char *x, char *y)
+static int		is_valid(char **input)
 {
-	size_t	i;
-	int		coord_x;
-	int		coord_y;
+	char *room;
+	char *x;
+	char *y;
 
-	i = 0;
-	if (!ft_is_valid_int(x) || !ft_is_valid_int(y))
-		return (-1);
-	coord_x = ft_atoi(x);
-	coord_y = ft_atoi(y);
-	if (coord_x < 0 || coord_y < 0)
-		return (-1);
-	return (0);
+	room = input[0];
+	x = input[1];
+	y = input[2];
+	if (ft_strchr(room, '-'))
+		return (0);
+	else if (!ft_is_valid_int(x) || !ft_is_valid_int(y))
+		return (0);
+	else if (ft_atoi(x) < 0 || ft_atoi(y) < 0)
+		return (0);
+	else
+		return (1);
 }
 
-static int		check_conflict(t_graph *graph, t_room *room)
+static int		room_has_conflict(t_graph *graph, t_room *room)
 {
 	t_room	*ptr;
 	size_t	i;
@@ -83,27 +86,22 @@ static int		check_conflict(t_graph *graph, t_room *room)
 	return (0);
 }
 
-int				create_room_if_valid(char *input, char **cmnt, t_graph *graph)
+int				create_room_if_valid(char **input, char **cmd, t_graph *graph)
 {
-	char	**tmp;
 	t_room	*room;
 
-	if (input)
+	if (input && is_valid(input))
 	{
-		tmp = ft_strsplit(input, WSPCS);
-		if (!ft_strchr(tmp[0], '-') && check_coord(tmp[1], tmp[2]) >= 0)
+		room = record_room(graph, input, cmd);
+		if (!room_has_conflict(graph, room))
 		{
-			room = record_room(graph, tmp, cmnt);
-			if (!check_conflict(graph, room))
-			{
-				ft_vector_append(graph->room_list, (void*)ft_strdup(tmp[0]));
-				ft_hashpush_data(graph->rooms, room->name, room, sizeof(*room));
-				ft_delarray(tmp);
-				return (0);
-			}
-			free_room(room);
+			ft_vector_append(graph->room_list, ft_strdup(room->name));
+			ft_hashpush_data(graph->rooms, room->name, room, sizeof(*room));
+			ft_delarray(input);
+			return (0);
 		}
-		ft_delarray(tmp);
+		free_room(room);
 	}
+	ft_delarray(input);
 	return (-1);
 }
