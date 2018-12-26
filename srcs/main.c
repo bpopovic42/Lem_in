@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/19 22:56:40 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/12/26 19:15:43 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/12/26 20:38:10 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,11 @@ int		main(void)
 		lemin_perror("No start and/or end room.");
 		return (exit_error(&graph, &file));
 	}
+	//else if (!graph.links->size)
+	//{
+	//	lemin_perror("No links provided.");
+	//	return (exit_error(&graph, &file));
+	//}
 	/* Apply path-finding algorithm to find shortest paths */
 	/* Apply algorithm to find most efficient paths depending on ants quantity */
 	/* Output solution */
