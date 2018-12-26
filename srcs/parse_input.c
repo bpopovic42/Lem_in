@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/14 16:59:13 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/12/26 18:13:14 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/12/26 18:31:54 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,14 @@ static int		parse_line(const char *line, char **cmd, t_graph *graph)
 		return (-1);
 	}
 	else if (ft_count_words(line, WSPCS) == 1 && ft_strchrn(line, '-') == 1)
+	{
+		if (*cmd)
+		{
+			lemin_perror("Command before link.");
+			return (-1);
+		}
 		return (0); //parse link
+	}
 	else if (ft_count_words(line, WSPCS) == 3)
 	{
 		if (create_room_if_valid(ft_strsplit(line, WSPCS), cmd, graph) < 0)
