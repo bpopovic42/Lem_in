@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/19 22:56:40 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/12/26 19:07:37 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/12/26 19:15:43 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,11 @@ __attribute__((unused)) static int fun_abs(int a)
 	return (a * (1 - 2 * (a < 0)));
 }
 
-static void		free_data(t_graph *graph)
+static void		free_data(t_graph *graph, char **file)
 {
 	graph->size = 0;
+	if (*file)
+		ft_strdel(file);
 	if (graph->room_list)
 	{
 		ft_vector_free(graph->room_list, (void(*)(void**))&ft_strdel);
@@ -34,9 +36,9 @@ static void		free_data(t_graph *graph)
 	}
 }
 
-static int		exit_error(t_graph *graph)
+static int		exit_error(t_graph *graph, char **file)
 {
-	free_data(graph);
+	free_data(graph, file);
 	return (-1);
 }
 
@@ -52,23 +54,26 @@ void			lemin_perror(const char *msg)
 int		main(void)
 {
 	int		ants;
+	char	*file;
 	t_graph	graph;
 
 	ants = 0;
+	file = NULL;
 	init_graph(&graph);
-	if (parse_input(&ants, &graph) < 0)
-		return (exit_error(&graph));
+	if (parse_input(&ants, &graph, &file) < 0)
+		return (exit_error(&graph, &file));
 	if (!graph.start || !graph.end)
 	{
 		lemin_perror("No start and/or end room.");
-		return (exit_error(&graph));
+		return (exit_error(&graph, &file));
 	}
-	ft_printf("\nNbr of rooms = [%d]\n", graph.size);
-	ft_printf("Start = [%s]\n", graph.start->name);
-	ft_printf("Pos = [%d,%d]\n\n", graph.start->pos.x, graph.start->pos.y);
 	/* Apply path-finding algorithm to find shortest paths */
 	/* Apply algorithm to find most efficient paths depending on ants quantity */
 	/* Output solution */
-	free_data(&graph);
+	ft_printf("%s\n", file);
+	ft_printf("Nbr of rooms = [%d]\n", graph.size);
+	ft_printf("Start = [%s]\n", graph.start->name);
+	ft_printf("Pos = [%d,%d]\n\n", graph.start->pos.x, graph.start->pos.y);
+	free_data(&graph, &file);
 	return (0);
 }

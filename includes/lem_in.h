@@ -40,7 +40,7 @@ typedef struct		s_graph
 */
 
 void	init_graph(t_graph *graph);
-int		parse_input(int *ants, t_graph *graph);
+int		parse_input(int *ants, t_graph *graph, char **file);
 int		get_ants_nbr(char *input, int *ants);
 int		record_room_if_valid(char **input, char **cmd, t_graph *graph);
 t_room	*record_room(t_graph *graph, char **room_data, char **cmd);

@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/14 16:59:13 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/12/26 18:46:07 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/12/26 19:32:01 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int				is_command(char *line)
 	return (*line == '#' && *(line + 1) == '#');
 }
 
-int				parse_input(int *ants, t_graph *graph)
+int				parse_input(int *ants, t_graph *graph, char **file)
 {
 	int		ret;
 	char	*line;
@@ -77,9 +77,14 @@ int				parse_input(int *ants, t_graph *graph)
 		else if (!is_comment(line))
 			ret = parse_line(line, &cmd, graph);
 		if (ret >= 0)
-			ft_putendl(line);
+		{
+			*file = ft_strappend(*file, line);
+			*file = ft_strappend(*file, "\n");
+		}
 		ft_strdel(&line);
 	}
-	//ft_strdel(&line);
+	ft_strdel(&line); // GNL leaks to fix
+	if (cmd)
+		ft_strdel(&cmd);
 	return (ret);
 }
