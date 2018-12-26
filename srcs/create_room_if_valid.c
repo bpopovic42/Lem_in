@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 18:41:55 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/12/26 16:44:48 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/12/26 18:24:35 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,10 @@ static t_room	*record_room(t_graph *graph, char **room_data, char **comment)
 	room = new_room(room_data[0], comment, NULL, &coord);
 	if (room->comment)
 	{
-		if (!(ft_strcmp(room->comment, "##start")))
-		{
+		if (!ft_strcmp(room->comment, "##start"))
 			graph->start = room;
-		}
-		else if (!(ft_strcmp(room->comment, "##end")))
-		{
+		else if (!ft_strcmp(room->comment, "##end"))
 			graph->end = room;
-		}
 	}
 	return (room);
 }
@@ -75,6 +71,29 @@ static int		is_valid(char **input)
 	}
 	else
 		return (1);
+}
+
+static int		command_conflict(t_graph *graph, char **cmd)
+{
+	if (!*cmd)
+		return (0);
+	if (!(ft_strcmp(*cmd, "##start")))
+	{
+		if (graph->start)
+		{
+			lemin_perror("Duplicated start.");
+			return (1);
+		}
+	}
+	else if (!(ft_strcmp(*cmd, "##end")))
+	{
+		if (graph->end)
+		{
+			lemin_perror("Duplicated end.");
+			return (1);
+		}
+	}
+	return (0);
 }
 
 static int		room_has_conflict(t_graph *graph, t_room *room)
@@ -109,7 +128,7 @@ int				create_room_if_valid(char **input, char **cmd, t_graph *graph)
 {
 	t_room	*room;
 
-	if (input && is_valid(input))
+	if (input && is_valid(input) && !command_conflict(graph, cmd))
 	{
 		room = record_room(graph, input, cmd);
 		if (!room_has_conflict(graph, room))
