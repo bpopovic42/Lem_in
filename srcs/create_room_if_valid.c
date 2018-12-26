@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 18:41:55 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/12/25 15:10:02 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/12/26 16:44:48 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,13 @@ static t_room	*record_room(t_graph *graph, char **room_data, char **comment)
 	if (room->comment)
 	{
 		if (!(ft_strcmp(room->comment, "##start")))
+		{
 			graph->start = room;
+		}
 		else if (!(ft_strcmp(room->comment, "##end")))
+		{
 			graph->end = room;
+		}
 	}
 	return (room);
 }

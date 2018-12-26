@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/14 16:59:13 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/12/25 15:13:01 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/12/25 15:34:18 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,20 @@ static int		parse_line(const char *line, char **cmd, t_graph *graph)
 	{
 		if (create_room_if_valid(ft_strsplit(line, WSPCS), cmd, graph) < 0)
 			return (-1);
+		return (0);
 	}
-	return (0);
+	lemin_perror("Invalid line.");
+	return (-1);
+}
+
+int				is_comment(char *line)
+{
+	return (*line == '#' && *(line + 1) != '#');
+}
+
+int				is_command(char *line)
+{
+	return (*line == '#' && *(line + 1) == '#');
 }
 
 int				parse_input(int *ants, t_graph *graph)
@@ -51,11 +63,11 @@ int				parse_input(int *ants, t_graph *graph)
 	cmd = NULL;
 	while (ret >= 0 && (ret = get_next_line(STDIN, &line)) > 0)
 	{
-		if (!*ants)
+		if (!*ants && !is_comment(line))
 			ret = get_ants_nbr(line, ants);
-		else if (*line == '#')
+		else if (is_command(line))
 			parse_command(line, &cmd);
-		else
+		else if (!is_comment(line))
 			ret = parse_line(line, &cmd, graph);
 		if (ret >= 0)
 			ft_putendl(line);

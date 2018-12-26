@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/19 22:56:40 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/12/25 15:12:14 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/12/25 15:37:10 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ int		main(void)
 		lemin_perror("No start and/or end room.");
 		return (exit_error(&graph));
 	}
-
 	ft_printf("\nStart = [%s]\n", graph.start->name);
 	ft_printf("Pos = [%d,%d]\n\n", graph.start->pos.x, graph.start->pos.y);
 	/* Apply path-finding algorithm to find shortest paths */
