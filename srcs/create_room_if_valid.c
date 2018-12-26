@@ -6,44 +6,12 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 18:41:55 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/12/26 18:24:35 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/12/26 18:44:50 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 #include "ft_printf.h"
-
-static t_room	*new_room(char *name, char **com, t_links *links, t_pos *coord)
-{
-	t_room	*new_room;
-
-	if (!(new_room = malloc(sizeof(*new_room))))
-		exit(-1);
-	new_room->comment = *com;
-	*com = NULL;
-	new_room->name = ft_strdup(name);
-	new_room->links = links;
-	new_room->pos = *coord;
-	return (new_room);
-}
-
-static t_room	*record_room(t_graph *graph, char **room_data, char **comment)
-{
-	t_pos	coord;
-	t_room	*room;
-
-	coord.x = ft_atoi(room_data[1]);
-	coord.y = ft_atoi(room_data[2]);
-	room = new_room(room_data[0], comment, NULL, &coord);
-	if (room->comment)
-	{
-		if (!ft_strcmp(room->comment, "##start"))
-			graph->start = room;
-		else if (!ft_strcmp(room->comment, "##end"))
-			graph->end = room;
-	}
-	return (room);
-}
 
 static int		is_valid(char **input)
 {
@@ -96,7 +64,7 @@ static int		command_conflict(t_graph *graph, char **cmd)
 	return (0);
 }
 
-static int		room_has_conflict(t_graph *graph, t_room *room)
+static int		room_conflict(t_graph *graph, t_room *room)
 {
 	t_room	*ptr;
 	size_t	i;
@@ -124,14 +92,14 @@ static int		room_has_conflict(t_graph *graph, t_room *room)
 	return (0);
 }
 
-int				create_room_if_valid(char **input, char **cmd, t_graph *graph)
+int				record_room_if_valid(char **input, char **cmd, t_graph *graph)
 {
 	t_room	*room;
 
 	if (input && is_valid(input) && !command_conflict(graph, cmd))
 	{
 		room = record_room(graph, input, cmd);
-		if (!room_has_conflict(graph, room))
+		if (!room_conflict(graph, room))
 		{
 			ft_vector_append(graph->room_list, ft_strdup(room->name));
 			ft_hashpush_data(graph->rooms, room->name, room, sizeof(*room));

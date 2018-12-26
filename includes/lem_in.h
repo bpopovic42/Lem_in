@@ -20,7 +20,7 @@ typedef struct		s_pos
 
 typedef struct		s_room
 {
-	char			*comment;
+	char			*command;
 	char			*name;
 	struct s_links	*links;
 	struct s_pos	pos;
@@ -42,7 +42,8 @@ typedef struct		s_graph
 void	init_graph(t_graph *graph);
 int		parse_input(int *ants, t_graph *graph);
 int		get_ants_nbr(char *input, int *ants);
-int		create_room_if_valid(char **input, char **cmd, t_graph *graph);
+int		record_room_if_valid(char **input, char **cmd, t_graph *graph);
+t_room	*record_room(t_graph *graph, char **room_data, char **cmd);
 void	lemin_perror(const char *msg);
 void	free_room(void *room);
 
