@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/26 18:41:26 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/12/26 18:44:16 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/12/26 19:08:27 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,6 @@ t_room			*record_room(t_graph *graph, char **room_data, char **cmd)
 		else if (!ft_strcmp(room->command, "##end"))
 			graph->end = room;
 	}
+	graph->size++;
 	return (room);
 }
