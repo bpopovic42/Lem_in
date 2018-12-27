@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/19 22:56:40 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/12/26 20:38:10 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/12/27 13:51:53 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,72 @@ void			lemin_perror(const char *msg)
 		ft_printf(": %s{eoc}\n", msg);
 }
 
+static void		display_links_for_room(t_room *room)
+{
+	size_t	i;
+
+	i = 0;
+	if (room->links)
+	{
+		while (i < room->links->size)
+		{
+			ft_printf("%s\t\t->\t%s\n", room->name, room->links->data[i]);
+			i++;
+		}
+	}
+}
+
+static void		display_links_for_all_rooms(t_graph *graph)
+{
+	size_t	i;
+	t_room	*ptr;
+
+	i = 0;
+	ptr = NULL;
+	ft_printf("LINKS:\n");
+	if (graph->room_list && graph->size)
+	{
+		while (i < graph->size)
+		{
+			ptr = ft_hashget_data(graph->rooms, graph->room_list->data[i]);
+			display_links_for_room(ptr);
+			i++;
+		}
+	}
+}
+
+static void		print_room(t_room *room)
+{
+	size_t	i;
+
+	i = 0;
+	ft_printf("%s\t\t:\t", room->name);
+	ft_printf("[ %d , %d ]", room->pos.x, room->pos.y);
+	if (room->command)
+		ft_printf("\t<- %s\n", room->command);
+	else
+		ft_putchar('\n');
+}
+
+static void		print_all_rooms(t_graph *graph)
+{
+	size_t	i;
+	t_room	*ptr;
+
+	i = 0;
+	ptr = NULL;
+	ft_printf("ROOMS: ( %d )\n", graph->size);
+	if (graph->room_list && graph->size)
+	{
+		while (i < graph->size)
+		{
+			ptr = ft_hashget_data(graph->rooms, graph->room_list->data[i]);
+			print_room(ptr);
+			i++;
+		}
+	}
+}
+
 int		main(void)
 {
 	int		ants;
@@ -76,9 +142,9 @@ int		main(void)
 	/* Apply algorithm to find most efficient paths depending on ants quantity */
 	/* Output solution */
 	ft_printf("%s\n", file);
-	ft_printf("Nbr of rooms = [%d]\n", graph.size);
-	ft_printf("Start = [%s]\n", graph.start->name);
-	ft_printf("Pos = [%d,%d]\n\n", graph.start->pos.x, graph.start->pos.y);
+	print_all_rooms(&graph);
+	ft_putchar('\n');
+	display_links_for_all_rooms(&graph);
 	free_data(&graph, &file);
 	return (0);
 }

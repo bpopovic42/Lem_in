@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/26 20:06:07 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/12/26 20:34:46 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/12/27 13:19:07 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,11 @@ static int	link_exists(t_graph *graph, char *room_a, char *room_b)
 	i = 0;
 	if (!(ptr = ft_hashget_data(graph->rooms, room_a)))
 		return (-1);
-	if (ptr->links && ptr->links->links_nbr)
+	if (ptr->links && ptr->links->size)
 	{
-		while (i < ptr->links->links_nbr)
+		while (i < ptr->links->size)
 		{
-			if (!ft_strcmp(ptr->links->links->name, room_b))
+			if (!ft_strcmp(ptr->links->data[i], room_b))
 			{
 				lemin_perror("Link already exists.");
 				return (1);
@@ -72,7 +72,11 @@ int		record_link_if_valid(t_graph *graph, const char *link)
 			ft_delarray(rooms);
 			return (-1);
 		}
-		return (0);
+		else
+		{
+			record_link(graph, rooms[0], rooms[1]);
+			return (0);
+		}
 	}
 	return (-1);
 }
