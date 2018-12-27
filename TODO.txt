@@ -4,11 +4,11 @@ Create repository structure [DONE]
 Create Project's Makefile [DONE]
 Use a makefile rule to import libft instead of using a submodule [DONE]
 Fix leaks from parse_command [DONE]
+Move display functions in main.c to their own files [DONE]
 Test hash tables [WIP]
 Clean code
 Test and handle parsing error cases properly (auto unit testing with pre-defined error codes/msgs ?)
 Record total number of links in order to handle case where no links are provided
-Move display functions in main.c to their own files
 Test newly created links handling functions for leaks and/or segfaults
 
 PROJECT DESIGN :

@@ -42,6 +42,9 @@ int		record_link_if_valid(t_graph *graph, const char *link);
 void	record_link(t_graph *graph, char *room_a, char *room_b);
 t_room	*record_room(t_graph *graph, char **room_data, char **cmd);
 void	lemin_perror(const char *msg);
+void	print_links_for_all_rooms(t_graph *graph);
+void	print_result(t_graph *graph, char *file);
+void	print_all_rooms(t_graph *graph);
 void	free_room(void *room);
 
 #endif
