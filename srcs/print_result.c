@@ -36,9 +36,9 @@ void		print_links_for_all_rooms(t_graph *graph)
 	i = 0;
 	ptr = NULL;
 	ft_printf("LINKS:\n");
-	if (graph->room_list && graph->size)
+	if (graph->room_list && graph->nbr_of_rooms)
 	{
-		while (i < graph->size)
+		while (i < graph->nbr_of_rooms)
 		{
 			ptr = ft_hashget_data(graph->rooms, graph->room_list->data[i]);
 			print_links_for_room(ptr);
@@ -67,10 +67,10 @@ void		print_all_rooms(t_graph *graph)
 
 	i = 0;
 	ptr = NULL;
-	ft_printf("ROOMS: ( %d )\n", graph->size);
-	if (graph->room_list && graph->size)
+	ft_printf("ROOMS: ( %d )\n", graph->nbr_of_rooms);
+	if (graph->room_list && graph->nbr_of_rooms)
 	{
-		while (i < graph->size)
+		while (i < graph->nbr_of_rooms)
 		{
 			ptr = ft_hashget_data(graph->rooms, graph->room_list->data[i]);
 			print_room(ptr);

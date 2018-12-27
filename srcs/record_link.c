@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/27 13:06:50 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/12/27 13:19:14 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/12/27 16:22:08 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,4 +20,5 @@ void	record_link(t_graph *graph, char *room_a, char *room_b)
 	if (!ptr->links)
 		ptr->links = ft_vector_init(sizeof(room_a), 0);
 	ft_vector_append(ptr->links, ft_strdup(room_b));
+	graph->nbr_of_links++;
 }

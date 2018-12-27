@@ -41,6 +41,6 @@ t_room			*record_room(t_graph *graph, char **room_data, char **cmd)
 		else if (!ft_strcmp(room->command, "##end"))
 			graph->end = room;
 	}
-	graph->size++;
+	graph->nbr_of_rooms++;
 	return (room);
 }

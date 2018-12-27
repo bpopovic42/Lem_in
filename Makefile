@@ -16,7 +16,7 @@ ODIR		=	./objs
 # Lem_in :
 
 LMN_FILES	=	$(addprefix $(LMNDIR)/, \
-		main.c get_ants_nbr.c parse_input.c create_room_if_valid.c utils.c \
+		main.c get_ants_nbr.c parse_input.c record_room_if_valid.c utils.c \
 		record_room.c record_link_if_valid.c record_link.c print_result.c)
 
 # **************************************************************************** #

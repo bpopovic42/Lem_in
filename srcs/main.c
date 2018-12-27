@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/19 22:56:40 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/12/27 15:22:34 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/12/27 16:20:44 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ __attribute__((unused)) static int fun_abs(int a)
 
 static void		free_data(t_graph *graph, char **file)
 {
-	graph->size = 0;
+	graph->nbr_of_rooms = 0;
+	graph->nbr_of_links = 0;
 	if (*file)
 		ft_strdel(file);
 	if (graph->room_list)

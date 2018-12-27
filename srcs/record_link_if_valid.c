@@ -17,9 +17,9 @@ static int	room_exists(t_graph *graph, char *room)
 	size_t i;
 
 	i = 0;
-	if (!graph->size || !graph->room_list)
+	if (!graph->nbr_of_rooms || !graph->room_list)
 		return (0);
-	while (i < graph->size)
+	while (i < graph->nbr_of_rooms)
 	{
 		if (!ft_strcmp(graph->room_list->data[i], room))
 			return (1);

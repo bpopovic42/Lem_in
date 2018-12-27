@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/24 01:40:03 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/12/27 13:23:56 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/12/27 16:19:16 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ void		free_room(void *room)
 
 void	init_graph(t_graph *graph)
 {
-	graph->size = 0;
+	graph->nbr_of_rooms = 0;
+	graph->nbr_of_links = 0;
 	graph->start = NULL;
 	graph->end = NULL;
 	graph->room_list = ft_vector_init(sizeof(char*), 0);
