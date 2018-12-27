@@ -8,6 +8,7 @@ Test hash tables [WIP]
 Clean code
 Test and handle parsing error cases properly (auto unit testing with pre-defined error codes/msgs ?)
 Record total number of links in order to handle case where no links are provided
+Move display functions in main.c to their own files
 
 PROJECT DESIGN :
 1.
