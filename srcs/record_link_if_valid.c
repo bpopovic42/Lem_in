@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/26 20:06:07 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/12/27 13:19:07 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/12/27 14:11:35 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,10 @@ int		record_link_if_valid(t_graph *graph, const char *link)
 		else
 		{
 			record_link(graph, rooms[0], rooms[1]);
+			ft_delarray(rooms);
 			return (0);
 		}
 	}
+	ft_delarray(rooms);
 	return (-1);
 }
