@@ -6,11 +6,12 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/24 01:40:03 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/12/27 16:19:16 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/12/27 16:39:05 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
+#include "ft_printf.h"
 
 void		free_room(void *room)
 {
@@ -32,4 +33,13 @@ void	init_graph(t_graph *graph)
 	graph->end = NULL;
 	graph->room_list = ft_vector_init(sizeof(char*), 0);
 	graph->rooms = ft_hash_newtable(100);
+}
+
+void			lemin_perror(const char *msg)
+{
+	if (ERR_DBG)
+		ft_printf("{red}");
+	ft_putstr("ERROR");
+	if (ERR_DBG)
+		ft_printf(": %s{eoc}\n", msg);
 }
