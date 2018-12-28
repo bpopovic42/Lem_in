@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/19 22:56:40 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/12/28 14:17:10 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/12/28 14:57:21 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,6 @@ int		main(void)
 	init_graph(&graph);
 	if (parse_input(&ants, &graph, &file) < 0)
 		return (local_exit(NULL, &graph, &file, -1));
-	else if (!graph.nbr_of_rooms)
-		return (local_exit("No rooms provided.", &graph, &file, -1));
-	else if (!graph.nbr_of_links)
-		return (local_exit("No links provided.", &graph, &file, -1));
-	else if (!graph.start || !graph.end)
-		return (local_exit("No start and/or end room.", &graph, &file, -1));
 	/* Apply path-finding algorithm to find shortest paths */
 	/* Apply algorithm to find most efficient paths depending on ants quantity */
 	/* Output solution */
