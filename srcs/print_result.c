@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/27 15:18:05 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/12/27 15:22:32 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/12/28 14:17:07 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void		print_links_for_room(t_room *room)
 	}
 }
 
-void		print_links_for_all_rooms(t_graph *graph)
+static void		print_links_for_all_rooms(t_graph *graph)
 {
 	size_t	i;
 	t_room	*ptr;
@@ -60,7 +60,7 @@ static void		print_room(t_room *room)
 		ft_putchar('\n');
 }
 
-void		print_all_rooms(t_graph *graph)
+static void		print_all_rooms(t_graph *graph)
 {
 	size_t	i;
 	t_room	*ptr;
@@ -79,7 +79,7 @@ void		print_all_rooms(t_graph *graph)
 	}
 }
 
-void		print_result(t_graph *graph, char *file)
+void			print_result(t_graph *graph, char *file)
 {
 	ft_printf("%s\n", file);
 	print_all_rooms(graph);
