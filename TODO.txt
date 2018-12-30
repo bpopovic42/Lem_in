@@ -11,6 +11,7 @@ Improve tester.sh so that it prompts for overwrite just once at the beginning [D
 Test hash tables [WIP]
 Clean code [WIP]
 Test and handle parsing error cases properly (auto unit testing with pre-defined error codes/msgs ?)
+Fix Makefile not recompiling when libft's modified
 
 PROJECT DESIGN :
 1.
