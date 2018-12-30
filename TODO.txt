@@ -12,6 +12,10 @@ Test hash tables [WIP]
 Clean code [WIP]
 Test and handle parsing error cases properly (auto unit testing with pre-defined error codes/msgs ?)
 Fix Makefile not recompiling when libft's modified
+Finish implementing specific error codes
+
+IMPORTANT: Project is broken, there are some memory access & probably initialization issues coming
+from room and command lists (vectors) resulting in random segfaults, needs to be fixed ASAP
 
 PROJECT DESIGN :
 1.
