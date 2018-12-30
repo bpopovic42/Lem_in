@@ -6,6 +6,7 @@ MAPS_DIR="map_samples"
 EXE="lem-in"
 TMP=""
 LEAKS=$([[ $1 = "leaks" ]] && echo "1" || echo "0")
+LEAKS_FOUND=0
 FILES_LIST=()
 
 function ask_overwrite_file () {
@@ -39,6 +40,7 @@ function check_leaks () {
 		has_leaks=$(printf "$vg" | sed "s/[^0-9]//g")
 		has_leaks=$(echo $has_leaks | sed 's/ //g')
 		if [ ! "$has_leaks" == "0000" ]; then
+			LEAKS_FOUND=1
 			echo -e "LEAKS :\n$vg\n" >> $output
 		fi;
 	fi;
@@ -73,4 +75,8 @@ fi
 for dir in "${FILES_LIST[@]}"; do
 	echo Processing $dir...
 	test_each_file_in_dir $dir
+	if [ $LEAKS_FOUND -eq 1 ]; then
+		echo Leaks found.
+		LEAKS_FOUND=0
+	fi
 done
