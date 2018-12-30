@@ -59,6 +59,8 @@ if [ ! -e $OUTPUT_DIR ]; then
 	mkdir $OUTPUT_DIR
 fi
 
+get_files_to_process $MAPS_DIR
+
 if [ $LEAKS == 1 ]; then
 	make re DEBUG=-g
 elif [ ! -e $EXE ]; then
@@ -68,9 +70,7 @@ elif [ ! -e $EXE ]; then
 	fi
 fi
 
-get_files_to_process $MAPS_DIR
 for dir in "${FILES_LIST[@]}"; do
 	echo Processing $dir...
 	test_each_file_in_dir $dir
 done
-
