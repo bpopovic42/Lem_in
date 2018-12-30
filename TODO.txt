@@ -7,9 +7,9 @@ Fix leaks from parse_command [DONE]
 Move display functions in main.c to their own files [DONE]
 Record total number of links in order to handle case where no links are provided [DONE]
 Test newly created links handling functions for leaks and/or segfaults [DONE]
+Improve tester.sh so that it prompts for overwrite just once at the beginning [DONE]
 Test hash tables [WIP]
 Clean code [WIP]
-Improve tester.sh so that it prompts for overwrite just once at the beginning
 Test and handle parsing error cases properly (auto unit testing with pre-defined error codes/msgs ?)
 
 PROJECT DESIGN :
