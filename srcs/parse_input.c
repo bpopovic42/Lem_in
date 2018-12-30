@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/14 16:59:13 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/12/28 20:04:45 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/12/30 19:48:38 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,60 @@ static int		get_ants(char *input, int *ants)
 	return (0);
 }
 
-static void		get_cmd(char *line, char **cmd)
+static t_cmd	*new_command(const char *command, const char *room_name)
 {
-	if (*cmd)
-		ft_strdel(cmd);
-	*cmd = ft_strdup(line);
+	t_cmd *new;
+
+	if (!(new = malloc(sizeof(t_cmd*))))
+		exit(-1);
+	if (command)
+		new->command = ft_strdup(command);
+	else
+		new->command = NULL;
+	if (room_name)
+		new->room_name = ft_strdup(room_name);
+	else
+		new->room_name = NULL;
+	return (new);
+}
+
+static int		command_conflict(t_graph *graph, char *cmd)
+{
+	t_cmd	*ptr;
+	size_t	i;
+
+	i = 0;
+	if (!cmd || !graph->command_list)
+		return (0);
+	while (i < graph->command_list->size)
+	{
+		ptr = ft_vector_get(graph->command_list, i);
+		if (ptr && ptr->command)
+		{
+			if (!(ft_strcmp(cmd, ptr->command)))
+				return (1);
+		}
+		i++;
+	}
+	return (0);
+}
+
+
+static int		get_cmd(t_graph *graph, char *line)
+{
+	t_cmd *ptr;
+
+	ptr = ft_vector_get(graph->command_list, graph->command_list->size);
+	if ((!ptr || ptr->room_name) && !command_conflict(graph, line))
+	{
+		ptr = new_command(line, NULL);
+		ft_vector_append(graph->command_list, ptr);
+		return (0);
+	}
+	return (local_exit(-1, "Command overwrite.", NULL));
+	// Recuperer derniere commande
+	// Si pas de commande ou derniere commande possede correspondance -> SAVE new command
+	// Sinon SI derniere commande et derniere commande n'a pas de correspondance -> ERREUR
 }
 
 int				parse_input(int *ants, t_graph *graph, char **file)
@@ -64,15 +113,15 @@ int				parse_input(int *ants, t_graph *graph, char **file)
 		if (ret > 0 && !(*line == '#' && *(line + 1) != '#'))
 		{
 			if (*ants > 0 && *line == '#' && line[1] == '#')
-				get_cmd(line, &cmd);
+				ret = get_cmd(graph, line);
 			else if (*ants == 0)
 				ret = get_ants(line, ants);
 			else
-				ret = parse_line(graph, line, &cmd);
+				ret = parse_line(graph, line);
 		}
 		ft_strdel(&line);
 	}
-	if (ret >= 0)
-		ret = data_missing(graph) ? -1 : ret;
+	if (data_missing(graph) && ret >= 0)
+		ret = -1;
 	return (local_exit(ret, NULL, cmd));
 }

@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 18:41:55 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/12/27 16:11:48 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/12/30 20:13:12 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,32 +41,11 @@ static int		is_valid(char **input)
 		return (1);
 }
 
-static int		command_conflict(t_graph *graph, char **cmd)
-{
-	if (!*cmd)
-		return (0);
-	if (!(ft_strcmp(*cmd, "##start")))
-	{
-		if (graph->start)
-		{
-			lemin_perror("Duplicated start.");
-			return (1);
-		}
-	}
-	else if (!(ft_strcmp(*cmd, "##end")))
-	{
-		if (graph->end)
-		{
-			lemin_perror("Duplicated end.");
-			return (1);
-		}
-	}
-	return (0);
-}
-
 static int		room_conflict(t_graph *graph, t_room *room)
 {
 	t_room	*ptr;
+	char	*tmp;
+
 	size_t	i;
 
 	i = 0;
@@ -74,7 +53,8 @@ static int		room_conflict(t_graph *graph, t_room *room)
 		return (0);
 	while (i < graph->room_list->size)
 	{
-		if ((ptr = ft_hashget_data(graph->rooms, graph->room_list->data[i])))
+		tmp = ft_vector_get(graph->room_list, i);
+		if ((ptr = ft_hashget_data(graph->rooms, tmp)))
 		{
 			if (!ft_strcmp(room->name, ptr->name))
 			{
@@ -92,13 +72,15 @@ static int		room_conflict(t_graph *graph, t_room *room)
 	return (0);
 }
 
-int				record_room_if_valid(char **input, char **cmd, t_graph *graph)
+int				record_room_if_valid(t_graph *graph, char **input)
 {
 	t_room	*room;
+	char	*cmd;
 
-	if (input && is_valid(input) && !command_conflict(graph, cmd))
+	cmd = get_last_command(graph);
+	if (input && is_valid(input))
 	{
-		room = record_room(graph, input, cmd);
+		room = record_room(graph, input, &cmd);
 		if (!room_conflict(graph, room))
 		{
 			ft_vector_append(graph->room_list, ft_strdup(room->name));
