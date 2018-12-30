@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/19 22:56:40 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/12/28 14:57:21 by bopopovi         ###   ########.fr       */
+/*   Updated: 2018/12/30 18:46:32 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,30 +18,13 @@ __attribute__((unused)) static int fun_abs(int a)
 	return (a * (1 - 2 * (a < 0)));
 }
 
-static void		local_free(t_graph *graph, char **file)
-{
-	graph->nbr_of_rooms = 0;
-	graph->nbr_of_links = 0;
-	if (*file)
-		ft_strdel(file);
-	if (graph->room_list)
-	{
-		ft_vector_free(graph->room_list, (void(*)(void**))&ft_strdel);
-		graph->room_list = NULL;
-	}
-	if (graph->rooms)
-	{
-		ft_hash_freetable(graph->rooms->table, graph->rooms->size, &free_room);
-		free(graph->rooms);
-		graph->rooms = NULL;
-	}
-}
-
 static int		local_exit(char *msg, t_graph *graph, char **file, int retval)
 {
 	if (msg && retval < 0)
 		lemin_perror((const char*)msg);
-	local_free(graph, file);
+	if (*file)
+		ft_strdel(file);
+	free_graph(graph);
 	return (retval);
 }
 
