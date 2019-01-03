@@ -6,12 +6,11 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/26 20:06:07 by bopopovi          #+#    #+#             */
-/*   Updated: 2018/12/30 20:09:12 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/01/03 21:23:19 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
-#include "ft_printf.h"
 
 static int	room_exists(t_graph *graph, char *room)
 {
@@ -26,7 +25,6 @@ static int	room_exists(t_graph *graph, char *room)
 		ptr = ft_vector_get(graph->room_list, i);
 		if (ptr)
 		{
-			ft_printf("%p\n", &ptr);
 			if (!ft_strcmp(ptr, room))
 				return (1);
 		}
