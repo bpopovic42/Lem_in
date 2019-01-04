@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/26 20:06:07 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/01/03 21:23:19 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/01/04 16:12:22 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,8 @@ static int	link_exists(t_graph *graph, char *room_a, char *room_b)
 	return (0);
 }
 
-static int	local_return(char *msg, char **rooms, int return_value)
+static int	local_exit(char **rooms, int return_value)
 {
-	if (msg)
-		lemin_perror(msg);
 	if (rooms)
 		ft_delarray(rooms);
 	return (return_value);
@@ -66,11 +64,11 @@ int			record_link_if_valid(t_graph *graph, const char *link)
 
 	rooms = ft_strsplit(link, "-");
 	if (!ft_strcmp(rooms[0], rooms[1]))
-		return (local_return("Room links to itself.", rooms, -1));
+		return (local_exit(rooms, -1));
 	else if (!room_exists(graph, rooms[0]) || !room_exists(graph, rooms[1]))
-		return (local_return("Linked room doesn't exist.", rooms, -1));
+		return (local_exit(rooms, -1));
 	else if (link_exists(graph, rooms[0], rooms[1]))
-		return (local_return("Link already exists.", rooms, -1));
+		return (local_exit(rooms, -1));
 	record_link(graph, rooms[0], rooms[1]);
-	return (local_return(NULL, rooms, 0));
+	return (local_exit(rooms, 0));
 }

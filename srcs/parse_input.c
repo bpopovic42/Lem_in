@@ -6,46 +6,37 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/14 16:59:13 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/01/03 21:20:12 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/01/04 16:42:43 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 #include "get_next_line.h"
 
-static int		local_exit(int retval, char *msg, char *cmd)
+static int		local_exit(int error_status, char *cmd)
 {
 	if (cmd)
 		ft_strdel(&cmd);
-	if (msg)
-		lemin_perror(msg);
-	return (retval);
-}
-
-static int		data_missing(t_graph *graph)
-{
-	if (!graph->nbr_of_rooms)
-		return (local_exit(1, "No rooms provided.", NULL));
-	else if (!graph->nbr_of_links)
-		return (local_exit(1, "No links provided.", NULL));
-	else if (!graph->start || !graph->end)
-		return (local_exit(1, "Missing start and/or end room.", NULL));
-	return (0);
+	return (error_status);
 }
 
 static int		get_ants(char *input, int *ants)
 {
+	int tmp;
+
 	if (!ft_is_valid_int(input))
-		return (local_exit(-1, "Invalid ants integer representation.", NULL));
-	if (*input == '-' || (*ants = ft_atoi(input)) <= 0)
-		return (local_exit(-1, "Invalid ants integer value.", NULL));
+		return (local_exit(-1, NULL));
+	tmp = ft_atoi(input);
+	if (*input == '-' || tmp <= 0)
+		return (local_exit(-1, NULL));
+	*ants = tmp;
 	return (0);
 }
 
 static int		get_cmd(t_graph *graph, char *line)
 {
 	if (graph->last_command)
-		return (local_exit(-1, "Command overwrite.", NULL));
+		return (local_exit(-1, NULL));
 	else
 		graph->last_command = ft_strdup(line);
 	return (0);
@@ -74,7 +65,5 @@ int				parse_input(int *ants, t_graph *graph, char **file)
 		}
 		ft_strdel(&line);
 	}
-	if (ret >= 0 && data_missing(graph))
-		ret = -1;
-	return (local_exit(ret, NULL, cmd));
+	return (local_exit(ret, cmd));
 }

@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/24 01:40:03 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/01/03 21:20:01 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/01/04 16:51:24 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,30 @@ void		free_graph(t_graph *graph)
 	graph->rooms = NULL;
 	if (graph->last_command)
 		ft_strdel(&graph->last_command);
-
 }
 
-void			lemin_perror(const char *msg)
+static const char			*get_error_msg(int error_code)
+{
+	if (error_code == EINVANT)
+		return (EINVANT_MSG);
+	else if (error_code == ENEROOM)
+		return (ENEROOM_MSG);
+	else if (error_code == ENELINK)
+		return (ENELINK_MSG);
+	else if (error_code == EINVMAP)
+		return (EINVMAP_MSG);
+	else
+		return ("Undefined error.");
+}
+
+void			lemin_perror(int error_code, char *file)
 {
 	if (ERR_DBG)
 		ft_printf("{red}");
 	ft_putstr("ERROR");
 	if (ERR_DBG)
-		ft_printf(": %s{eoc}\n", msg);
+	{
+		ft_printf(": %s\n", get_error_msg(error_code));
+		ft_printf("{red}Problematic line :\n%.*s {red}<---{eoc}\n", ft_strlen(file) - 1, file);
+	}
 }

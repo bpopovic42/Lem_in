@@ -1,10 +1,27 @@
 #ifndef LEM_IN_H
 # define LEM_IN_H
 
+# include "libft.h"
+
+/*
+** DEFINES
+*/
+
 # define ERR_DBG 1
 # define STDIN 0
+# define EINVANT	1
+# define ENEROOM	2
+# define ENELINK	3
+# define EINVMAP	4
+# define EINVANT_MSG "Invalid number of ants."
+# define ENEROOM_MSG "Invalid number of rooms."
+# define ENELINK_MSG "Invalid number of links."
+# define EINVMAP_MSG "Invalid map."
 
-# include "libft.h"
+
+/*
+** STRUCTURES
+*/
 
 typedef struct		s_pos
 {
@@ -43,7 +60,7 @@ t_room	*record_room(t_graph *graph, char **room_data);
 int		record_link_if_valid(t_graph *graph, const char *link);
 void	record_link(t_graph *graph, char *room_a, char *room_b);
 void	print_result(t_graph *graph, char *file);
-void	lemin_perror(const char *msg);
+void	lemin_perror(int error_code, char *file);
 void	free_graph(t_graph *graph);
 void	free_room(void *room);
 
