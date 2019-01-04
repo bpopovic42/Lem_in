@@ -1,4 +1,6 @@
-PROJECT STRUCTURE :
+TASKS
+
+[DONE] :
 Import libft [DONE]
 Create repository structure [DONE]
 Create Project's Makefile [DONE]
@@ -8,22 +10,12 @@ Move display functions in main.c to their own files [DONE]
 Record total number of links in order to handle case where no links are provided [DONE]
 Test newly created links handling functions for leaks and/or segfaults [DONE]
 Improve tester.sh so that it prompts for overwrite just once at the beginning [DONE]
+
+[WIP] :
 Test hash tables [WIP]
 Clean code [WIP]
+
+[TODO] :
 Test and handle parsing error cases properly (auto unit testing with pre-defined error codes/msgs ?)
 Fix Makefile not recompiling when libft's modified
 Finish implementing specific error codes
-
-PROJECT DESIGN :
-1.
-Create needed data structures and associated handling functions
-Read and treat the input into previously created structures
-Test the strength of resulting parser
-2.
-Implement DFS algorithm on your structures
-Check if DFS's found paths are correct
-3.
-Determine the optimal way to send your ants with the given paths
-Carefully check that every project's requirements are properly met
-
-TO FIX :
