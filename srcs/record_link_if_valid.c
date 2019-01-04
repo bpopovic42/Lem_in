@@ -6,11 +6,18 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/26 20:06:07 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/01/04 16:12:22 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/01/04 21:36:15 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
+
+static int	local_exit(char **rooms, int return_value)
+{
+	if (rooms)
+		ft_delarray(rooms);
+	return (return_value);
+}
 
 static int	room_exists(t_graph *graph, char *room)
 {
@@ -33,6 +40,11 @@ static int	room_exists(t_graph *graph, char *room)
 	return (0);
 }
 
+/*
+** Following function might be improved by passing read file
+** And running strcmp against it
+*/
+
 static int	link_exists(t_graph *graph, char *room_a, char *room_b)
 {
 	size_t	i;
@@ -49,13 +61,6 @@ static int	link_exists(t_graph *graph, char *room_a, char *room_b)
 		i++;
 	}
 	return (0);
-}
-
-static int	local_exit(char **rooms, int return_value)
-{
-	if (rooms)
-		ft_delarray(rooms);
-	return (return_value);
 }
 
 int			record_link_if_valid(t_graph *graph, const char *link)

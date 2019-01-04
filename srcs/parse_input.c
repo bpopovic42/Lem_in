@@ -6,14 +6,23 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/14 16:59:13 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/01/04 20:44:14 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/01/04 21:29:54 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 #include "get_next_line.h"
 
-static int	check_input(int ants, t_graph *graph, char *last_line)
+static int	local_exit(char *line, char *cmd_list, int retval)
+{
+	if (line)
+		ft_strdel(&line);
+	if (cmd_list)
+		ft_strdel(&cmd_list);
+	return (retval);
+}
+
+static int	check_input(int ants, t_graph *graph)
 {
 	int error_status;
 
@@ -26,31 +35,26 @@ static int	check_input(int ants, t_graph *graph, char *last_line)
 		error_status = ENELINK;
 	else if (!graph->start || !graph->end)
 		error_status = EINVMAP;
-	if (error_status)
-	{
-		lemin_perror(error_status, last_line);
-		return (-1);
-	}
-	return (0);
+	return (error_status);
 }
 
 int		parse_input(int *ants, t_graph *graph, char **file)
 {
-	int		ret;
+	int		error_status;
 	char	*cmd_list;
 	char	*line;
 
-	ret = 1;
+	error_status = 0;
 	cmd_list = NULL;
 	line = NULL;
-	while ((ret = get_next_line(STDIN, &line)) > 0)
+	while ((error_status = get_next_line(STDIN, &line)) > 0)
 	{
 		if (parse_line(graph, ants, line, &cmd_list) < 0)
 			break ;
 		*file = ft_strappendn(*file, 2, line, "\n");
 		ft_strdel(&line);
 	}
-	if (ret >= 0 && (ret = check_input(*ants, graph, line)) < 0 && line)
-		ft_strdel(&line);
-	return (ret);
+	if ((error_status = check_input(*ants, graph)) > 0)
+		lemin_perror(error_status, line);
+	return (local_exit(line, cmd_list, error_status));
 }
