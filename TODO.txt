@@ -18,3 +18,6 @@ Test and handle error cases/codes properly [WIP]
 
 [TODO] :
 Fix Makefile not recompiling when libft's modified
+Protect malloc calling functions
+Register 'linked from' room in 'linked to' room as well
+Check if program execution gets bad data if non-critical error is found (ex:bad recorded link/room)
