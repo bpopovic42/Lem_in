@@ -53,8 +53,8 @@ typedef struct		s_graph
 */
 
 void	init_graph(t_graph *graph);
-char	*parse_input(int *ants, t_graph *graph, char **file);
-int		parse_line(t_graph *graph, const char *line);
+int		parse_input(int *ants, t_graph *graph, char **file);
+int		parse_line(t_graph *graph, int *ants, const char *line, char **cmd_list);
 int		record_room_if_valid(t_graph *graph, char **input);
 t_room	*record_room(t_graph *graph, char **room_data);
 int		record_link_if_valid(t_graph *graph, const char *link);
