@@ -53,14 +53,14 @@ typedef struct		s_graph
 */
 
 void	init_graph(t_graph *graph);
-int		parse_input(int *ants, t_graph *graph, char **file);
+char	*parse_input(int *ants, t_graph *graph, char **file);
 int		parse_line(t_graph *graph, const char *line);
 int		record_room_if_valid(t_graph *graph, char **input);
 t_room	*record_room(t_graph *graph, char **room_data);
 int		record_link_if_valid(t_graph *graph, const char *link);
 void	record_link(t_graph *graph, char *room_a, char *room_b);
 void	print_result(t_graph *graph, char *file);
-void	lemin_perror(int error_code, char *file);
+void	lemin_perror(int error_code, char *line);
 void	free_graph(t_graph *graph);
 void	free_room(void *room);
 

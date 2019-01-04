@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/24 01:40:03 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/01/04 16:51:24 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/01/04 18:26:43 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,14 +67,18 @@ static const char			*get_error_msg(int error_code)
 		return ("Undefined error.");
 }
 
-void			lemin_perror(int error_code, char *file)
+void			lemin_perror(int error_code, char *line)
 {
 	if (ERR_DBG)
 		ft_printf("{red}");
 	ft_putstr("ERROR");
 	if (ERR_DBG)
 	{
-		ft_printf(": %s\n", get_error_msg(error_code));
-		ft_printf("{red}Problematic line :\n%.*s {red}<---{eoc}\n", ft_strlen(file) - 1, file);
+		ft_printf(": %s{eoc}\n", get_error_msg(error_code));
+		if (line && error_code != EINVMAP)
+		{
+			ft_printf("{red}Problematic line :{eoc}\n");
+			ft_printf("%s {red}<-{eoc}\n",line);
+		}
 	}
 }

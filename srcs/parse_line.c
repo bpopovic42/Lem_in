@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/28 13:14:02 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/01/04 16:16:33 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/01/04 18:31:54 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,6 @@ int		parse_line(t_graph *graph, const char *line)
 		return (record_link_if_valid(graph, line));
 	}
 	else if (is_room(line))
-	{
 		return (record_room_if_valid(graph, ft_strsplit(line, WSPCS)));
-	}
 	return (-1);
 }
