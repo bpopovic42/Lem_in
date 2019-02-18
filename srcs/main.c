@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/19 22:56:40 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/01/04 21:05:42 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/02/18 17:40:38 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,10 @@ int		main(void)
 	init_graph(&graph);
 	if (parse_input(&ants, &graph, &file) > 0)
 		return (local_exit(&graph, &file, 1));
+	get_paths(&graph);
 	/* Apply path-finding algorithm to find shortest paths */
 	/* Apply algorithm to find most efficient paths depending on ants quantity */
 	/* Output solution */
-	print_result(&graph, file);
+	//print_result(&graph, file);
 	return (local_exit(&graph, &file, 0));
 }

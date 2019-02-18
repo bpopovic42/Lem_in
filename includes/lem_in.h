@@ -65,4 +65,6 @@ void	lemin_perror(int error_code, char *line);
 void	free_graph(t_graph *graph);
 void	free_room(void *room);
 
+int		get_paths(t_graph *graph);
+
 #endif

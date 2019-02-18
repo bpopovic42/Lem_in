@@ -17,7 +17,7 @@ ODIR		=	./objs
 
 LMN_FILES	=	$(addprefix $(LMNDIR)/, \
 		main.c parse_input.c parse_line.c record_room_if_valid.c record_room.c \
-		record_link_if_valid.c record_link.c print_result.c utils.c)
+		record_link_if_valid.c record_link.c print_result.c utils.c get_paths.c)
 
 # **************************************************************************** #
 # Complete path :
