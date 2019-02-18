@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/26 18:41:26 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/01/04 16:15:38 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/02/18 17:50:04 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ static t_room	*new_room(char *name, char **cmd, t_pos *coord)
 	new_room->name = ft_strdup(name);
 	new_room->pos = *coord;
 	new_room->links = NULL;
+	new_room->visited = 0;
 	return (new_room);
 }
 

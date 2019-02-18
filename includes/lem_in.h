@@ -33,6 +33,7 @@ typedef struct		s_room
 {
 	char			*command;
 	char			*name;
+	int				visited;
 	t_vect			*links;
 	struct s_pos	pos;
 }					t_room;
