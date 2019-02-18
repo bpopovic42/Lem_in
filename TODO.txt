@@ -10,6 +10,7 @@ Move display functions in main.c to their own files [DONE]
 Record total number of links in order to handle case where no links are provided [DONE]
 Test newly created links handling functions for leaks and/or segfaults [DONE]
 Improve tester.sh so that it prompts for overwrite just once at the beginning [DONE]
+Register 'linked from' room in 'linked to' room as well [DONE]
 
 [WIP] :
 Test hash tables [WIP]
@@ -19,5 +20,4 @@ Test and handle error cases/codes properly [WIP]
 [TODO] :
 Fix Makefile not recompiling when libft's modified
 Protect malloc calling functions
-Register 'linked from' room in 'linked to' room as well
 Check if program execution gets bad data if non-critical error is found (ex:bad recorded link/room)
