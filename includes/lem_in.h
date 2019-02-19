@@ -46,6 +46,7 @@ typedef struct		s_graph
 	t_room			*end;
 	t_vect			*room_list;
 	t_htable		*rooms;
+	t_vect			*paths;
 	char			*last_command;
 }					t_graph;
 

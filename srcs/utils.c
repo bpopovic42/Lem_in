@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/24 01:40:03 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/01/04 18:26:43 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/02/19 15:47:45 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	init_graph(t_graph *graph)
 	graph->end = NULL;
 	graph->room_list = ft_vector_init(sizeof(char*), 0);
 	graph->rooms = ft_hash_newtable(100);
+	graph->paths = ft_vector_init(sizeof(t_dlist*), 0);
 	graph->last_command = NULL;
 }
 

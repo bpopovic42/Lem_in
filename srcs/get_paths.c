@@ -6,216 +6,143 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/18 15:12:38 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/02/18 21:02:32 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/02/19 20:59:56 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 #include "ft_printf.h"
 
-int		is_end_room(t_graph *graph, char *room)
+/* UTILS **********************************************************************/
+
+static void print_link_data(t_dlist *link)
 {
-	if (!ft_strcmp(graph->end->name, room))
-		return (1);
-	else
-		return (0);
+	ft_putendl(link->content);
 }
 
-int		found_end(t_graph *graph, t_vect *room_list)
+static t_dlist *get_list_from_vector(t_vect *vector, size_t index)
 {
-	int i;
-	char *tmp;
+	return (*((t_dlist**)ft_vector_get(vector, index)));
+}
+
+static void print_final_paths(t_graph *graph)
+{
+	size_t i;
 
 	i = 0;
-	tmp = NULL;
-	if (room_list)
+	while (i < graph->paths->size)
 	{
-		while ((size_t)i < room_list->size)
-		{
-			tmp = ft_vector_get(room_list, i);
-			if (is_end_room(graph, tmp))
-				return (1);
-			i++;
-		}
+		ft_dlstiter(get_list_from_vector(graph->paths, i), &print_link_data);
+		i++;
+	}
+}
+
+static t_room	*get_last_room_in_path(t_graph *graph, t_dlist *path)
+{
+	char *room_name;
+
+	room_name = path->content;
+	return (ft_hashget_data(graph->rooms, room_name));
+}
+
+static t_room *get_room_from_vector(t_vect *v, size_t index)
+{
+	return ((t_room*)ft_vector_get(v, index));
+}
+
+static int	is_end(t_vect *links, size_t index)
+{
+	t_room *room;
+
+	room = get_room_from_vector(links, index);
+	if (room->command)
+	{
+		if (!ft_strcmp(room->command, "end"))
+			return (1);
 	}
 	return (0);
 }
 
-int		is_visited(t_room *room)
-{
-	return (room->visited);
-}
 
-int		is_blocked(t_graph *graph, t_vect *room_list)
-{
-	int i;
-	int j;
-	char *name_tmp;
-	t_room *room_tmp;
+/* BFS MAIN *******************************************************************/
 
-	i = 0;
-	j = 0;
-	name_tmp = NULL;
-	room_tmp = NULL;
-	if (room_list)
+static void mark_visited(t_graph *graph, t_list *paths)
+{
+	t_list		*ptr;
+	t_room		*room;
+
+	ptr = paths;
+	while (ptr)
 	{
-		while ((size_t)i < room_list->size)
-		{
-			name_tmp = ft_vector_get(room_list, i);
-			room_tmp = ft_hashget_data(graph->rooms, name_tmp);
-			while ((size_t)j < room_tmp->links->size)
-			{
-				if (!is_visited(ft_hashget_data(graph->rooms, ft_vector_get(room_tmp->links, j))))
-					return (0);
-				j++;
-			}
-			i++;
-		}
+		room = get_last_room_in_path(graph, *((t_dlist**)ptr->content));
+		if (ft_strcmp(graph->end->name, room->name))
+			room->visited = 1;
+		ptr = ptr->next;
 	}
-	return (1);
 }
 
-static void		path_record(t_vect *paths, t_dlist *current, char *new_room)
+static void record_final_path(t_graph *graph, t_dlist *base_path, char *room)
+{
+	t_dlist *final_path;
+
+	final_path = ft_dlstdup(&base_path);
+	ft_dlstpush(&final_path, ft_dlstnew(room, sizeof(char*)));
+	ft_vector_append(graph->paths, &final_path);
+}
+
+static void append_room_to_path(t_list *paths, t_dlist *base_path, char *room)
 {
 	t_dlist *new_path;
 
-	new_path = ft_dlstdup(&current);
-	ft_dlstpush(&new_path, ft_dlstnew(new_room, sizeof(char*)));
-	ft_vector_append(paths, new_path);
+	new_path = ft_dlstdup(&base_path);
+	ft_dlstpush(&new_path, ft_dlstnew(room, sizeof(char*)));
+	ft_lstadd(&paths, ft_lstnew(&new_path, sizeof(t_dlist**)));
 }
 
-static t_dlist	*get_current_path(t_vect *paths, char *room)
+static void get_next_rooms(t_graph *graph, t_list *paths)
 {
+	t_list *path_ptr;
+	t_room *last_room;
 	size_t i;
-	t_dlist *tmp;
 
-	i = 0;
-	tmp = NULL;
-	while (i < paths->size)
+	path_ptr = paths;
+	last_room = NULL;
+	while (path_ptr)
 	{
-		tmp = ft_vector_get(paths, i);
-		if (!ft_strcmp(tmp->content, room))
-			return (tmp);
-		i++;
-	}
-	return (NULL);
-}
-
-static void		get_links_for_room(t_htable *rooms, t_vect **new_list, t_room *target, t_vect *paths)
-{
-	int		i;
-	char *tmp;
-	t_dlist *current_path;
-
-	i = 0;
-	tmp = NULL;
-	current_path = get_current_path(paths, target->name);
-	if (target->links)
-	{
-		while ((size_t)i < target->links->size)
+		i = 0;
+		last_room = get_last_room_in_path(graph, path_ptr->content);
+		//add_next_rooms_to_path(paths, path_ptr, last_room);
+		while (i < last_room->links->size)
 		{
-			tmp = ft_strdup(ft_vector_get(target->links, i));
-			if (!is_visited(ft_hashget_data(rooms, tmp)))
-			{
-				path_record(paths, current_path, tmp);
-				ft_vector_append(*new_list, tmp);
-			}
+			if (is_end(last_room->links, i))
+				record_final_path(graph, path_ptr->content, last_room->name);
+			else if (last_room->visited == 0)
+				append_room_to_path(paths, path_ptr->content, last_room->name);
 			i++;
 		}
-	}
-	//if (current_path)
-	//	ft_dlstdel(&current_path, (void*)&ft_strdel);
-}
-
-static void		get_next_list(t_htable *rooms, t_vect **room_list, t_vect *paths)
-{
-	t_vect *new_list;
-	t_room *room_ptr;
-	int i;
-
-	new_list = ft_vector_init(sizeof(char*), 0);
-	i = 0;
-	while ((size_t)i < (*room_list)->size)
-	{
-		room_ptr = ft_hashget_data(rooms, ft_vector_get((*room_list), i));
-		get_links_for_room(rooms, &new_list, room_ptr, paths);
-		i++;
-	}
-	ft_vector_free(*room_list, (void*)(void**)&ft_strdel);
-	*room_list = new_list;
-}
-
-static void mark_visited(t_graph *graph, t_vect *room_list)
-{
-	t_room *tmp;
-	int i;
-
-	tmp = NULL;
-	i = 0;
-	while ((size_t)i < room_list->size)
-	{
-		tmp = ft_hashget_data(graph->rooms, ft_vector_get(room_list, i));
-		tmp->visited = 1;
-		i++;
+		path_ptr = paths->next;
 	}
 }
 
-/*static void print_room_name(char *name)
+static void	bfs_test(t_graph *graph, t_list *paths, int depth)
 {
-	ft_putstr(name);
-	ft_putchar(' ');
-}*/
-
-static void print_good_path(t_vect *paths, char *end)
-{
-	size_t i;
-	t_dlist *tmp;
-	i = 0;
-	tmp = NULL;
-	while (i < paths->size)
-	{
-		tmp = ft_vector_get(paths, i);
-		if (!ft_strcmp(tmp->content, end))
-		{
-			while (tmp != NULL)
-			{
-				ft_putendl(tmp->content);
-				tmp = tmp->next;
-			}
-			break;
-		}
-		i++;
-	}
-}
-
-static void	bfs_test(t_graph *graph, t_vect *paths, t_vect *room_list, int depth)
-{
-	mark_visited(graph, room_list);
-	get_next_list(graph->rooms, &room_list, paths);
-	if (found_end(graph, room_list))
-	{
-		ft_printf("Shortest path depth : %d\n", depth);
-		//ft_vector_iter(room_list, (void*)(void*)&print_room_name);
-		//ft_putchar('\n');
-		print_good_path(paths, graph->end->name);
-	}
-	else if (is_blocked(graph, room_list))
-		ft_printf("No path to end.\n");
+	mark_visited(graph, paths);
+	get_next_rooms(graph, paths);
+	if (graph->paths->size > 0)
+		print_final_paths(graph);
+	//else if (is_blocked(graph, paths))
+	//	ft_printf("No path to end.\n");
 	else
-		bfs_test(graph, paths, room_list, depth + 1);
+		bfs_test(graph, paths, depth + 1);
 }
 
 int		get_paths(t_graph *graph)
 {
-	t_vect *room_list;
-	t_vect *paths;
+	t_list *paths;
 	t_dlist *start;
 
-	room_list = ft_vector_init(sizeof(char*), 0);
-	paths = ft_vector_init(sizeof(t_dlist*), 0);
 	start = ft_dlstnew(graph->start->name, sizeof(char*));
-	ft_vector_append(paths, start);
-	ft_vector_append(room_list, ft_strdup(graph->start->name));
-	bfs_test(graph, paths, room_list, 0);
+	ft_lstadd(&paths, ft_lstnew(&start, sizeof(t_dlist**)));
+	bfs_test(graph, paths, 0);
 	return (0);
 }
