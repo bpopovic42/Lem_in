@@ -15,24 +15,16 @@
 
 /* UTILS **********************************************************************/
 
-static void print_link_data(t_dlist *link)
-{
-	ft_putendl(link->content);
-}
-
-static t_dlist *get_list_from_vector(t_vect *vector, size_t index)
-{
-	return (*((t_dlist**)ft_vector_get(vector, index)));
-}
-
 static void print_final_paths(t_graph *graph)
 {
 	size_t i;
+	t_dlist *ptr;
 
 	i = 0;
 	while (i < graph->paths->size)
 	{
-		ft_dlstiter(get_list_from_vector(graph->paths, i), &print_link_data);
+		ptr = ft_vector_get(graph->paths, i);
+		ft_dlstiter_data(ptr, (void*)&ft_putendl);
 		i++;
 	}
 }
