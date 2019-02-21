@@ -37,22 +37,14 @@ static t_room	*get_last_room_in_path(t_graph *graph, t_dlist *path)
 	return (ft_hashget_data(graph->rooms, room_name));
 }
 
-static t_room *get_room_from_vector(t_vect *v, size_t index)
+static t_room *get_room_from_vector(t_graph *graph, t_vect *v, size_t index)
 {
-	return ((t_room*)ft_vector_get(v, index));
-}
+	t_room	*room;
+	char	*room_name;
 
-static int	is_end(t_vect *links, size_t index)
-{
-	t_room *room;
-
-	room = get_room_from_vector(links, index);
-	if (room->command)
-	{
-		if (!ft_strcmp(room->command, "end"))
-			return (1);
-	}
-	return (0);
+	room_name = ft_vector_get(v, index);
+	room = ft_hashget_data(graph->rooms, room_name);
+	return (room);
 }
 
 
