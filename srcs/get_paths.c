@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/18 15:12:38 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/02/19 20:59:56 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/02/21 18:52:56 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,15 +47,14 @@ static t_room *get_room_from_vector(t_graph *graph, t_vect *v, size_t index)
 	return (room);
 }
 
-
 /* BFS MAIN *******************************************************************/
 
-static void mark_visited(t_graph *graph, t_list *paths)
+static void mark_visited(t_graph *graph, t_list **paths)
 {
 	t_list		*ptr;
 	t_room		*room;
 
-	ptr = paths;
+	ptr = *paths;
 	while (ptr)
 	{
 		room = get_last_room_in_path(graph, *((t_dlist**)ptr->content));
@@ -87,37 +86,41 @@ static void get_next_rooms(t_graph *graph, t_list **paths)
 {
 	t_list *path_ptr;
 	t_room *last_room;
+	t_room	*next;
 	size_t i;
 
 	path_ptr = *paths;
 	last_room = NULL;
+	next = NULL;
 	while (path_ptr)
 	{
 		i = 0;
-		last_room = get_last_room_in_path(graph, path_ptr->content);
-		//add_next_rooms_to_path(paths, path_ptr, last_room);
+		last_room = get_last_room_in_path(graph, *((t_dlist**)path_ptr->content));
 		while (i < last_room->links->size)
 		{
-			if (is_end(last_room->links, i))
-				record_final_path(graph, path_ptr->content, last_room->name);
-			else if (last_room->visited == 0)
-				append_room_to_path(paths, path_ptr->content, last_room->name);
+			next = get_room_from_vector(graph, last_room->links, i);
+			if (next->command && !ft_strcmp("##end", next->command))
+			{
+				ft_putendl("Found end !!!!!!!!!!!!");
+				record_final_path(graph, path_ptr->content, next->name);
+			}
+			else if (next->visited == 0)
+				append_room_to_path(paths, path_ptr->content, next->name);
 			i++;
 		}
-		path_ptr = paths->next;
+		path_ptr = path_ptr->next;
 	}
 }
 
-static void	bfs_test(t_graph *graph, t_list *paths, int depth)
+static void	bfs(t_graph *graph, t_list **paths, int depth)
 {
-	mark_visited(graph, paths);
-	get_next_rooms(graph, paths);
-	if (graph->paths->size > 0)
-		print_final_paths(graph);
-	//else if (is_blocked(graph, paths))
-	//	ft_printf("No path to end.\n");
-	else
-		bfs_test(graph, paths, depth + 1);
+	while (graph->paths->size == 0)
+	{
+		mark_visited(graph, paths);
+		get_next_rooms(graph, paths);
+		depth++;
+	}
+	print_final_paths(graph);
 }
 
 int		get_paths(t_graph *graph)
@@ -125,8 +128,9 @@ int		get_paths(t_graph *graph)
 	t_list *paths;
 	t_dlist *start;
 
-	start = ft_dlstnew(graph->start->name, sizeof(char*));
+	paths = NULL;
+	start = ft_dlstnew(graph->start->name, ft_strlen(graph->start->name) + 1);
 	ft_lstadd(&paths, ft_lstnew(&start, sizeof(t_dlist**)));
-	bfs_test(graph, paths, 0);
+	bfs(graph, &paths, 0);
 	return (0);
 }
