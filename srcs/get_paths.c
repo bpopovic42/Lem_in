@@ -65,31 +65,31 @@ static void mark_visited(t_graph *graph, t_list *paths)
 	}
 }
 
-static void record_final_path(t_graph *graph, t_dlist *base_path, char *room)
+static void record_final_path(t_graph *graph, t_dlist **base_path, char *room)
 {
 	t_dlist *final_path;
 
-	final_path = ft_dlstdup(&base_path);
-	ft_dlstpush(&final_path, ft_dlstnew(room, sizeof(char*)));
-	ft_vector_append(graph->paths, &final_path);
+	final_path = ft_dlstdup(base_path);
+	ft_dlstpush(&final_path, ft_dlstnew(room, ft_strlen(room) + 1));
+	ft_vector_append(graph->paths, final_path);
 }
 
-static void append_room_to_path(t_list *paths, t_dlist *base_path, char *room)
+static void append_room_to_path(t_list **paths, t_dlist **base_path, char *room)
 {
 	t_dlist *new_path;
 
-	new_path = ft_dlstdup(&base_path);
-	ft_dlstpush(&new_path, ft_dlstnew(room, sizeof(char*)));
-	ft_lstadd(&paths, ft_lstnew(&new_path, sizeof(t_dlist**)));
+	new_path = ft_dlstdup(base_path);
+	ft_dlstpush(&new_path, ft_dlstnew(room, ft_strlen(room) + 1));
+	ft_lstadd(paths, ft_lstnew(&new_path, sizeof(t_dlist**)));
 }
 
-static void get_next_rooms(t_graph *graph, t_list *paths)
+static void get_next_rooms(t_graph *graph, t_list **paths)
 {
 	t_list *path_ptr;
 	t_room *last_room;
 	size_t i;
 
-	path_ptr = paths;
+	path_ptr = *paths;
 	last_room = NULL;
 	while (path_ptr)
 	{
