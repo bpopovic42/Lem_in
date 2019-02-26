@@ -6,160 +6,96 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/18 15:12:38 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/02/26 19:51:40 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/02/26 21:17:35 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 #include "ft_printf.h"
 
-/* UTILS **********************************************************************/
-
-static void print_room_name(t_room **room)
+static void	print_path(t_path *path)
 {
-	ft_putendl((*room)->name);
-}
-
-static void print_final_paths(t_set *final_paths)
-{
-	size_t i;
-	t_list *path_ptr;
 	t_dlist *ptr;
 
-	i = 0;
-	path_ptr = final_paths->paths;
-	while (path_ptr != NULL)
+	if (path)
 	{
-		ptr = ((*(t_path**)path_ptr->content)->head);
-		ft_dlstiter_data(ptr, (void*)&print_room_name);
-		path_ptr = path_ptr->next;
-		ft_putendl("Next path :");
-	}
-}
-
-/* BFS MAIN *******************************************************************/
-
-static void mark_visited(t_list *paths)
-{
-	t_list		*ptr;
-	t_dlist		*tmp;
-	t_room		*room;
-
-	ptr = paths;
-	while (ptr)
-	{
-		tmp = *((t_dlist**)ptr->content);
-		room = *((t_room**)tmp->content);
-		if (!room->command || ft_strcmp("##end", room->command))
-			room->visited = 1;
-		ptr = ptr->next;
-	}
-}
-
-static void record_final_path(t_dlist **base_path, t_room *room, t_set *final_paths)
-{
-	t_path *new_path;
-
-	if (!(new_path = malloc(sizeof(*new_path))))
-		exit(1);
-	new_path->length = 0;
-	new_path->head = ft_dlstdup(base_path);
-	ft_dlstpush(&new_path->head, ft_dlstnew(&room, sizeof(room)));
-	ft_lstpush(&final_paths->paths, ft_lstnew(&new_path, sizeof(new_path)));
-	final_paths->nbr_of_paths += 1;
-}
-
-static void append_room_to_path(t_list **paths, t_dlist **base_path, t_room *room)
-{
-	t_dlist *new_path;
-
-	new_path = NULL;
-	new_path = ft_dlstdup(base_path);
-	ft_dlstpush(&new_path, ft_dlstnew(&room, sizeof(room)));
-	ft_lstadd(paths, ft_lstnew(&new_path, sizeof(new_path)));
-}
-
-static void get_next_rooms(t_list **paths, t_set *final_paths)
-{
-	t_list *path_ptr;
-	t_room *last_room;
-	t_room	*next;
-	t_dlist *tmp;
-	size_t i;
-
-	path_ptr = *paths;
-	last_room = NULL;
-	next = NULL;
-	while (path_ptr)
-	{
-		i = 0;
-		tmp = *(t_dlist**)path_ptr->content;
-		last_room = *((t_room**)tmp->content);
-		while (i < last_room->links->size)
+		ptr = path->head;
+		while (ptr)
 		{
-			next = ft_vector_get(last_room->links, i);
-			if (next->command && !ft_strcmp("##end", next->command))
-			{
-				record_final_path(path_ptr->content, next, final_paths);
-			}
-			else if (next->visited == 0)
-			{
-				append_room_to_path(paths, path_ptr->content, next);
-			}
-			i++;
+			ft_putendl((*((t_room**)ptr->content))->name);
+			ptr = ptr->next;
 		}
-		path_ptr = path_ptr->next;
 	}
 }
 
-static void	bfs(t_list *paths, t_set *final_paths)
+static void	bfs(t_set *all_paths, t_set *paths_to_end)
 {
 	int depth;
 
 	depth = 0;
-	while (final_paths->nbr_of_paths < 3)
+	(void)all_paths;
+	(void)paths_to_end;
+	print_path(*(t_path**)all_paths->paths->content);
+	/*while (paths_to_end->nbr_of_paths < 3)
 	{
-		mark_visited(paths);
+		mark_visited(all_paths);
 		get_next_rooms(&paths, final_paths);
 		depth++;
 	}
-	print_final_paths(final_paths);
+	print_final_paths(final_paths);*/
 }
 
-t_set		*init_set(t_set *path_set)
+t_path	*init_new_path(t_dlist *path, size_t path_length)
 {
-	if (!(path_set = malloc(sizeof(*path_set))))
+	t_path *new_path;
+
+	if (!(new_path = malloc(sizeof(*new_path))))
 		return (NULL);
-	path_set->nbr_of_paths = 0;
-	path_set->biggest = 0;
-	path_set->lowest = 0;
-	path_set->diff = 0;
-	path_set->paths = NULL;
-	return (path_set);
+	new_path->length = path_length;
+	new_path->head = path;
+	return (new_path);
 }
 
-t_path	*new_path(t_path *path)
+t_set		*init_new_set(void)
 {
-	if (!(path = malloc(sizeof(*path))))
+	t_set *new_set;
+
+	if (!(new_set = malloc(sizeof(*new_set))))
 		return (NULL);
-	path->length = 0;
-	path->head = NULL;
-	return (path);
+	new_set->nbr_of_paths = 0;
+	new_set->biggest = 0;
+	new_set->lowest = 0;
+	new_set->diff = 0;
+	new_set->paths = NULL;
+	return (new_set);
+}
+
+int		add_new_path(t_set *path_set, t_dlist *path, size_t path_length)
+{
+	t_path		*new_path;
+
+	if (!(new_path = init_new_path(path, path_length)))
+		return (-1);
+	if (ft_lstadd_data(&path_set->paths, &new_path, sizeof(new_path)) < 0)
+		return (-1);
+	return (0);
 }
 
 int		get_paths(t_graph *graph)
 {
-	t_list		*paths;
-	t_set		*final_paths;
+	t_set		*all_paths;
+	t_set		*paths_to_end;
 	t_dlist		*start;
 
-	final_paths = NULL;
-	start = NULL;
-	paths = NULL;
-	if (!(final_paths = init_set(final_paths)))
+	(void)graph;
+	if (!(all_paths = init_new_set()))
 		return (1);
-	start = ft_dlstnew(&graph->start, sizeof(graph->start));
-	paths = ft_lstnew(&start, sizeof(start));
-	bfs(paths, final_paths);
+	if (!(paths_to_end = init_new_set()))
+		return (1);
+	if (!(start = ft_dlstnew(&graph->start, sizeof(graph->start))))
+		return (1);
+	if (add_new_path(all_paths, start, 1) < 0)
+		return (1);
+	bfs(all_paths, paths_to_end);
 	return (0);
 }
