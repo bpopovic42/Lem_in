@@ -38,6 +38,21 @@ typedef struct		s_room
 	struct s_pos	pos;
 }					t_room;
 
+typedef struct		s_path
+{
+	size_t			length;
+	t_dlist			*head;
+}					t_path;
+
+typedef struct		s_set
+{
+	size_t			nbr_of_paths;
+	size_t			biggest;
+	size_t			lowest;
+	size_t			diff;
+	t_list			*paths;
+}					t_set;
+
 typedef struct		s_graph
 {
 	size_t			nbr_of_rooms;
@@ -46,7 +61,6 @@ typedef struct		s_graph
 	t_room			*end;
 	t_vect			*room_list;
 	t_htable		*rooms;
-	t_vect			*paths;
 	char			*last_command;
 }					t_graph;
 

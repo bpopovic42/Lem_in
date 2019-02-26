@@ -6,26 +6,35 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/24 01:40:03 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/02/19 15:47:45 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/02/26 18:14:59 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 #include "ft_printf.h"
 
+static void	erase_ptr(void **ptr)
+{
+	ft_bzero(ptr, sizeof(ptr));
+}
+
 void		free_room(void *room)
 {
 	t_room *target;
 
 	target = room;
+	if (room)
+	{
 	if (target->command != NULL)
 		ft_strdel(&(target->command));
 	ft_strdel(&(target->name));
 	if (target->links != NULL)
-		ft_vector_free(target->links, (void*)(void**)&ft_strdel);
+		ft_vector_free(target->links, (void*)&erase_ptr);
 	target->pos.x = 0;
 	target->pos.y = 0;
 	free(room);
+	room = NULL;
+	}
 }
 
 void	init_graph(t_graph *graph)
@@ -36,7 +45,6 @@ void	init_graph(t_graph *graph)
 	graph->end = NULL;
 	graph->room_list = ft_vector_init(sizeof(char*), 0);
 	graph->rooms = ft_hash_newtable(100);
-	graph->paths = ft_vector_init(sizeof(t_dlist*), 0);
 	graph->last_command = NULL;
 }
 
