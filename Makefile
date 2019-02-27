@@ -72,7 +72,7 @@ CFLAGS		=	$(DEBUG) $(if $(SILENT), , -Wall -Wextra -Werror)
 all			:	$(NAME)
 
 $(NAME)	:	$(LFT) $(LMN_OBJ) $(LMN_INC)
-			$(CC) $(CFLAGS) -o $(NAME) $(LMN_OBJ) $(LFT) $(INCS)
+			@$(CC) $(CFLAGS) -o $(NAME) $(LMN_OBJ) $(LFT) $(INCS)
 			@$(IF_CMP)
 			@echo $(BG)[$(BLB)LEM_IN $(BG)COMPILED$(BG)]$(X)
 
