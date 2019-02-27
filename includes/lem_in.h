@@ -51,6 +51,7 @@ typedef struct		s_set
 	size_t			biggest;
 	size_t			lowest;
 	size_t			diff;
+	int				id;
 	t_list			*paths;
 }					t_set;
 
@@ -92,22 +93,25 @@ int		get_paths(t_graph *graph);
 void	print_path(t_path *path);
 
 // PATH_UTILS
-t_path	*init_new_path(void);
-void	path_set_id(t_path *path, int id);
+t_path	*init_new_path(int path_id);
 void	path_set_path(t_path *path, t_dlist *head, size_t length);
 int		path_add_room(t_path *path, t_room *room);
 void	path_set_conflicts(t_path *path, t_list *conflicts);
 int		path_add_conflict(t_path *path, int conflict_id);
-t_path	*path_duplicate(t_path *origin);
+t_path	*path_duplicate(t_path *origin, int new_id);
 void	path_free_path(t_path *path);
 void	path_free_conflicts(t_path *path);
 void	path_free(t_path *path);
 void	lst_free_path(t_path ***path);
+int		path_get_id(t_path *path);
+
 
 //SET_UTILS
-t_set	*init_new_set(void);
-int		set_add_new_path(t_set *path_set, t_dlist *path, size_t path_length);
+t_set	*init_new_set(int set_id);
 void	set_free(t_set *set);
+int		set_add_path(t_set *set, t_path *path);
+int		set_add_room_to_path(t_set *set, int path_id, t_room *room);
+t_path	*set_get_path(t_set *set, int path_id);
 
 /*
 ** IO

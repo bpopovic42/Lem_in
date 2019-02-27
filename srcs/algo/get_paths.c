@@ -6,20 +6,18 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/18 15:12:38 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/02/27 19:12:07 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/02/27 19:59:52 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 #include "ft_printf.h"
 
-static void	bfs(t_set *all_paths, t_set *paths_to_end)
+static void	bfs(t_set *all_paths)
 {
 	int depth;
 
 	depth = 0;
-	(void)all_paths;
-	(void)paths_to_end;
 	print_path(*(t_path**)all_paths->paths->content);
 	/*while (paths_to_end->nbr_of_paths < 3)
 	{
@@ -33,20 +31,17 @@ static void	bfs(t_set *all_paths, t_set *paths_to_end)
 int		get_paths(t_graph *graph)
 {
 	t_set		*all_paths;
-	t_set		*paths_to_end;
-	t_dlist		*start;
+	t_path		*start;
 
-	(void)graph;
-	if (!(all_paths = init_new_set()))
+	if (!(all_paths = init_new_set(1)))
 		return (1);
-	if (!(paths_to_end = init_new_set()))
+	if (!(start = init_new_path(1)))
 		return (1);
-	if (!(start = ft_dlstnew(&graph->start, sizeof(graph->start))))
+	if ((set_add_path(all_paths, start)) < 0)
 		return (1);
-	if (set_add_new_path(all_paths, start, 1) < 0)
+	if ((set_add_room_to_path(all_paths, 1, graph->start) < 0))
 		return (1);
-	bfs(all_paths, paths_to_end);
+	bfs(all_paths);
 	set_free(all_paths);
-	set_free(paths_to_end);
 	return (0);
 }
