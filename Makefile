@@ -15,9 +15,24 @@ ODIR		=	./objs
 # **************************************************************************** #
 # Lem_in :
 
+PARSING_DIR	=	parsing
+
+PARSING		=	$(addprefix  $(PARSING_DIR)/, \
+		parse_input.c parse_line.c record_room_if_valid.c record_room.c \
+		record_link_if_valid.c record_link.c parser_data_utils.c)
+
+ALGO_DIR	=	algo
+
+ALGO		=	$(addprefix $(ALGO_DIR)/, \
+		get_paths.c)
+
+LMN_IO_DIR	=	io
+
+LMN_IO		=	$(addprefix $(LMN_IO_DIR)/, \
+		error_utils.c print_result.c)
+
 LMN_FILES	=	$(addprefix $(LMNDIR)/, \
-		main.c parse_input.c parse_line.c record_room_if_valid.c record_room.c \
-		record_link_if_valid.c record_link.c print_result.c utils.c get_paths.c)
+		main.c $(PARSING) $(ALGO) $(LMN_IO))
 
 # **************************************************************************** #
 # Complete path :
@@ -28,7 +43,7 @@ LMN_SRCS	=	$(addprefix $(SDIR)/, $(LMN_FILES))
 
 LMN_OBJS	=	$(LMN_FILES:.c=.o)
 
-LMN_OBJ		=	$(addprefix $(ODIR)/, $(LMN_OBJS))
+LMN_OBJ		=	$(addprefix $(ODIR), $(LMN_OBJS))
 
 OBJ			=	$(LMN_OBJ)
 
@@ -91,6 +106,9 @@ DBGDIR		=	$(NAME).dSYM
 
 MKODIR		=	if [ ! -d $(ODIR) ]; then \
 			/bin/mkdir -p $(ODIR); \
+			/bin/mkdir -p $(ODIR)/$(PARSING); \
+			/bin/mkdir -p $(ODIR)/$(ALGO); \
+			/bin/mkdir -p $(ODIR)/$(LMN_IO); \
 			/bin/mkdir -p $(ODIR)/lem_in; fi
 
 CMP			=	if [ ! -e .cmp ]; then \
