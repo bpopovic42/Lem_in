@@ -18,7 +18,6 @@
 # define ENELINK_MSG "Invalid number of links."
 # define EINVMAP_MSG "Invalid map."
 
-
 /*
 ** STRUCTURES
 */
@@ -41,6 +40,8 @@ typedef struct		s_room
 typedef struct		s_path
 {
 	size_t			length;
+	int				id;
+	t_list			*conflicts;
 	t_dlist			*head;
 }					t_path;
 
