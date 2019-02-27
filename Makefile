@@ -24,7 +24,7 @@ PARSING		=	$(addprefix  $(PARSING_DIR)/, \
 ALGO_DIR	=	algo
 
 ALGO		=	$(addprefix $(ALGO_DIR)/, \
-		get_paths.c)
+		get_paths.c algo_data_utils.c tmp_debug_tools.c)
 
 LMN_IO_DIR	=	io
 
@@ -72,7 +72,7 @@ CFLAGS		=	$(DEBUG) $(if $(SILENT), , -Wall -Wextra -Werror)
 all			:	$(NAME)
 
 $(NAME)	:	$(LFT) $(LMN_OBJ) $(LMN_INC)
-			@$(CC) $(CFLAGS) -o $(NAME) $(LMN_OBJ) $(LFT) $(INCS)
+			$(CC) $(CFLAGS) -o $(NAME) $(LMN_OBJ) $(LFT) $(INCS)
 			@$(IF_CMP)
 			@echo $(BG)[$(BLB)LEM_IN $(BG)COMPILED$(BG)]$(X)
 
@@ -106,10 +106,9 @@ DBGDIR		=	$(NAME).dSYM
 
 MKODIR		=	if [ ! -d $(ODIR) ]; then \
 			/bin/mkdir -p $(ODIR); \
-			/bin/mkdir -p $(ODIR)/$(PARSING); \
-			/bin/mkdir -p $(ODIR)/$(ALGO); \
-			/bin/mkdir -p $(ODIR)/$(LMN_IO); \
-			/bin/mkdir -p $(ODIR)/lem_in; fi
+			/bin/mkdir -p $(ODIR)/$(PARSING_DIR); \
+			/bin/mkdir -p $(ODIR)/$(ALGO_DIR); \
+			/bin/mkdir -p $(ODIR)/$(LMN_IO_DIR); fi
 
 CMP			=	if [ ! -e .cmp ]; then \
 				echo $(BY)Compiling $(B)Project $(X)files...$(BY); \
