@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/27 17:40:20 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/02/27 20:05:54 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/02/28 18:44:31 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,11 @@ void	set_free(t_set *set)
 	set->biggest = 0;
 	set->lowest = 0;
 	set->diff = 0;
-	ft_lstdel(&set->paths, (void*)&lst_free_path);
-	set->paths = NULL;
+	if (set->paths)
+	{
+		ft_lstdel(&set->paths, (void*)&lst_free_path);
+		set->paths = NULL;
+	}
 	free(set);
 	set = NULL;
 }

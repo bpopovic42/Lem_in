@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/27 17:00:40 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/02/27 20:01:44 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/02/28 19:06:44 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,11 +109,14 @@ void	path_free_conflicts(t_path *path)
 
 void	path_free(t_path *path)
 {
-	path->id = 0;
-	path_free_path(path);
-	path_free_conflicts(path);
-	free(path);
-	path = NULL;
+	if (path)
+	{
+		path->id = 0;
+		path_free_path(path);
+		path_free_conflicts(path);
+		free(path);
+		path = NULL;
+	}
 }
 
 /*
