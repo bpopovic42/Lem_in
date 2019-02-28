@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/24 01:40:03 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/02/27 18:42:50 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/02/28 19:27:02 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,17 @@ void		free_room(void *room)
 	target = room;
 	if (room)
 	{
-	if (target->command != NULL)
-		ft_strdel(&(target->command));
-	ft_strdel(&(target->name));
-	if (target->links != NULL)
-		ft_vector_free(target->links, (void*)&erase_ptr);
-	target->pos.x = 0;
-	target->pos.y = 0;
-	free(room);
-	room = NULL;
+		if (target->command != NULL)
+			ft_strdel(&(target->command));
+		ft_strdel(&(target->name));
+		if (target->links != NULL)
+			ft_vector_free(target->links, (void*)&erase_ptr);
+		target->pos.x = 0;
+		target->pos.y = 0;
+		if (target->path_ids)
+			ft_lstdel(&target->path_ids, &ft_bzero);
+		free(room);
+		room = NULL;
 	}
 }
 
