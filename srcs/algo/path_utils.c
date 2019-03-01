@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/27 17:00:40 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/02/28 19:06:44 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/03/01 01:36:22 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int		path_add_room(t_path *path, t_room *room)
 
 	if (!(new_room = ft_dlstnew(&room, sizeof(room))))
 		return (-1);
-	ft_dlstadd(&path->head, new_room);
+	ft_dlstpush(&path->head, new_room);
 	path->length += 1;
 	return (0);
 }
@@ -70,16 +70,16 @@ t_path *path_duplicate(t_path *origin, int new_id)
 {
 	t_path		*new_path;
 	t_dlist		*path_dup;
-	t_list		*conflicts_dup;
+	//t_list		*conflicts_dup;
 
 	if (!(new_path = init_new_path(new_id)))
 		return (NULL);
 	if (!(path_dup = ft_dlstdup(&origin->head)))
 		return (NULL);
-	if (!(conflicts_dup = ft_lstdup(&origin->conflicts)))
-		return (NULL);
+	//if (!(conflicts_dup = ft_lstdup(&origin->conflicts)))
+	//	return (NULL);
 	path_set_path(new_path, path_dup, origin->length);
-	path_set_conflicts(new_path, conflicts_dup);
+	//path_set_conflicts(new_path, conflicts_dup);
 	return (new_path);
 }
 
