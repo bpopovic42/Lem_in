@@ -91,6 +91,7 @@ void	free_room(void *room);
 int		get_paths(t_graph *graph);
 
 void	print_path(t_path *path);
+void	print_set(t_set *set);
 
 // PATH_UTILS
 t_path	*init_new_path(int path_id);
