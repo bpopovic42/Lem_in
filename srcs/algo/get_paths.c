@@ -36,7 +36,7 @@ static int	room_has_id(t_room *room, int id)
 		id_ptr = room->path_ids;
 		while (id_ptr)
 		{
-			if (id == (int)id_ptr->content)
+			if (id == *(int*)id_ptr->content)
 				return (1);
 			id_ptr = id_ptr->next;
 		}
