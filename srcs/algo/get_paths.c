@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/18 15:12:38 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/03/01 02:11:34 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/03/01 03:03:42 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,17 +84,14 @@ static int	append_next_rooms(t_set *all_paths, t_path **path, t_vect *next_rooms
 		if (next_rooms->size - i == 1)
 		{
 			path_add_room(*path, room_ptr);
-			if (room_ptr->command && !ft_strcmp("##end", room_ptr->command))
-				path_set_end(*path);
 		}
 		else
 		{
 			if (!(new_path = path_duplicate(*path, all_paths->nbr_of_paths + 1)))
 				return (-1);
+			path_mark_visited(new_path);
 			path_add_room(new_path, room_ptr);
 			set_add_path(all_paths, new_path);
-			if (room_ptr->command && !ft_strcmp("##end", room_ptr->command))
-				path_set_end(new_path);
 		}
 		i++;
 	}

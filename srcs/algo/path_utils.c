@@ -27,6 +27,19 @@ t_path	*init_new_path(int path_id)
 	return (new_path);
 }
 
+// To be protected
+void	path_mark_visited(t_path *path)
+{
+	t_dlist *room_ptr;
+
+	room_ptr = path->head;
+	while (room_ptr)
+	{
+		ft_lstadd_data(&(*(t_room**)room_ptr->content)->path_ids, &path->id, sizeof(path->id));
+		room_ptr = room_ptr->next;
+	}
+}
+
 void	path_set_end(t_path *path)
 {
 	path->has_end = 1;

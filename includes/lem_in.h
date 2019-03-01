@@ -111,6 +111,7 @@ void	path_set_end(t_path *path);
 int		path_has_end(t_path *path);
 void	path_set_stuck(t_path *path);
 int		path_is_stuck(t_path *path);
+void	path_mark_visited(t_path *path);
 
 
 //SET_UTILS
