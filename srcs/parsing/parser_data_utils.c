@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/24 01:40:03 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/02/28 19:27:02 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/03/01 15:32:54 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,12 @@
 static void	erase_ptr(void **ptr)
 {
 	ft_bzero(ptr, sizeof(ptr));
+}
+
+static void	del_id(int **id)
+{
+	**id = 0;
+	free(*id);
 }
 
 void		free_room(void *room)
@@ -30,6 +36,8 @@ void		free_room(void *room)
 		ft_strdel(&(target->name));
 		if (target->links != NULL)
 			ft_vector_free(target->links, (void*)&erase_ptr);
+		if (target->path_ids)
+			ft_lstdel(&target->path_ids, (void*)&del_id);
 		target->pos.x = 0;
 		target->pos.y = 0;
 		if (target->path_ids)
