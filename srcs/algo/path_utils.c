@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/27 17:00:40 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/03/01 01:36:22 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/03/01 01:54:43 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,31 @@ t_path	*init_new_path(int path_id)
 		return (NULL);
 	new_path->id = path_id;
 	new_path->length = 0;
+	new_path->is_stuck = 0;
+	new_path->has_end = 0;
 	new_path->conflicts = NULL;
 	new_path->head = NULL;
 	return (new_path);
+}
+
+void	path_set_end(t_path *path)
+{
+	path->has_end = 1;
+}
+
+int		path_has_end(t_path *path)
+{
+	return (path->has_end);
+}
+
+void	path_set_stuck(t_path *path)
+{
+	path->is_stuck = 1;
+}
+
+int		path_is_stuck(t_path *path)
+{
+	return (path->is_stuck);
 }
 
 void	path_set_path(t_path *path, t_dlist *head, size_t length)

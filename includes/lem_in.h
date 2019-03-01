@@ -41,6 +41,8 @@ typedef struct		s_path
 {
 	size_t			length;
 	int				id;
+	int				has_end;
+	int				is_stuck;
 	t_list			*conflicts;
 	t_dlist			*head;
 }					t_path;
@@ -105,6 +107,10 @@ void	path_free_conflicts(t_path *path);
 void	path_free(t_path *path);
 void	lst_free_path(t_path ***path);
 int		path_get_id(t_path *path);
+void	path_set_end(t_path *path);
+int		path_has_end(t_path *path);
+void	path_set_stuck(t_path *path);
+int		path_is_stuck(t_path *path);
 
 
 //SET_UTILS

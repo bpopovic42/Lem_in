@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/18 15:12:38 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/03/01 01:33:09 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/03/01 02:11:34 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,8 @@ static int	append_next_rooms(t_set *all_paths, t_path **path, t_vect *next_rooms
 		if (next_rooms->size - i == 1)
 		{
 			path_add_room(*path, room_ptr);
+			if (room_ptr->command && !ft_strcmp("##end", room_ptr->command))
+				path_set_end(*path);
 		}
 		else
 		{
@@ -91,9 +93,9 @@ static int	append_next_rooms(t_set *all_paths, t_path **path, t_vect *next_rooms
 				return (-1);
 			path_add_room(new_path, room_ptr);
 			set_add_path(all_paths, new_path);
+			if (room_ptr->command && !ft_strcmp("##end", room_ptr->command))
+				path_set_end(new_path);
 		}
-		//if (room_ptr->command && !ft_strcmp("##end", room_ptr->command))
-		//	path_set_end;
 		i++;
 	}
 	return (0);
@@ -112,14 +114,17 @@ static void	get_next_depth(t_set *all_paths)
 	paths_ptr = all_paths->paths;
 	while (paths_ptr)
 	{
-		next_rooms = get_next_rooms_for_path(paths_ptr->content);
-		if (next_rooms->size > 0)
+		if (!path_is_stuck(*(t_path**)paths_ptr->content) && !path_has_end(*(t_path**)paths_ptr->content))
 		{
-			append_next_rooms(all_paths, paths_ptr->content, next_rooms);
+			next_rooms = get_next_rooms_for_path(paths_ptr->content);
+			if (next_rooms->size > 0)
+			{
+				append_next_rooms(all_paths, paths_ptr->content, next_rooms);
+			}
+			else
+				path_set_stuck(*(t_path**)paths_ptr->content);
+			ft_vector_free(next_rooms, (void*)&tmp_erase_room_ptr);// Get right free function
 		}
-		//else
-		//	path_set_stuck(paths_ptr->content);
-		ft_vector_free(next_rooms, (void*)&tmp_erase_room_ptr);// Get right free function
 		paths_ptr = paths_ptr->next;
 	}
 }
@@ -129,7 +134,7 @@ static void	bfs(t_set *all_paths)
 	int depth;
 
 	depth = 0;
-	while (/*paths_to_end->nbr_of_paths*/depth < 2)
+	while (/*paths_to_end->nbr_of_paths*/depth < 4)
 	{
 		get_next_depth(all_paths);
 		//get_next_rooms(&paths, final_paths);
