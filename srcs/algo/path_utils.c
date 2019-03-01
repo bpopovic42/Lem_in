@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/27 17:00:40 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/03/01 01:54:43 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/03/01 02:46:24 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,10 @@ int		path_add_room(t_path *path, t_room *room)
 	if (!(new_room = ft_dlstnew(&room, sizeof(room))))
 		return (-1);
 	ft_dlstpush(&path->head, new_room);
+	if (ft_lstadd_data(&room->path_ids, &path->id, sizeof(path->id)) < 0)
+		return (-1);
+	if (room->command && !ft_strcmp("##end", room->command))
+		path->has_end = 1;
 	path->length += 1;
 	return (0);
 }
