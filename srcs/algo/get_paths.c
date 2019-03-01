@@ -103,7 +103,7 @@ static int	append_next_rooms(t_set *all_paths, t_path **path, t_vect *next_rooms
 
 static void tmp_erase_room_ptr(t_room **room)
 {
-	ft_bzero(*room, sizeof(*room));
+	ft_bzero(room, sizeof(*room));
 }
 
 static void	get_next_depth(t_set *all_paths)
