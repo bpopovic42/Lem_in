@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/18 15:12:38 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/03/04 16:32:21 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/03/04 19:06:40 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,59 @@ static void		set_ptr_null(t_room **room, size_t data_size)
 	ft_bzero(room, data_size);
 }
 
-static int	append_next_rooms(t_set *all_paths, t_path *path, t_vect *next_rooms)
+static int	add_path_to_new_end_set(t_list **end_paths, t_path *path)
+{
+	t_set	*new_set;
+
+	if (!(new_set = init_new_set(0)))
+		return (-1);
+	if (set_add_path(new_set, path) < 0)
+		return (-1);
+	if (ft_lstadd_data(end_paths, &new_set, sizeof(new_set)) < 0)
+		return (-1);
+	return (0);
+}
+
+static int	add_to_non_conflicting_sets(t_list **end_paths, t_path *path)
+{
+	t_list *ptr;
+	t_list	*path_ptr;
+	t_set	*end_set;
+
+	ptr = *end_paths;
+	while (ptr)
+	{
+		end_set = *(t_set**)ptr->content;
+		path_ptr = end_set->paths;
+		while (path_ptr)
+		{
+			if (path_has_conflict(path, (*(t_path**)path_ptr->content)->id))
+				break;
+			path_ptr = path_ptr->next;
+		}
+		if (path_ptr == NULL)
+		{
+			if (set_add_path(end_set, path) < 0)
+				return (-1);
+		}
+		ptr = ptr->next;
+	}
+	return (0);
+}
+
+static int	add_end_path(t_list **end_paths, t_path *path)
+{
+	if (*end_paths)
+	{
+		if (add_to_non_conflicting_sets(end_paths, path) < 0)
+			return (-1);
+	}
+	if (add_path_to_new_end_set(end_paths, path) < 0)
+		return (-1);
+	return (0);
+}
+
+static int	append_next_rooms(t_set *all_paths, t_list **end_paths, t_path *path, t_vect *next_rooms)
 {
 	size_t i;
 	t_path *new_path;
@@ -52,6 +104,21 @@ static int	append_next_rooms(t_set *all_paths, t_path *path, t_vect *next_rooms)
 			path_mark_visited(new_path);
 			path_add_room(new_path, room_ptr);
 			set_add_path(all_paths, new_path);
+		}
+		if (room_is_end(room_ptr))
+		{
+			if (i == next_rooms->size - 1)
+			{
+				path_get_conflicts(path);
+				if (add_end_path(end_paths, path) < 0)
+					return (-1);
+			}
+			else
+			{
+				path_get_conflicts(new_path);
+				if (add_end_path(end_paths, new_path) < 0)
+					return (-1);
+			}
 		}
 		i++;
 	}
@@ -84,7 +151,7 @@ static t_vect *get_next_rooms_for_path(t_path *path)
 	return (next_rooms);
 }
 
-static int	get_next_depth(t_set *all_paths)
+static int	get_next_depth(t_set *all_paths, t_list **end_paths)
 {
 	t_list *paths_ptr;
 	t_path *path;
@@ -99,7 +166,10 @@ static int	get_next_depth(t_set *all_paths)
 			if (!(next_rooms = get_next_rooms_for_path(path)))
 				return (-1);
 			if (next_rooms->size > 0)
-				append_next_rooms(all_paths, path, next_rooms);
+			{
+				if (append_next_rooms(all_paths, end_paths, path, next_rooms) < 0)
+					return (-1);
+			}
 			else
 				path->is_stuck = 1;
 			ft_vector_free(next_rooms, (void*)&set_ptr_null);
@@ -109,18 +179,19 @@ static int	get_next_depth(t_set *all_paths)
 	return (0);
 }
 
-static int	bfs(t_set *all_paths)
+static int	bfs(t_set *all_paths, t_list **end_paths)
 {
 	int depth;
 
 	depth = 0;
 	while (/*paths_to_end->nbr_of_paths*/depth < 10)
 	{
-		if (get_next_depth(all_paths) < 0)
+		if (get_next_depth(all_paths, end_paths) < 0)
 			return (-1);
 		depth++;
 	}
-	print_set(all_paths);
+	//print_set(all_paths);
+	print_end_paths(*end_paths);
 	return (depth);
 }
 
@@ -134,12 +205,14 @@ static int	local_exit(t_set *all_paths, int retval)
 int		get_paths(t_graph *graph)
 {
 	t_set		*all_paths;
+	t_list		*end_paths;
 
+	end_paths = NULL;
 	if (!(all_paths = init_new_set(1)))
 		return (1);
 	if (init_first_path(graph, &all_paths) < 0)
 		return (local_exit(all_paths, 1));
-	if (bfs(all_paths) < 0)
+	if (bfs(all_paths, &end_paths) < 0)
 		return (local_exit(all_paths, 1));
 	return (local_exit(all_paths, 0));
 }
