@@ -106,6 +106,7 @@ int		get_paths(t_graph *graph);
 
 void	print_path(t_path *path);
 void	print_set(t_set *set);
+void	print_end_paths(t_list *end_paths);
 
 // PATH_UTILS
 t_path	*init_new_path(int path_id);
@@ -124,6 +125,8 @@ int		path_has_end(t_path *path);
 void	path_set_stuck(t_path *path);
 int		path_is_stuck(t_path *path);
 void	path_mark_visited(t_path *path);
+int		path_get_conflicts(t_path *path);
+int		path_has_conflict(t_path *path, int conflict_id);
 
 
 //SET_UTILS
