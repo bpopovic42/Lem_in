@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/26 18:41:26 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/02/28 19:27:15 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/03/04 15:33:10 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static t_room	*new_room(char *name, char **cmd, t_pos *coord)
 	*cmd = NULL;
 	new_room->name = ft_strdup(name);
 	new_room->pos = *coord;
-	new_room->links = NULL;
+	new_room->links = ft_vector_init(sizeof(t_room*), 0);
 	new_room->path_ids = NULL;
 	return (new_room);
 }
