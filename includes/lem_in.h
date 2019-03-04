@@ -85,6 +85,8 @@ int		record_link_if_valid(t_graph *graph, const char *link);
 void	record_link(t_graph *graph, char *room_a, char *room_b);
 void	free_graph(t_graph *graph);
 void	free_room(void *room);
+int		room_is_end(t_room *room);
+int		room_is_start(t_room *room);
 
 /*
 ** ALGO
