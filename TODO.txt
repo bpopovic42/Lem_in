@@ -21,3 +21,5 @@ Test and handle error cases/codes properly [WIP]
 Fix Makefile not recompiling when libft's modified
 Protect malloc calling functions
 Check if program execution gets bad data if non-critical error is found (ex:bad recorded link/room)
+
+I need a new separate structure containing all my paths and one containing all my end sets, currently the way sets are freed is causing is causing free issues (Calling set_free from ft_lstdel which then calls path_free which will try to entirely free paths), so I should have set_free function to remove duplicated pointers and paths should be freed at the end only from the 'all_paths' structure.
