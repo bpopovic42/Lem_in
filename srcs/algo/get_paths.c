@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/18 15:12:38 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/03/01 16:39:25 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/03/04 16:23:25 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,23 +30,6 @@ static int	init_first_path(t_graph *graph, t_set **all_paths)
 static void		set_ptr_null(t_room **room, size_t data_size)
 {
 	ft_bzero(room, data_size);
-}
-
-static int	room_has_id(t_room *room, int id)
-{
-	t_list *id_ptr;
-
-	if (room->path_ids)
-	{
-		id_ptr = room->path_ids;
-		while (id_ptr)
-		{
-			if (id == *(int*)id_ptr->content)
-				return (1);
-			id_ptr = id_ptr->next;
-		}
-	}
-	return (0);
 }
 
 static t_vect *get_next_rooms_for_path(t_path *path)

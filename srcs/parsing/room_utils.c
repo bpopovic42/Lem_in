@@ -1,17 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_data_utils.c                                :+:      :+:    :+:   */
+/*   room_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/12/24 01:40:03 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/03/04 11:55:26 by bopopovi         ###   ########.fr       */
+/*   Created: 2019/03/04 16:09:29 by bopopovi          #+#    #+#             */
+/*   Updated: 2019/03/04 16:23:52 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
-#include "ft_printf.h"
 
 static void	erase_ptr(void **ptr)
 {
@@ -22,6 +21,23 @@ static void	del_id(int **id)
 {
 	**id = 0;
 	free(*id);
+}
+
+int		room_has_id(t_room *room, int id)
+{
+	t_list *id_ptr;
+
+	if (room->path_ids)
+	{
+		id_ptr = room->path_ids;
+		while (id_ptr)
+		{
+			if (id == *(int*)id_ptr->content)
+				return (1);
+			id_ptr = id_ptr->next;
+		}
+	}
+	return (0);
 }
 
 int			room_is_end(t_room *room)
@@ -36,6 +52,21 @@ int			room_is_start(t_room *room)
 	if (room->command && !ft_strcmp("##start", room->command))
 		return (1);
 	return (0);
+}
+
+t_room		*new_room(char *name, char **cmd, t_pos *coord)
+{
+	t_room	*new_room;
+
+	if (!(new_room = malloc(sizeof(*new_room))))
+		return (NULL);
+	new_room->command = *cmd;
+	*cmd = NULL;
+	new_room->name = ft_strdup(name);
+	new_room->pos = *coord;
+	new_room->links = ft_vector_init(sizeof(t_room*), 0);
+	new_room->path_ids = NULL;
+	return (new_room);
 }
 
 void		free_room(void *room)
@@ -59,29 +90,4 @@ void		free_room(void *room)
 		free(room);
 		room = NULL;
 	}
-}
-
-void	init_graph(t_graph *graph)
-{
-	graph->nbr_of_rooms = 0;
-	graph->nbr_of_links = 0;
-	graph->start = NULL;
-	graph->end = NULL;
-	graph->room_list = ft_vector_init(sizeof(char*), 0);
-	graph->rooms = ft_hash_newtable(100);
-	graph->last_command = NULL;
-}
-
-void		free_graph(t_graph *graph)
-{
-	if (graph->room_list)
-		ft_vector_free(graph->room_list, (void*)&ft_strdel);
-	if (graph->rooms)
-		ft_hash_freetable(&graph->rooms, &free_room);
-	graph->nbr_of_rooms = 0;
-	graph->nbr_of_links = 0;
-	graph->room_list = NULL;
-	graph->rooms = NULL;
-	if (graph->last_command)
-		ft_strdel(&graph->last_command);
 }

@@ -18,8 +18,8 @@ ODIR		=	./objs
 PARSING_DIR	=	parsing
 
 PARSING		=	$(addprefix  $(PARSING_DIR)/, \
-		parse_input.c parse_line.c record_room_if_valid.c record_room.c \
-		record_link_if_valid.c record_link.c parser_data_utils.c)
+		parse_input.c parse_line.c graph_utils.c room_utils.c \
+		record_room_if_valid.c record_link_if_valid.c)
 
 ALGO_DIR	=	algo
 

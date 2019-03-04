@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/26 20:06:07 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/02/26 15:28:35 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/03/04 16:18:08 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,22 @@ static int	local_exit(char **rooms, int return_value)
 	if (rooms)
 		ft_delarray(rooms);
 	return (return_value);
+}
+
+void	record_link(t_graph *graph, char *room_a, char *room_b)
+{
+	t_room *ptr_a;
+	t_room *ptr_b;
+
+	ptr_a = ft_hashget_data(graph->rooms, room_a);
+	ptr_b = ft_hashget_data(graph->rooms, room_b);
+	if (!ptr_a->links)
+		ptr_a->links = ft_vector_init(sizeof(ptr_b), 0);
+	if (!ptr_b->links)
+		ptr_b->links = ft_vector_init(sizeof(ptr_a), 0);
+	ft_vector_append(ptr_a->links, ptr_b);
+	ft_vector_append(ptr_b->links, ptr_a);
+	graph->nbr_of_links++;
 }
 
 static int	room_exists(t_graph *graph, char *room)
