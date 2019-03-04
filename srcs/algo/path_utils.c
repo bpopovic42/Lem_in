@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/27 17:00:40 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/03/01 02:46:24 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/03/04 17:56:04 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,34 @@ void	path_set_path(t_path *path, t_dlist *head, size_t length)
 	}
 }
 
+int		path_get_conflicts(t_path *path)
+{
+	t_dlist		*ptr;
+	t_room		*room_ptr;
+	t_list		*ids_ptr;
+
+	ptr = path->head;
+	while (ptr)
+	{
+		room_ptr = *(t_room**)ptr->content;
+		if (!room_is_end(room_ptr) && !room_is_start(room_ptr))
+		{
+			ids_ptr = room_ptr->path_ids;
+			while (ids_ptr)
+			{
+				if (!path_has_conflict(path, *(int*)ids_ptr->content))
+				{
+					if (path_add_conflict(path, *(int*)ids_ptr->content) < 0)
+						return (-1);
+				}
+				ids_ptr = ids_ptr->next;
+			}
+		}
+		ptr = ptr->next;
+	}
+	return (0);
+}
+
 int		path_add_room(t_path *path, t_room *room)
 {
 	t_dlist *new_room;
@@ -81,6 +109,20 @@ int		path_add_room(t_path *path, t_room *room)
 	if (room->command && !ft_strcmp("##end", room->command))
 		path->has_end = 1;
 	path->length += 1;
+	return (0);
+}
+
+int		path_has_conflict(t_path *path, int conflict_id)
+{
+	t_list *ptr;
+
+	ptr = path->conflicts;
+	while (ptr)
+	{
+		if (*(int*)ptr->content == conflict_id)
+			return (1);
+		ptr = ptr->next;
+	}
 	return (0);
 }
 
@@ -109,16 +151,13 @@ t_path *path_duplicate(t_path *origin, int new_id)
 {
 	t_path		*new_path;
 	t_dlist		*path_dup;
-	//t_list		*conflicts_dup;
 
 	if (!(new_path = init_new_path(new_id)))
 		return (NULL);
 	if (!(path_dup = ft_dlstdup(&origin->head)))
 		return (NULL);
-	//if (!(conflicts_dup = ft_lstdup(&origin->conflicts)))
-	//	return (NULL);
 	path_set_path(new_path, path_dup, origin->length);
-	//path_set_conflicts(new_path, conflicts_dup);
+	new_path->conflicts = NULL;
 	return (new_path);
 }
 
