@@ -24,6 +24,20 @@ static void	del_id(int **id)
 	free(*id);
 }
 
+int			room_is_end(t_room *room)
+{
+	if (room->command && !ft_strcmp("##end", room->command))
+		return (1);
+	return (0);
+}
+
+int			room_is_start(t_room *room)
+{
+	if (room->command && !ft_strcmp("##start", room->command))
+		return (1);
+	return (0);
+}
+
 void		free_room(void *room)
 {
 	t_room *target;
