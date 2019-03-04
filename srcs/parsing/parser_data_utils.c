@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/24 01:40:03 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/03/01 15:32:54 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/03/04 11:55:26 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	init_graph(t_graph *graph)
 void		free_graph(t_graph *graph)
 {
 	if (graph->room_list)
-		ft_vector_free(graph->room_list, (void(*)(void**))&ft_strdel);
+		ft_vector_free(graph->room_list, (void*)&ft_strdel);
 	if (graph->rooms)
 		ft_hash_freetable(&graph->rooms, &free_room);
 	graph->nbr_of_rooms = 0;
