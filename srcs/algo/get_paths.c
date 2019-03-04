@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/18 15:12:38 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/03/04 16:23:25 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/03/04 16:32:21 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,32 +30,6 @@ static int	init_first_path(t_graph *graph, t_set **all_paths)
 static void		set_ptr_null(t_room **room, size_t data_size)
 {
 	ft_bzero(room, data_size);
-}
-
-static t_vect *get_next_rooms_for_path(t_path *path)
-{
-	t_vect	*next_rooms;
-	t_room	**last_room;
-	t_room	*room_ptr;
-	size_t	i;
-
-	next_rooms = ft_vector_init(sizeof(t_room*), 0);
-	last_room = path->head->content;
-	i = 0;
-	while (i < (*last_room)->links->size)
-	{
-		room_ptr = ft_vector_get((*last_room)->links, i);
-		if (!room_is_start(room_ptr) && !room_has_id(room_ptr, path->id))
-		{
-			if (ft_vector_append(next_rooms, room_ptr) < 0)
-			{
-				ft_vector_free(next_rooms, (void*)&set_ptr_null);
-				return (NULL);
-			}
-		}
-		i++;
-	}
-	return (next_rooms);
 }
 
 static int	append_next_rooms(t_set *all_paths, t_path *path, t_vect *next_rooms)
@@ -82,6 +56,32 @@ static int	append_next_rooms(t_set *all_paths, t_path *path, t_vect *next_rooms)
 		i++;
 	}
 	return (0);
+}
+
+static t_vect *get_next_rooms_for_path(t_path *path)
+{
+	t_vect	*next_rooms;
+	t_room	**last_room;
+	t_room	*room_ptr;
+	size_t	i;
+
+	next_rooms = ft_vector_init(sizeof(t_room*), 0);
+	last_room = path->head->content;
+	i = 0;
+	while (i < (*last_room)->links->size)
+	{
+		room_ptr = ft_vector_get((*last_room)->links, i);
+		if (!room_is_start(room_ptr) && !room_has_id(room_ptr, path->id))
+		{
+			if (ft_vector_append(next_rooms, room_ptr) < 0)
+			{
+				ft_vector_free(next_rooms, (void*)&set_ptr_null);
+				return (NULL);
+			}
+		}
+		i++;
+	}
+	return (next_rooms);
 }
 
 static int	get_next_depth(t_set *all_paths)
@@ -124,6 +124,13 @@ static int	bfs(t_set *all_paths)
 	return (depth);
 }
 
+static int	local_exit(t_set *all_paths, int retval)
+{
+	if (all_paths)
+		set_free(all_paths);
+	return (retval);
+}
+
 int		get_paths(t_graph *graph)
 {
 	t_set		*all_paths;
@@ -131,18 +138,8 @@ int		get_paths(t_graph *graph)
 	if (!(all_paths = init_new_set(1)))
 		return (1);
 	if (init_first_path(graph, &all_paths) < 0)
-	{
-		set_free(all_paths);
-		return (1);
-	}
-	else
-	{
-		if (bfs(all_paths) < 0)
-		{
-			set_free(all_paths);
-			return (-1);
-		}
-	}
-	set_free(all_paths);
-	return (0);
+		return (local_exit(all_paths, 1));
+	if (bfs(all_paths) < 0)
+		return (local_exit(all_paths, 1));
+	return (local_exit(all_paths, 0));
 }
