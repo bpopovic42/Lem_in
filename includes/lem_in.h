@@ -51,7 +51,6 @@ typedef struct		s_set
 {
 	size_t			nbr_of_paths;
 	size_t			biggest;
-	size_t			lowest;
 	size_t			diff;
 	int				id;
 	t_list			*paths;
@@ -67,6 +66,16 @@ typedef struct		s_graph
 	t_htable		*rooms;
 	char			*last_command;
 }					t_graph;
+
+typedef struct		s_bfs
+{
+	t_list			*all_paths;
+	t_list			*end_paths;
+	t_list			*end_sets;
+	size_t			paths_nbr;
+	size_t			end_paths_nbr;
+	size_t			end_sets_nbr;
+}					t_bfs;
 
 /*
 ** FUNCTIONS
@@ -106,7 +115,7 @@ int		get_paths(t_graph *graph);
 
 void	print_path(t_path *path);
 void	print_set(t_set *set);
-void	print_end_paths(t_list *end_paths);
+void	print_end_sets(t_bfs *bfs_data);
 
 // PATH_UTILS
 t_path	*init_new_path(int path_id);
@@ -131,10 +140,18 @@ int		path_has_conflict(t_path *path, int conflict_id);
 
 //SET_UTILS
 t_set	*init_new_set(int set_id);
-void	set_free(t_set *set);
+void	set_free(t_set ***set);
 int		set_add_path(t_set *set, t_path *path);
 int		set_add_room_to_path(t_set *set, int path_id, t_room *room);
 t_path	*set_get_path(t_set *set, int path_id);
+
+// BFS_UTILS
+t_bfs	*init_bfs_data(void);
+int		bfs_add_path(t_bfs *bfs_data, t_path **path);
+int		bfs_add_end_path(t_bfs *bfs_data, t_path **path);
+int		bfs_add_set(t_bfs *bfs_data, t_set **set);
+int		bfs_new_end_set(t_bfs *bfs_data, t_path **path);
+void	bfs_free(t_bfs *bfs_data);
 
 /*
 ** IO

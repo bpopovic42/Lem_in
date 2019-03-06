@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/27 17:01:50 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/03/04 19:03:59 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/03/05 16:50:01 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,14 @@ void	print_path(t_path *path)
 	}
 }
 
-void print_end_paths(t_list *end_paths)
+void print_end_sets(t_bfs *bfs_data)
 {
 	t_list *ptr;
 	int		i;
 
-	ptr = end_paths;
+	ptr = bfs_data->end_sets;
 	i = 0;
+	ft_putendl("lol");
 	while (ptr)
 	{
 		ft_printf("\n###### SET %d #####\n\n", i);

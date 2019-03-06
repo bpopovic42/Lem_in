@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/27 17:40:20 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/02/28 18:44:31 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/03/06 17:22:11 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ t_set		*init_new_set(int set_id)
 		return (NULL);
 	new_set->nbr_of_paths = 0;
 	new_set->biggest = 0;
-	new_set->lowest = 0;
 	new_set->diff = 0;
 	new_set->id = set_id;
 	new_set->paths = NULL;
@@ -68,17 +67,26 @@ int		set_add_room_to_path(t_set *set, int path_id, t_room *room)
 	return (0);
 }
 
-void	set_free(t_set *set)
+static void del_ptr(void **ptr)
 {
-	set->nbr_of_paths = 0;
-	set->biggest = 0;
-	set->lowest = 0;
-	set->diff = 0;
-	if (set->paths)
+	free(*ptr);
+	ft_bzero(ptr, sizeof(ptr));
+}
+
+void	set_free(t_set ***set)
+{
+	t_set *set_ptr;
+
+	set_ptr = **set;
+	set_ptr->nbr_of_paths = 0;
+	set_ptr->biggest = 0;
+	set_ptr->diff = 0;
+	if (set_ptr->paths)
 	{
-		ft_lstdel(&set->paths, (void*)&lst_free_path);
-		set->paths = NULL;
+		ft_lstdel(&set_ptr->paths, (void*)&del_ptr);
+		set_ptr->paths = NULL;
 	}
-	free(set);
-	set = NULL;
+	free(set_ptr);
+	free(*set);
+	set_ptr = NULL;
 }
