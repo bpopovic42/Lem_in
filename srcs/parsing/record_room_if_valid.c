@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 18:41:55 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/03/04 16:18:50 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/03/11 19:18:49 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,14 +89,17 @@ int				record_room_if_valid(t_graph *graph, char **input)
 			return (-1);
 		if (!room_conflict(graph, room))
 		{
-			rname = ft_strdup(room->name);
-			ft_vector_append(graph->room_list, rname);
-			ft_hashpush_data(graph->rooms, room->name, room, sizeof(*room));
+			if (!(rname = ft_strdup(room->name)))
+				return (-1);
+			if (ft_vector_append(graph->room_list, rname) < 0)
+				return (-1);
+			if (ft_hashpush_data(graph->rooms, room->name, room, sizeof(*room)) < 0)
+				return (-1);
 			ft_delarray(input);
 			return (0);
 		}
 		free_room(room);
 	}
 	ft_delarray(input);
-	return (-1);
+	return (1);
 }

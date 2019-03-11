@@ -32,6 +32,7 @@ typedef struct		s_room
 {
 	char			*command;
 	char			*name;
+	int				depth;
 	t_list			*path_ids;
 	t_vect			*links;
 	struct s_pos	pos;
@@ -101,7 +102,7 @@ int		room_is_start(t_room *room);
 
 // RECORD LINK
 int		record_link_if_valid(t_graph *graph, const char *link);
-void	record_link(t_graph *graph, char *room_a, char *room_b);
+int		record_link(t_graph *graph, char *room_a, char *room_b);
 
 // RECORD ROOM
 int		record_room_if_valid(t_graph *graph, char **input);

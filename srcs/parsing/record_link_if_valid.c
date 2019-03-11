@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/26 20:06:07 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/03/04 16:18:08 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/03/11 19:15:16 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	local_exit(char **rooms, int return_value)
 	return (return_value);
 }
 
-void	record_link(t_graph *graph, char *room_a, char *room_b)
+int			record_link(t_graph *graph, char *room_a, char *room_b)
 {
 	t_room *ptr_a;
 	t_room *ptr_b;
@@ -27,12 +27,21 @@ void	record_link(t_graph *graph, char *room_a, char *room_b)
 	ptr_a = ft_hashget_data(graph->rooms, room_a);
 	ptr_b = ft_hashget_data(graph->rooms, room_b);
 	if (!ptr_a->links)
-		ptr_a->links = ft_vector_init(sizeof(ptr_b), 0);
+	{
+		if (!(ptr_a->links = ft_vector_init(sizeof(ptr_b), 0)))
+			return (-1);
+	}
 	if (!ptr_b->links)
-		ptr_b->links = ft_vector_init(sizeof(ptr_a), 0);
-	ft_vector_append(ptr_a->links, ptr_b);
-	ft_vector_append(ptr_b->links, ptr_a);
+	{
+		if (!(ptr_b->links = ft_vector_init(sizeof(ptr_a), 0)))
+			return (-1);
+	}
+	if (ft_vector_append(ptr_a->links, ptr_b) < 0)
+		return (-1);
+	if (ft_vector_append(ptr_b->links, ptr_a) < 0)
+		return (-1);
 	graph->nbr_of_links++;
+	return (0);
 }
 
 static int	room_exists(t_graph *graph, char *room)
@@ -83,13 +92,15 @@ int			record_link_if_valid(t_graph *graph, const char *link)
 {
 	char	**rooms;
 
-	rooms = ft_strsplit(link, "-");
+	if (!(rooms = ft_strsplit(link, "-")))
+		return (local_exit(rooms, -1));
 	if (!ft_strcmp(rooms[0], rooms[1]))
-		return (local_exit(rooms, -1));
+		return (local_exit(rooms, 1));
 	else if (!room_exists(graph, rooms[0]) || !room_exists(graph, rooms[1]))
-		return (local_exit(rooms, -1));
+		return (local_exit(rooms, 1));
 	else if (link_exists(graph, rooms[0], rooms[1]))
+		return (local_exit(rooms, 1));
+	if (record_link(graph, rooms[0], rooms[1]) < 0)
 		return (local_exit(rooms, -1));
-	record_link(graph, rooms[0], rooms[1]);
 	return (local_exit(rooms, 0));
 }

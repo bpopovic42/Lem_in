@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/14 16:59:13 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/01/04 21:29:54 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/03/11 19:19:22 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,14 @@ int		parse_input(int *ants, t_graph *graph, char **file)
 	line = NULL;
 	while ((error_status = get_next_line(STDIN, &line)) > 0)
 	{
-		if (parse_line(graph, ants, line, &cmd_list) < 0)
+		if ((error_status = parse_line(graph, ants, line, &cmd_list)) != 0)
 			break ;
 		*file = ft_strappendn(*file, 2, line, "\n");
 		ft_strdel(&line);
 	}
-	if ((error_status = check_input(*ants, graph)) > 0)
+	if (error_status < 0)
+		return (local_exit(line, cmd_list, error_status));
+	else if ((error_status = check_input(*ants, graph)) > 0)
 		lemin_perror(error_status, line);
 	return (local_exit(line, cmd_list, error_status));
 }
