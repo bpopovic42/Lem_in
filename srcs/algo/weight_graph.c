@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/11 16:00:40 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/03/11 19:40:25 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/03/11 19:53:02 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,24 +94,20 @@ int	weight_graph(t_graph *graph)
 	t_vect	*rooms;
 
 	depth = 1;
-	status = 0;
+	status = 1;
 	next_rooms = NULL;
-	rooms = NULL;
-	if (!(next_rooms = ft_vector_init(sizeof(t_room*), 0)))
+	rooms = ft_vector_init(sizeof(t_room*), 0);
+	if (!rooms || ft_vector_append(rooms, graph->end) < 0)
 		local_exit(rooms, next_rooms, -1);
-	if (!(rooms = ft_vector_init(sizeof(t_room*), 0)))
-		local_exit(rooms, next_rooms, -1);
-	if (ft_vector_append(rooms, graph->end) < 0)
-		local_exit(rooms, next_rooms, -1);
-	while ((status = get_next_depth(&depth, rooms, next_rooms)) > 0)
+	while (status > 0)
 	{
-		ft_vector_free(rooms, &set_ptr_null);
-		rooms = next_rooms;
 		if (!(next_rooms = ft_vector_init(sizeof(t_room*), 0)))
 			local_exit(rooms, next_rooms, -1);
+		status = get_next_depth(&depth, rooms, next_rooms);
+		ft_vector_free(rooms, &set_ptr_null);
+		rooms = next_rooms;
+		next_rooms = NULL;
 	}
 	print_start(graph->start);
-	if (status < 0)
-		local_exit(rooms, next_rooms, -1);
-	return (local_exit(rooms, next_rooms, 0));
+	return (local_exit(rooms, next_rooms, status));
 }
