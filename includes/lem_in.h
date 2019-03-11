@@ -154,6 +154,7 @@ int		bfs_add_set(t_bfs *bfs_data, t_set **set);
 int		bfs_new_end_set(t_bfs *bfs_data, t_path **path);
 void	bfs_free(t_bfs *bfs_data);
 
+int		weight_graph(t_graph *graph);
 /*
 ** IO
 */
