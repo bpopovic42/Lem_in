@@ -78,6 +78,12 @@ typedef struct		s_bfs
 	size_t			end_sets_nbr;
 }					t_bfs;
 
+typedef struct		s_tmp
+{
+	size_t			size;
+	t_room			*room;
+}					t_tmp;
+
 /*
 ** FUNCTIONS
 */
@@ -155,6 +161,8 @@ int		bfs_new_end_set(t_bfs *bfs_data, t_path **path);
 void	bfs_free(t_bfs *bfs_data);
 
 int		weight_graph(t_graph *graph);
+int		get_best_route(t_graph *graph);
+
 /*
 ** IO
 */
