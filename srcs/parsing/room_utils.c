@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/04 16:09:29 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/03/11 16:42:27 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/03/15 20:08:55 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,14 @@ static void	del_id(int **id)
 
 int		room_has_id(t_room *room, int id)
 {
-	t_list *id_ptr;
+	t_node *id_ptr;
 
 	if (room->path_ids)
 	{
-		id_ptr = room->path_ids;
+		id_ptr = room->path_ids->head;
 		while (id_ptr)
 		{
-			if (id == *(int*)id_ptr->content)
+			if (id == *(int*)id_ptr->data)
 				return (1);
 			id_ptr = id_ptr->next;
 		}
@@ -83,11 +83,11 @@ void		free_room(void *room)
 		if (target->links != NULL)
 			ft_vector_free(target->links, (void*)&erase_ptr);
 		if (target->path_ids)
-			ft_lstdel(&target->path_ids, (void*)&del_id);
+			ft_lstdel(target->path_ids, (void*)&del_id);
 		target->pos.x = 0;
 		target->pos.y = 0;
 		if (target->path_ids)
-			ft_lstdel(&target->path_ids, &ft_bzero);
+			ft_lstdel(target->path_ids, &ft_bzero);
 		target->depth = 0;
 		free(room);
 		room = NULL;
