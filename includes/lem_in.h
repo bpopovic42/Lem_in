@@ -33,6 +33,10 @@ typedef struct		s_room
 	char			*command;
 	char			*name;
 	int				depth;
+	int				start_len;
+	int				start_id;
+	int				end_len;
+	int				end_id;
 	t_list			*path_ids;
 	t_vect			*links;
 	struct s_pos	pos;
@@ -40,8 +44,6 @@ typedef struct		s_room
 
 typedef struct		s_path
 {
-	size_t			length;
-	int				id;
 	int				has_end;
 	int				is_stuck;
 	t_list			*conflicts;
@@ -160,7 +162,7 @@ int		bfs_add_set(t_bfs *bfs_data, t_set **set);
 int		bfs_new_end_set(t_bfs *bfs_data, t_path **path);
 void	bfs_free(t_bfs *bfs_data);
 
-int		weight_graph(t_graph *graph);
+int		weight_graph(t_room *target, int from_start);
 int		get_best_route(t_graph *graph);
 
 /*

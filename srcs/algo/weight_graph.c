@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/11 16:00:40 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/03/11 19:53:02 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/03/15 21:03:11 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,20 +30,22 @@ static int		local_exit(t_vect *rooms, t_vect *next, int exit_code)
 	return (exit_code);
 }
 
-static int	get_next_rooms(int depth, t_vect *next_rooms, t_room *room)
+static int	get_next_rooms(int depth, t_vect *next_rooms, t_room *room, int from_start)
 {
 	size_t	i;
 	t_room	*next_room_ptr;
+	int		*target_depth;
 
 	i = 0;
 	next_room_ptr = NULL;
 	while (i < room->links->size)
 	{
 		next_room_ptr = ft_vector_get(room->links, i);
+		target_depth = from_start ? &next_room_ptr->start_len : &next_room_ptr->end_len;
 		if (!room_is_start(next_room_ptr) && !room_is_end(next_room_ptr)
-			&& (next_room_ptr->depth > depth || next_room_ptr->depth == -1))
+			&& (*target_depth > depth || *target_depth == -1))
 		{
-			next_room_ptr->depth = depth;
+			*target_depth = depth;
 			if (ft_vector_append(next_rooms, next_room_ptr) < 0)
 				return (-1);
 		}
@@ -52,7 +54,7 @@ static int	get_next_rooms(int depth, t_vect *next_rooms, t_room *room)
 	return (0);
 }
 
-static int	get_next_depth(size_t *depth, t_vect *rooms, t_vect *next)
+static int	get_next_depth(size_t *depth, t_vect *rooms, t_vect *next, int from_start)
 {
 	size_t	i;
 	t_room	*ptr;
@@ -61,7 +63,7 @@ static int	get_next_depth(size_t *depth, t_vect *rooms, t_vect *next)
 	while (i < rooms->size)
 	{
 		ptr = ft_vector_get(rooms, i);
-		if (get_next_rooms(*depth, next, ptr) < 0)
+		if (get_next_rooms(*depth, next, ptr, from_start) < 0)
 			return (-1);
 		i++;
 	}
@@ -72,21 +74,7 @@ static int	get_next_depth(size_t *depth, t_vect *rooms, t_vect *next)
 		return (0);
 }
 
-static void	print_start(t_room *start)
-{
-	size_t i;
-	t_room *ptr;
-
-	i = 0;
-	while (i < start->links->size)
-	{
-		ptr = ft_vector_get(start->links, i);
-		ft_printf("Room '%s' depth = %d\n", ptr->name, ptr->depth);
-		i++;
-	}
-}
-
-int	weight_graph(t_graph *graph)
+int	weight_graph(t_room *target, int from_start)
 {
 	size_t	depth;
 	int		status;
@@ -97,17 +85,16 @@ int	weight_graph(t_graph *graph)
 	status = 1;
 	next_rooms = NULL;
 	rooms = ft_vector_init(sizeof(t_room*), 0);
-	if (!rooms || ft_vector_append(rooms, graph->end) < 0)
+	if (!rooms || ft_vector_append(rooms, target) < 0)
 		local_exit(rooms, next_rooms, -1);
 	while (status > 0)
 	{
 		if (!(next_rooms = ft_vector_init(sizeof(t_room*), 0)))
 			local_exit(rooms, next_rooms, -1);
-		status = get_next_depth(&depth, rooms, next_rooms);
+		status = get_next_depth(&depth, rooms, next_rooms, from_start);
 		ft_vector_free(rooms, &set_ptr_null);
 		rooms = next_rooms;
 		next_rooms = NULL;
 	}
-	print_start(graph->start);
 	return (local_exit(rooms, next_rooms, status));
 }
