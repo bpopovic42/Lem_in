@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/18 19:26:43 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/03/19 15:19:21 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/03/19 19:42:35 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ static int	cmp_paths(void *a, void *b)
 	t_tmp *path_a;
 	t_tmp *path_b;
 
-	path_a = (t_tmp*)a;
-	path_b = (t_tmp*)b;
+	path_a = *(t_tmp**)a;
+	path_b = *(t_tmp**)b;
 	return (path_a->size < path_b->size);
 }
 
