@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/18 19:26:43 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/03/19 19:50:24 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/03/19 20:15:59 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,10 @@ int		get_best_route(t_graph *graph)
 	t_list	*end_paths;
 	int		**paths_matrix;
 
-	if (weight_graph(graph->end, 0) < 0)
+	if (weight_graph(graph->end) < 0)
 		return (-1);
 	//dbg_print_next_rooms(graph->start, 1);
-	if (weight_graph(graph->start, 1) < 0)
+	if (weight_graph(graph->start) < 0)
 		return (-1);
 	//dbg_print_next_rooms(graph->end, 0);
 
