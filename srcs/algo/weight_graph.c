@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/11 16:00:40 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/03/19 20:53:16 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/03/19 21:07:11 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,20 +52,20 @@ static int	*get_target_depth(t_room *target, t_room *src)
 	return (target_depth);
 }
 
-static int	get_next_rooms(int dpt, t_vect *next_rms, t_room *rm, t_room *src)
+static int	get_next_layer_for_room(t_room *room, int depth, t_vect *next_layer, t_room *src)
 {
 	size_t	i;
 	int		*target_depth;
 	t_room	*next_room_ptr;
 
 	i = 0;
-	while (i < rm->links->size)
+	while (i < room->links->size)
 	{
-		next_room_ptr = ft_vector_get(rm->links, i);
+		next_room_ptr = ft_vector_get(room->links, i);
 		target_depth = get_target_depth(next_room_ptr, src);
-		if (weight_room(next_room_ptr, target_depth, dpt))
+		if (weight_room(next_room_ptr, target_depth, depth))
 		{
-			if (ft_vector_append(next_rms, next_room_ptr) < 0)
+			if (ft_vector_append(next_layer, next_room_ptr) < 0)
 				return (-1);
 		}
 		i++;
@@ -73,21 +73,23 @@ static int	get_next_rooms(int dpt, t_vect *next_rms, t_room *rm, t_room *src)
 	return (0);
 }
 
-static int	get_next_depth(size_t *dpt, t_vect *rms, t_vect *next, t_room *src)
+static int	get_next_layer(size_t *depth, t_vect *curr_layer, t_vect **next_layer, t_room *src)
 {
 	size_t	i;
-	t_room	*ptr;
+	t_room	*room_ptr;
 
 	i = 0;
-	while (i < rms->size)
+	if (!(*next_layer = ft_vector_init(sizeof(t_room*), 0)))
+		return (-1);
+	while (i < curr_layer->size)
 	{
-		ptr = ft_vector_get(rms, i);
-		if (get_next_rooms(*dpt, next, ptr, src) < 0)
+		room_ptr = ft_vector_get(curr_layer, i);
+		if (get_next_layer_for_room(room_ptr, *depth, *next_layer, src) < 0)
 			return (-1);
 		i++;
 	}
-	(*dpt)++;
-	return (next->size > 0);
+	(*depth)++;
+	return ((*next_layer)->size > 0);
 }
 
 static t_vect	*get_initial_layer(t_room *initial_room)
@@ -116,19 +118,13 @@ int	weight_graph(t_room *src)
 	size_t	depth;
 	int		status;
 	t_vect	*next_layer;
-	t_vect	*current_layer;
+	t_vect	*curr_layer;
 
 	depth = 1;
-	status = 1;
 	next_layer = NULL;
-	if (!(current_layer = get_initial_layer(src)))
+	if (!(curr_layer = get_initial_layer(src)))
 		return (-1);
-	while (status > 0)
-	{
-		if (!(next_layer = ft_vector_init(sizeof(t_room*), 0)))
-			return (local_exit(current_layer, next_layer, -1));
-		status = get_next_depth(&depth, current_layer, next_layer, src);
-		swap_layers(&current_layer, &next_layer);
-	}
-	return (local_exit(current_layer, next_layer, status));
+	while ((status = get_next_layer(&depth, curr_layer, &next_layer, src)) > 0)
+		swap_layers(&curr_layer, &next_layer);
+	return (local_exit(curr_layer, next_layer, status));
 }
