@@ -37,7 +37,6 @@ typedef struct		s_room
 	int				start_id;
 	int				end_len;
 	int				end_id;
-	t_list			*path_ids;
 	t_vect			*links;
 	struct s_pos	pos;
 }					t_room;
@@ -83,6 +82,7 @@ typedef struct		s_bfs
 typedef struct		s_tmp
 {
 	size_t			size;
+	int				path_id;
 	t_room			*room;
 }					t_tmp;
 
@@ -162,8 +162,11 @@ int		bfs_add_set(t_bfs *bfs_data, t_set **set);
 int		bfs_new_end_set(t_bfs *bfs_data, t_path **path);
 void	bfs_free(t_bfs *bfs_data);
 
-int		weight_graph(t_room *target, int from_start);
 int		get_best_route(t_graph *graph);
+int		weight_graph(t_room *target, int from_start);
+t_list	*get_starting_paths(t_room *source, int is_start);
+int		mark_paths(t_list *source, int is_start);
+int		**get_paths_matrix(t_list *start_paths, t_list *end_paths);
 
 /*
 ** IO

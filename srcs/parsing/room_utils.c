@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/04 16:09:29 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/03/15 20:51:08 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/03/19 15:13:31 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,29 +15,6 @@
 static void	erase_ptr(void **ptr)
 {
 	ft_bzero(ptr, sizeof(ptr));
-}
-
-static void	del_id(int **id)
-{
-	**id = 0;
-	free(*id);
-}
-
-int		room_has_id(t_room *room, int id)
-{
-	t_node *id_ptr;
-
-	if (room->path_ids)
-	{
-		id_ptr = room->path_ids->head;
-		while (id_ptr)
-		{
-			if (id == *(int*)id_ptr->data)
-				return (1);
-			id_ptr = id_ptr->next;
-		}
-	}
-	return (0);
 }
 
 int			room_is_end(t_room *room)
@@ -66,11 +43,10 @@ t_room		*new_room(char *name, char **cmd, t_pos *coord)
 	new_room->pos = *coord;
 	new_room->depth = -1;
 	new_room->start_len = -1;
-	new_room->start_id = 0;
+	new_room->start_id = -1;
 	new_room->end_len = -1;
-	new_room->end_id = 0;
+	new_room->end_id = -1;
 	new_room->links = ft_vector_init(sizeof(t_room*), 0);
-	new_room->path_ids = NULL;
 	return (new_room);
 }
 
@@ -86,12 +62,8 @@ void		free_room(void *room)
 		ft_strdel(&(target->name));
 		if (target->links != NULL)
 			ft_vector_free(target->links, (void*)&erase_ptr);
-		if (target->path_ids)
-			ft_lstdel(target->path_ids, (void*)&del_id);
 		target->pos.x = 0;
 		target->pos.y = 0;
-		if (target->path_ids)
-			ft_lstdel(target->path_ids, &ft_bzero);
 		target->depth = 0;
 		free(room);
 		room = NULL;

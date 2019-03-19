@@ -5,67 +5,29 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/03/13 17:11:23 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/03/15 20:28:18 by bopopovi         ###   ########.fr       */
+/*   Created: 2019/03/18 19:26:43 by bopopovi          #+#    #+#             */
+/*   Updated: 2019/03/19 15:19:21 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
+#include "ft_printf.h"
 
-static void		del_tmp(void *data, size_t data_size)
-{
-	t_tmp **tmp;
-
-	tmp = *(t_tmp***)data;
-	ft_bzero(tmp, data_size);
-	free(*tmp);
-	ft_bzero(&tmp, sizeof(tmp));
-	free(tmp);
-
-}
-
-static int		local_exit(t_list *path_list, int status)
-{
-	ft_lstdel(path_list, (void*)&del_tmp);
-	return (status);
-}
-
-static t_tmp	*new_initial_room(size_t size, t_room *room_ptr)
-{
-	t_tmp	*new;
-
-	if (!(new = malloc(sizeof(new))))
-		return (NULL);
-	new->size = size;
-	new->room = room_ptr;
-	return (new);
-}
-
-static t_list	*get_initial_rooms(t_room *start)
+static void	print_next_rooms(t_room *target, int from_start)
 {
 	size_t	i;
-	t_room	*ptr;
-	t_list	*path_list;
-	t_tmp	*initial_room;
+	int		*target_depth;
+	t_room *ptr;
 
 	i = 0;
-	ptr = NULL;
-	if (!(path_list = ft_lstnew()))
-		return (NULL);
-	initial_room = NULL;
-	while (i < start->links->size)
+	while (i < target->links->size)
 	{
-		ptr = ft_vector_get(start->links, i);
-		if (!(initial_room = new_initial_room(ptr->depth, ptr)))
-			return (NULL);//
-		if (ft_lstadd_data(path_list, (void*)&initial_room, sizeof(void*)) < 0)
-			return (NULL);//
+		ptr = ft_vector_get(target->links, i);
+		target_depth = from_start ? &ptr->end_len : &ptr->start_len;
+		ft_printf("Room '%s' depth = %d\n", ptr->name, *target_depth);
 		i++;
 	}
-	return (path_list);
 }
-
-#include "ft_printf.h"
 
 static void tmp_print(t_list *path_list)
 {
@@ -79,14 +41,68 @@ static void tmp_print(t_list *path_list)
 		ft_printf("Path %s of size %d\n", tmp->room->name, tmp->size);
 		ptr = ptr->next;
 	}
+	ft_putchar('\n');
 }
 
-int				get_best_route(t_graph *graph)
+static int	cmp_paths(void *a, void *b)
 {
-	t_list *path_list;
+	t_tmp *path_a;
+	t_tmp *path_b;
 
-	if (!(path_list = get_initial_rooms(graph->start)))
-		return (local_exit(path_list, -1));
-	tmp_print(path_list);
-	return (local_exit(path_list, 0));
+	path_a = (t_tmp*)a;
+	path_b = (t_tmp*)b;
+	return (path_a->size < path_b->size);
+}
+
+#include "ft_printf.h"
+
+static void array_print(int **matrix, int x, int y)
+{
+	int i;
+	int j;
+
+	i = 0;
+	while (i < x)
+	{
+		j = 0;
+		while (j < y)
+		{
+			ft_printf("| %d |", matrix[i][j]);
+			j++;
+		}
+		ft_putchar('\n');
+		i++;
+	}
+}
+
+int		get_best_route(t_graph *graph)
+{
+	t_list	*start_paths;
+	t_list	*end_paths;
+	int		**paths_matrix;
+
+	if (weight_graph(graph->end, 0) < 0)
+		return (-1);
+	print_next_rooms(graph->start, 1);
+	ft_putchar('\n');
+	if (weight_graph(graph->start, 1) < 0)
+		return (-1);
+	print_next_rooms(graph->end, 0);
+
+	if (!(start_paths = get_starting_paths(graph->start, 1)))
+		return (-1);
+	if (!(end_paths = get_starting_paths(graph->end, 0)))
+		return (-1);
+
+	ft_lstsort(start_paths, &cmp_paths);
+	ft_lstsort(end_paths, &cmp_paths);
+	tmp_print(start_paths);
+	tmp_print(end_paths);
+
+	mark_paths(start_paths, 1);
+	mark_paths(end_paths, 0);
+
+	paths_matrix = get_paths_matrix(start_paths, end_paths);
+	array_print(paths_matrix, start_paths->size, end_paths->size);
+	return (0);
 }
