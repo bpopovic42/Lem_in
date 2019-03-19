@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/11 16:00:40 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/03/19 20:39:19 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/03/19 20:53:16 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,39 +90,45 @@ static int	get_next_depth(size_t *dpt, t_vect *rms, t_vect *next, t_room *src)
 	return (next->size > 0);
 }
 
-static t_vect	*add_first_room(t_room *src_room)
+static t_vect	*get_initial_layer(t_room *initial_room)
 {
-	t_vect *rooms;
+	t_vect *initial_layer;
 
-	if (!(rooms = ft_vector_init(sizeof(t_room*), 0)))
+	if (!(initial_layer = ft_vector_init(sizeof(t_room*), 0)))
 		return (NULL);
-	if (ft_vector_append(rooms, src_room) < 0)
+	if (ft_vector_append(initial_layer, initial_room) < 0)
 	{
-		local_exit(rooms, NULL, -1);
+		local_exit(initial_layer, NULL, -1);
 		return (NULL);
 	}
-	return (rooms);
+	return (initial_layer);
+}
+
+static void		swap_layers(t_vect **current_layer, t_vect **next_layer)
+{
+	ft_vector_free(*current_layer, &set_ptr_null);
+	*current_layer = *next_layer;
+	*next_layer = NULL;
 }
 
 int	weight_graph(t_room *src)
 {
 	size_t	depth;
 	int		status;
-	t_vect	*next_rooms;
-	t_vect	*rooms;
+	t_vect	*next_layer;
+	t_vect	*current_layer;
 
 	depth = 1;
 	status = 1;
-	if (!(rooms = add_first_room(src)))
+	next_layer = NULL;
+	if (!(current_layer = get_initial_layer(src)))
 		return (-1);
 	while (status > 0)
 	{
-		if (!(next_rooms = ft_vector_init(sizeof(t_room*), 0)))
-			return (local_exit(rooms, next_rooms, -1));
-		status = get_next_depth(&depth, rooms, next_rooms, src);
-		ft_vector_free(rooms, &set_ptr_null);
-		rooms = next_rooms;
-		next_rooms = NULL;
+		if (!(next_layer = ft_vector_init(sizeof(t_room*), 0)))
+			return (local_exit(current_layer, next_layer, -1));
+		status = get_next_depth(&depth, current_layer, next_layer, src);
+		swap_layers(&current_layer, &next_layer);
 	}
-	return (local_exit(rooms, next_rooms, status));
+	return (local_exit(current_layer, next_layer, status));
 }
