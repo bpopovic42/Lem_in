@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/18 19:12:11 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/03/19 14:44:14 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/03/19 19:51:19 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,11 @@
 
 static void		matrix_mark_start(int **matrix, t_tmp *path)
 {
-	ft_printf("Marking %d %d, room %s\n", path->room->start_id, path->room->end_id, path->room->name);
-	ft_printf("Of size %d\n", path->room->end_len);
 	matrix[path->room->start_id][path->room->end_id] = path->room->end_len;
 }
 
 static void		matrix_mark_end(int **matrix, t_tmp *path)
 {
-	ft_printf("Marking %d %d, room %s\n", path->room->start_id, path->room->end_id, path->room->name);
-	ft_printf("Of size %d\n", path->room->start_len);
 	matrix[path->room->start_id][path->room->end_id] = path->room->start_len;
 }
 

@@ -41,23 +41,6 @@ typedef struct		s_room
 	struct s_pos	pos;
 }					t_room;
 
-typedef struct		s_path
-{
-	int				has_end;
-	int				is_stuck;
-	t_list			*conflicts;
-	t_dlist			*head;
-}					t_path;
-
-typedef struct		s_set
-{
-	size_t			nbr_of_paths;
-	size_t			biggest;
-	size_t			diff;
-	int				id;
-	t_list			*paths;
-}					t_set;
-
 typedef struct		s_graph
 {
 	size_t			nbr_of_rooms;
@@ -69,26 +52,12 @@ typedef struct		s_graph
 	char			*last_command;
 }					t_graph;
 
-typedef struct		s_bfs
-{
-	t_list			*all_paths;
-	t_list			*end_paths;
-	t_list			*end_sets;
-	size_t			paths_nbr;
-	size_t			end_paths_nbr;
-	size_t			end_sets_nbr;
-}					t_bfs;
-
 typedef struct		s_tmp
 {
 	size_t			size;
 	int				path_id;
 	t_room			*room;
 }					t_tmp;
-
-/*
-** FUNCTIONS
-*/
 
 /*
 ** PARSING
@@ -120,53 +89,18 @@ t_room	*record_room(t_graph *graph, char **room_data);
 ** ALGO
 */
 
-int		get_paths(t_graph *graph);
-
-void	print_path(t_path *path);
-void	print_set(t_set *set);
-void	print_end_sets(t_bfs *bfs_data);
-
-// PATH_UTILS
-t_path	*init_new_path(int path_id);
-void	path_set_path(t_path *path, t_dlist *head, size_t length);
-int		path_add_room(t_path *path, t_room *room);
-void	path_set_conflicts(t_path *path, t_list *conflicts);
-int		path_add_conflict(t_path *path, int conflict_id);
-t_path	*path_duplicate(t_path *origin, int new_id);
-void	path_free_path(t_path *path);
-void	path_free_conflicts(t_path *path);
-void	path_free(t_path *path);
-void	lst_free_path(t_path ***path);
-int		path_get_id(t_path *path);
-void	path_set_end(t_path *path);
-int		path_has_end(t_path *path);
-void	path_set_stuck(t_path *path);
-int		path_is_stuck(t_path *path);
-void	path_mark_visited(t_path *path);
-int		path_get_conflicts(t_path *path);
-int		path_has_conflict(t_path *path, int conflict_id);
-
-
-//SET_UTILS
-t_set	*init_new_set(int set_id);
-void	set_free(t_set ***set);
-int		set_add_path(t_set *set, t_path *path);
-int		set_add_room_to_path(t_set *set, int path_id, t_room *room);
-t_path	*set_get_path(t_set *set, int path_id);
-
-// BFS_UTILS
-t_bfs	*init_bfs_data(void);
-int		bfs_add_path(t_bfs *bfs_data, t_path **path);
-int		bfs_add_end_path(t_bfs *bfs_data, t_path **path);
-int		bfs_add_set(t_bfs *bfs_data, t_set **set);
-int		bfs_new_end_set(t_bfs *bfs_data, t_path **path);
-void	bfs_free(t_bfs *bfs_data);
-
 int		get_best_route(t_graph *graph);
 int		weight_graph(t_room *target, int from_start);
 t_list	*get_starting_paths(t_room *source, int is_start);
 int		mark_paths(t_list *source, int is_start);
 int		**get_paths_matrix(t_list *start_paths, t_list *end_paths);
+
+//DBG
+
+
+void	dbg_print_next_rooms(t_room *target, int from_start);
+void	dbg_print_paths(t_list *path_list);
+void	dbg_array_print(int **matrix, int x, int y);
 
 /*
 ** IO

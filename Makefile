@@ -25,7 +25,7 @@ ALGO_DIR	=	algo
 
 ALGO		=	$(addprefix $(ALGO_DIR)/, \
 		weight_graph.c get_best_route.c get_starting_paths.c mark_paths.c \
-		get_paths_matrix.c)
+		get_paths_matrix.c debugging.c)
 
 LMN_IO_DIR	=	io
 
