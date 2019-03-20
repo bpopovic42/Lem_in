@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/19 19:45:52 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/03/19 19:49:48 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/03/20 19:25:07 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,14 @@ void	dbg_print_next_rooms(t_room *target, int from_start)
 
 void	dbg_print_paths(t_list *path_list)
 {
-	t_tmp *tmp;
+	t_path *tmp;
 	t_node *ptr;
 
 	ptr = path_list->head;
 	while (ptr)
 	{
-		tmp = *(t_tmp**)ptr->data;
-		ft_printf("Path %s of size %d\n", tmp->room->name, tmp->size);
+		tmp = *(t_path**)ptr->data;
+		ft_printf("Path %s of size %d\n", tmp->head->name, tmp->size);
 		ptr = ptr->next;
 	}
 	ft_putchar('\n');

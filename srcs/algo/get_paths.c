@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_starting_paths.c                               :+:      :+:    :+:   */
+/*   get_paths.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/13 17:11:23 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/03/20 18:46:19 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/03/20 19:23:02 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,18 @@
 
 static void		del_tmp(void *data, size_t data_size)
 {
-	t_tmp **tmp;
+	t_path **tmp;
 
-	tmp = *(t_tmp***)data;
+	tmp = *(t_path***)data;
 	ft_bzero(tmp, data_size);
 	free(*tmp);
 	ft_bzero(&tmp, sizeof(tmp));
 	free(tmp);
 }
 
-static t_tmp	*create_new_path(t_room *head_room, int is_start)
+static t_path	*create_new_path(t_room *head_room, int is_start)
 {
-	t_tmp	*new;
+	t_path	*new;
 
 	if (!(new = malloc(sizeof(*new))))
 		return (NULL);
@@ -34,45 +34,40 @@ static t_tmp	*create_new_path(t_room *head_room, int is_start)
 	else
 		new->size = head_room->start_len;
 	new->path_id = 0;
-	new->room = head_room;
+	new->head = head_room;
 	return (new);
 }
 
-static int		add_new_path(t_list *starting_paths, t_tmp **new_path, t_room *head, int is_start)
+static int		add_new_path(t_list *paths_list, t_path **new_path, t_room *head, int is_start)
 {
 	if (!(*new_path = create_new_path(head, is_start)))
 		return (-1);
-	if (ft_lstadd_data(starting_paths, (void*)new_path, sizeof(void*)) < 0)
+	if (ft_lstadd_data(paths_list, (void*)new_path, sizeof(void*)) < 0)
 		return (-1);
 	return (0);
 }
 
-static int		get_paths(t_list **starting_paths, t_room *source, int is_start)
+t_list			*get_paths(t_room *source, int is_start)
 {
 	size_t	i;
 	t_room	*head;
-	t_tmp	*new_path;
+	t_path	*new_path;
+	t_list	*paths_list;
 
 	i = 0;
 	head = NULL;
-	if (!(*starting_paths = ft_lstnew()))
-		return (-1);
 	new_path = NULL;
+	if (!(paths_list = ft_lstnew()))
+		return (NULL);
 	while (i < source->links->size)
 	{
 		head = ft_vector_get(source->links, i);
-		if (add_new_path(*starting_paths, &new_path, head, is_start) < 0)
-			return (-1);
+		if (add_new_path(paths_list, &new_path, head, is_start) < 0)
+		{
+			ft_lstdel(paths_list, (void*)&del_tmp);
+			return (NULL);
+		}
 		i++;
 	}
-	return (0);
-}
-
-t_list	 *get_initial_paths(t_room *source, int is_start)
-{
-	t_list *starting_paths;
-
-	if (get_paths(&starting_paths, source, is_start) < 0)
-		ft_lstdel(starting_paths, (void*)&del_tmp);
-	return (starting_paths);
+	return (paths_list);
 }

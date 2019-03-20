@@ -6,21 +6,21 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/18 19:12:11 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/03/19 19:51:19 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/03/20 19:24:48 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 #include "ft_printf.h"
 
-static void		matrix_mark_start(int **matrix, t_tmp *path)
+static void		matrix_mark_start(int **matrix, t_path *path)
 {
-	matrix[path->room->start_id][path->room->end_id] = path->room->end_len;
+	matrix[path->head->start_id][path->head->end_id] = path->head->end_len;
 }
 
-static void		matrix_mark_end(int **matrix, t_tmp *path)
+static void		matrix_mark_end(int **matrix, t_path *path)
 {
-	matrix[path->room->start_id][path->room->end_id] = path->room->start_len;
+	matrix[path->head->start_id][path->head->end_id] = path->head->start_len;
 }
 
 int		**get_paths_matrix(t_list *start_paths, t_list *end_paths)
@@ -33,12 +33,12 @@ int		**get_paths_matrix(t_list *start_paths, t_list *end_paths)
 	current = start_paths->head;
 	while (current)
 	{
-		matrix_mark_start(paths_matrix, *(t_tmp**)current->data);
+		matrix_mark_start(paths_matrix, *(t_path**)current->data);
 		ptr = end_paths->head;
 		while (ptr)
 		{
-			if ((*(t_tmp**)ptr->data)->room->start_id == (int)(*(t_tmp**)current->data)->path_id)
-				matrix_mark_end(paths_matrix, *(t_tmp**)ptr->data);
+			if ((*(t_path**)ptr->data)->head->start_id == (int)(*(t_path**)current->data)->path_id)
+				matrix_mark_end(paths_matrix, *(t_path**)ptr->data);
 			ptr = ptr->next;
 		}
 		current = current->next;

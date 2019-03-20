@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/19 03:00:14 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/03/19 15:11:38 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/03/20 19:23:40 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,12 +81,12 @@ int			mark_paths(t_list *source, int is_start)
 	while (ptr)
 	{
 		if (is_start)
-			((t_room*)(*(t_tmp**)ptr->data)->room)->start_id = path_id;
+			((t_room*)(*(t_path**)ptr->data)->head)->start_id = path_id;
 		else
-			((t_room*)(*(t_tmp**)ptr->data)->room)->end_id = path_id;
-		if (ft_vector_append(rooms, (*(t_tmp**)ptr->data)->room) < 0)
+			((t_room*)(*(t_path**)ptr->data)->head)->end_id = path_id;
+		if (ft_vector_append(rooms, (*(t_path**)ptr->data)->head) < 0)
 			return (-1);
-		(*(t_tmp**)ptr->data)->path_id = path_id;
+		(*(t_path**)ptr->data)->path_id = path_id;
 		path_id++;
 		ptr = ptr->next;
 	}
