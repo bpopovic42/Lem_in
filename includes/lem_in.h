@@ -91,7 +91,7 @@ t_room	*record_room(t_graph *graph, char **room_data);
 
 int		get_best_route(t_graph *graph);
 int		weight_graph(t_room *target);
-t_list	*get_starting_paths(t_room *source, int is_start);
+t_list	*get_initial_paths(t_room *source, int is_start);
 int		mark_paths(t_list *source, int is_start);
 int		**get_paths_matrix(t_list *start_paths, t_list *end_paths);
 

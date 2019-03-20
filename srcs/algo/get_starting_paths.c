@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/13 17:11:23 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/03/19 14:07:02 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/03/20 18:46:19 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,54 +21,58 @@ static void		del_tmp(void *data, size_t data_size)
 	free(*tmp);
 	ft_bzero(&tmp, sizeof(tmp));
 	free(tmp);
-
 }
 
-static t_tmp	*new_initial_room(size_t size, t_room *room_ptr)
+static t_tmp	*create_new_path(t_room *head_room, int is_start)
 {
 	t_tmp	*new;
 
 	if (!(new = malloc(sizeof(*new))))
 		return (NULL);
-	new->size = size;
+	if (is_start)
+		new->size = head_room->end_len;
+	else
+		new->size = head_room->start_len;
 	new->path_id = 0;
-	new->room = room_ptr;
+	new->room = head_room;
 	return (new);
 }
 
-static t_list	*get_initial_rooms(t_room *source, int is_start)
+static int		add_new_path(t_list *starting_paths, t_tmp **new_path, t_room *head, int is_start)
 {
-	size_t	i;
-	t_room	*ptr;
-	t_list	*path_list;
-	t_tmp	*initial_room;
-
-	i = 0;
-	ptr = NULL;
-	if (!(path_list = ft_lstnew()))
-		return (NULL);
-	initial_room = NULL;
-	while (i < source->links->size)
-	{
-		ptr = ft_vector_get(source->links, i);
-		if (is_start)
-			initial_room = new_initial_room(ptr->end_len, ptr);
-		else
-			initial_room = new_initial_room(ptr->start_len, ptr);
-		if (!initial_room)
-			return (NULL);//
-		if (ft_lstadd_data(path_list, (void*)&initial_room, sizeof(void*)) < 0)
-			return (NULL);//
-		i++;
-	}
-	return (path_list);
+	if (!(*new_path = create_new_path(head, is_start)))
+		return (-1);
+	if (ft_lstadd_data(starting_paths, (void*)new_path, sizeof(void*)) < 0)
+		return (-1);
+	return (0);
 }
 
-t_list	 *get_starting_paths(t_room *source, int is_start)
+static int		get_paths(t_list **starting_paths, t_room *source, int is_start)
 {
-	t_list *path_list;
+	size_t	i;
+	t_room	*head;
+	t_tmp	*new_path;
 
-	if (!(path_list = get_initial_rooms(source, is_start)))
-		ft_lstdel(path_list, (void*)&del_tmp);
-	return (path_list);
+	i = 0;
+	head = NULL;
+	if (!(*starting_paths = ft_lstnew()))
+		return (-1);
+	new_path = NULL;
+	while (i < source->links->size)
+	{
+		head = ft_vector_get(source->links, i);
+		if (add_new_path(*starting_paths, &new_path, head, is_start) < 0)
+			return (-1);
+		i++;
+	}
+	return (0);
+}
+
+t_list	 *get_initial_paths(t_room *source, int is_start)
+{
+	t_list *starting_paths;
+
+	if (get_paths(&starting_paths, source, is_start) < 0)
+		ft_lstdel(starting_paths, (void*)&del_tmp);
+	return (starting_paths);
 }

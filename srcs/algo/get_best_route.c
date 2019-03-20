@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/18 19:26:43 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/03/19 20:15:59 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/03/20 18:42:15 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ int		get_best_route(t_graph *graph)
 		return (-1);
 	//dbg_print_next_rooms(graph->end, 0);
 
-	if (!(start_paths = get_starting_paths(graph->start, 1)))
+	if (!(start_paths = get_initial_paths(graph->start, 1)))
 		return (-1);
-	if (!(end_paths = get_starting_paths(graph->end, 0)))
+	if (!(end_paths = get_initial_paths(graph->end, 0)))
 		return (-1);
 
 	ft_lstsort(start_paths, &cmp_paths);
