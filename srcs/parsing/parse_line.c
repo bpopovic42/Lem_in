@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/28 13:14:02 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/03/11 19:32:55 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/03/20 21:21:08 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int		parse_line(t_graph *graph, int *ants, const char *line, char **cmd_list)
 		else if (*ants == 0)
 			return (get_ants(line, ants));
 		else if (is_room(line))
-			return (record_room_if_valid(graph, ft_strsplit(line, WSPCS)));
+			return (record_room_if_valid(graph, ft_strsplit(line, WSPCS)));// malloc in split
 		else if (is_link(line) && !graph->last_command)
 			return (record_link_if_valid(graph, line));
 		else
