@@ -67,7 +67,7 @@ int		parse_input(int *ants, t_graph *graph, char **file);
 int		parse_line(t_graph *graph, int *ants, const char *line, char **cmd_list);
 
 // GRAPH_UTILS
-void	init_graph(t_graph *graph);
+int		init_graph(t_graph *graph);
 void	free_graph(t_graph *graph);
 
 // ROOM_UTILS

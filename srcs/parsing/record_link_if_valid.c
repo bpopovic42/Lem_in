@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/26 20:06:07 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/03/11 19:15:16 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/03/21 20:22:37 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ int			record_link_if_valid(t_graph *graph, const char *link)
 {
 	char	**rooms;
 
+	rooms = NULL;
 	if (!(rooms = ft_strsplit(link, "-")))
 		return (local_exit(rooms, -1));
 	if (!ft_strcmp(rooms[0], rooms[1]))

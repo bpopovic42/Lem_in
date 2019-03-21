@@ -6,21 +6,24 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/04 16:12:41 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/03/04 16:15:48 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/03/21 20:43:51 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-void	init_graph(t_graph *graph)
+int			init_graph(t_graph *graph)
 {
 	graph->nbr_of_rooms = 0;
 	graph->nbr_of_links = 0;
 	graph->start = NULL;
 	graph->end = NULL;
-	graph->room_list = ft_vector_init(sizeof(char*), 0);
-	graph->rooms = ft_hash_newtable(100);
+	if (!(graph->room_list = ft_vector_init(sizeof(char*), 0)))
+		return (-1);
+	if (!(graph->rooms = ft_hash_newtable(100)))
+		return (-1);
 	graph->last_command = NULL;
+	return (0);
 }
 
 void		free_graph(t_graph *graph)
