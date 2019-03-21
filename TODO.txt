@@ -1,25 +1,2 @@
-TASKS
-
-[DONE] :
-Import libft [DONE]
-Create repository structure [DONE]
-Create Project's Makefile [DONE]
-Use a makefile rule to import libft instead of using a submodule [DONE]
-Fix leaks from parse_command [DONE]
-Move display functions in main.c to their own files [DONE]
-Record total number of links in order to handle case where no links are provided [DONE]
-Test newly created links handling functions for leaks and/or segfaults [DONE]
-Improve tester.sh so that it prompts for overwrite just once at the beginning [DONE]
-Register 'linked from' room in 'linked to' room as well [DONE]
-
-[WIP] :
-Test hash tables [WIP]
-Clean code [WIP]
-Test and handle error cases/codes properly [WIP]
-
-[TODO] :
-Fix Makefile not recompiling when libft's modified
-Protect malloc calling functions
-Check if program execution gets bad data if non-critical error is found (ex:bad recorded link/room)
-
-I need a new separate structure containing all my paths and one containing all my end sets, currently the way sets are freed is causing is causing free issues (Calling set_free from ft_lstdel which then calls path_free which will try to entirely free paths), so I should have set_free function to remove duplicated pointers and paths should be freed at the end only from the 'all_paths' structure.
+Fix unprotected mallocs
+Clean code
