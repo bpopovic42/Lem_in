@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/18 19:26:43 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/03/20 21:28:40 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/03/21 19:54:05 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,33 @@
 
 static void	erase_ptr(void ***ptr)
 {
-	t_room ***room_ptr;
+	t_path ***path_ptr;
 
-	room_ptr = (t_room***)ptr;
-	free(**room_ptr);
+	path_ptr = (t_path***)ptr;
+	ft_bzero(**path_ptr, sizeof(t_path));
+	free(**path_ptr);
+	ft_bzero(*path_ptr, sizeof(t_path*));
+	free(*path_ptr);
+}
+
+static void	free_matrix(int ***matrix, size_t x_size)
+{
+	size_t i;
+
+	i = 0;
+	while (i < x_size)
+	{
+		free((*matrix)[i]);
+		i++;
+	}
+	free(*matrix);
+	*matrix = NULL;
 }
 
 static int	local_exit(int **paths_matrix, t_list *start_paths, t_list *end_paths, int status)
 {
-	(void)paths_matrix;
-	//if (paths_matrix)
-		//ft_array_del(&paths_matrix);
+	if (paths_matrix)
+		free_matrix(&paths_matrix, start_paths->size);
 	if (start_paths)
 		ft_lstdel(start_paths, (void*)&erase_ptr);
 	if (end_paths)

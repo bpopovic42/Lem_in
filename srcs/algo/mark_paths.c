@@ -6,18 +6,18 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/19 03:00:14 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/03/20 20:00:00 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/03/21 19:52:20 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-static void	erase_ptr(void ***ptr)
+static void	erase_ptr(void **ptr)
 {
-	t_room ***room_ptr;
+	t_room **room_ptr;
 
-	room_ptr = (t_room***)ptr;
-	free(**room_ptr);
+	room_ptr = (t_room**)ptr;
+	ft_bzero(room_ptr, sizeof(void*));
 }
 
 static void	mark_next_rooms(t_room *room, t_vect *next_rooms, int is_start)
@@ -67,13 +67,14 @@ static int	mark_rooms(t_vect *rooms, int is_start)
 		else
 			return (-1);
 	}
+	ft_vector_free(next_rooms, (void*)&erase_ptr);
 	return (0);
 }
 
 static void mark_path_head(t_path *path, int path_id, int is_start)
 {
 	if (is_start)
-	path->head->start_id = path_id;
+		path->head->start_id = path_id;
 	else
 		path->head->end_id = path_id;
 	path->path_id = path_id;
@@ -81,7 +82,7 @@ static void mark_path_head(t_path *path, int path_id, int is_start)
 
 int			mark_paths(t_list *paths_list, int is_start)
 {
-	size_t	path_id;
+	int		path_id;
 	t_node	*list_ptr;
 	t_vect	*rooms;
 

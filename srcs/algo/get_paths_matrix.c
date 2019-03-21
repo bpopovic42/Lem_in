@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/18 19:12:11 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/03/20 20:09:19 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/03/21 16:43:48 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,21 @@ static int		**create_matrix(t_list *start_paths, t_list *end_paths)
 {
 	size_t	start_size;
 	size_t	end_size;
+	size_t	i;
 	int		**matrix;
 
 	start_size = start_paths->size;
 	end_size = end_paths->size;
-	if (!(matrix = (int**)ft_new_array(start_size, end_size, sizeof(int))))
+	i = 0;
+
+	if (!(matrix = malloc(sizeof(*matrix) * start_size)))
 		return (NULL);
+	while (i < start_size)
+	{
+		matrix[i] = malloc(sizeof(int) * end_size);
+		ft_bzero(matrix[i], sizeof(int) * end_size);
+		i++;
+	}
 	return (matrix);
 }
 
