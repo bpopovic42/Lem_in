@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/19 19:45:52 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/03/20 19:25:07 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/03/25 20:37:06 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,15 @@ void	dbg_array_print(int **matrix, int x, int y)
 		j = 0;
 		while (j < y)
 		{
-			ft_printf("| %d |", matrix[i][j]);
+			ft_printf("|% 3d  ", matrix[i][j]);
 			j++;
+		}
+		ft_putendl("|");
+		j *= 6;
+		while (j > 0)
+		{
+			ft_putchar('-');
+			j--;
 		}
 		ft_putchar('\n');
 		i++;
