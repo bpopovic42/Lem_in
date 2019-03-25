@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/13 17:11:23 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/03/20 19:23:02 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/03/25 20:38:14 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,13 @@ t_list			*get_paths(t_room *source, int is_start)
 	while (i < source->links->size)
 	{
 		head = ft_vector_get(source->links, i);
-		if (add_new_path(paths_list, &new_path, head, is_start) < 0)
+		if ((is_start && head->end_len >= 0) || (!is_start && head->start_len >= 0))
 		{
-			ft_lstdel(paths_list, (void*)&del_tmp);
-			return (NULL);
+			if (add_new_path(paths_list, &new_path, head, is_start) < 0)
+			{
+				ft_lstdel(paths_list, (void*)&del_tmp);
+				return (NULL);
+			}
 		}
 		i++;
 	}
