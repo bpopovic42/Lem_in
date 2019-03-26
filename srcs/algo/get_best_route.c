@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/18 19:26:43 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/03/21 19:54:05 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/03/26 00:47:10 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,5 +86,6 @@ int		get_best_route(t_graph *graph)
 
 	paths_matrix = get_paths_matrix(start_paths, end_paths);
 	dbg_array_print(paths_matrix, start_paths->size, end_paths->size);
+	get_best_combinations_from_matrix(paths_matrix, start_paths->size, end_paths->size);
 	return (local_exit(paths_matrix, start_paths, end_paths, 0));
 }

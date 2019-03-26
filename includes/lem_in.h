@@ -94,6 +94,7 @@ int		weight_graph(t_room *target);
 t_list	*get_paths(t_room *source, int is_start);
 int		mark_paths(t_list *source, int is_start);
 int		**get_paths_matrix(t_list *start_paths, t_list *end_paths);
+void	get_best_combinations_from_matrix(int **matrix, size_t x_size, size_t y_size);
 
 //DBG
 
