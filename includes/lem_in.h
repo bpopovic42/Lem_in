@@ -54,9 +54,9 @@ typedef struct		s_graph
 
 typedef struct		s_path
 {
-	size_t			size;
-	int				path_id;
-	t_room			*head;
+	size_t			length;
+	int				id;
+	t_list			*rooms;
 }					t_path;
 
 /*
@@ -89,19 +89,8 @@ t_room	*record_room(t_graph *graph, char **room_data);
 ** ALGO
 */
 
-int		get_best_route(t_graph *graph);
-int		weight_graph(t_room *target);
-t_list	*get_paths(t_room *source, int is_start);
-int		mark_paths(t_list *source, int is_start);
-int		**get_paths_matrix(t_list *start_paths, t_list *end_paths);
-void	get_best_combinations_from_matrix(int **matrix, size_t x_size, size_t y_size);
-
-//DBG
-
-
-void	dbg_print_next_rooms(t_room *target, int from_start);
-void	dbg_print_paths(t_list *path_list);
-void	dbg_array_print(int **matrix, int x, int y);
+int		find_best_path_combination(int ants, t_graph *graph);
+int		get_next_path(size_t *depth, t_list *bfs_paths, t_list *recorded_paths);
 
 /*
 ** IO
