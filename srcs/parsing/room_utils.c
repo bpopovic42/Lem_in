@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/04 16:09:29 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/03/21 20:41:53 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/04/30 18:50:43 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,14 @@ static void	erase_ptr(void **ptr)
 
 int			room_is_end(t_room *room)
 {
-	if (room->command && !ft_strcmp("##end", room->command))
+	if (room && room->command && !ft_strcmp("##end", room->command))
 		return (1);
 	return (0);
 }
 
 int			room_is_start(t_room *room)
 {
-	if (room->command && !ft_strcmp("##start", room->command))
+	if (room && room->command && !ft_strcmp("##start", room->command))
 		return (1);
 	return (0);
 }
@@ -42,12 +42,20 @@ t_room		*new_room(char *name, char **cmd, t_pos *coord)
 	if (!(new_room->name = ft_strdup(name)))
 		return (NULL);
 	new_room->pos = *coord;
-	new_room->depth = -1;
-	new_room->start_len = -1;
-	new_room->start_id = -1;
-	new_room->end_len = -1;
-	new_room->end_id = -1;
-	if (!(new_room->links = ft_vector_init(sizeof(t_room*), 0)))
+	new_room->end_distance = -1;
+	new_room->start_distance = -1;
+	new_room->final_distance = -1;
+	new_room->pid = -1;
+	new_room->from = NULL;
+	new_room->to = NULL;
+	new_room->blocked = 0;
+	new_room->cleaned = 1;
+	new_room->recorded = 0;
+	new_room->solution_to = NULL;
+	new_room->solution_from = NULL;
+	new_room->solution_len = -1;
+	new_room->ant = 0;
+	if (!(new_room->links = ft_lstnew()))
 		return (NULL);
 	return (new_room);
 }
@@ -63,10 +71,9 @@ void		free_room(void *room)
 			ft_strdel(&(target->command));
 		ft_strdel(&(target->name));
 		if (target->links != NULL)
-			ft_vector_free(target->links, (void*)&erase_ptr);
+			ft_lstdel(target->links, (void*)&erase_ptr);
 		target->pos.x = 0;
 		target->pos.y = 0;
-		target->depth = 0;
 		free(room);
 		room = NULL;
 	}

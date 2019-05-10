@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/04 16:12:41 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/03/21 20:43:51 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/04/29 17:29:45 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,12 @@ int			init_graph(t_graph *graph)
 {
 	graph->nbr_of_rooms = 0;
 	graph->nbr_of_links = 0;
+	graph->ants = 0;
 	graph->start = NULL;
 	graph->end = NULL;
-	if (!(graph->room_list = ft_vector_init(sizeof(char*), 0)))
+	if (!(graph->room_list = ft_vector_init(sizeof(t_room*), 0)))
 		return (-1);
-	if (!(graph->rooms = ft_hash_newtable(100)))
+	if (!(graph->rooms = ft_hash_newtable(10000)))
 		return (-1);
 	graph->last_command = NULL;
 	return (0);
@@ -29,7 +30,7 @@ int			init_graph(t_graph *graph)
 void		free_graph(t_graph *graph)
 {
 	if (graph->room_list)
-		ft_vector_free(graph->room_list, (void*)&ft_strdel);
+		ft_vector_free(graph->room_list, (void*)&ft_bzero);
 	if (graph->rooms)
 		ft_hash_freetable(&graph->rooms, &free_room);
 	graph->nbr_of_rooms = 0;

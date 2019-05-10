@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 18:41:55 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/03/11 19:18:49 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/04/29 17:29:01 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ t_room			*record_room(t_graph *graph, char **room_data)
 	coord.y = ft_atoi(room_data[2]);
 	if (!(room = new_room(room_data[0], &graph->last_command, &coord)))
 		return (NULL);
+	graph->nbr_of_rooms++;
 	if (room->command)
 	{
 		if (!ft_strcmp(room->command, "##start"))
@@ -28,7 +29,6 @@ t_room			*record_room(t_graph *graph, char **room_data)
 		else if (!ft_strcmp(room->command, "##end"))
 			graph->end = room;
 	}
-	graph->nbr_of_rooms++;
 	return (room);
 }
 
@@ -54,7 +54,6 @@ static int		is_valid(char **input)
 static int		room_conflict(t_graph *graph, t_room *room)
 {
 	t_room	*ptr;
-	char	*tmp;
 	size_t	i;
 
 	i = 0;
@@ -62,16 +61,13 @@ static int		room_conflict(t_graph *graph, t_room *room)
 		return (0);
 	while (i < graph->room_list->size)
 	{
-		tmp = ft_vector_get(graph->room_list, i);
-		if ((ptr = ft_hashget_data(graph->rooms, tmp)))
-		{
-			if (!ft_strcmp(room->name, ptr->name))
-				return (1);
-			else if (room->command && ptr->command && !ft_strcmp(room->command, ptr->command))
-				return (1);
-			else if (room->pos.x == ptr->pos.x && room->pos.y == ptr->pos.y)
-				return (1);
-		}
+		ptr = ft_vector_get(graph->room_list, i);
+		if (!ft_strcmp(room->name, ptr->name))
+			return (1);
+		else if (room->command && ptr->command && !ft_strcmp(room->command, ptr->command))
+			return (1);
+		else if (room->pos.x == ptr->pos.x && room->pos.y == ptr->pos.y)
+			return (1);
 		i++;
 	}
 	return (0);
@@ -91,7 +87,7 @@ int				record_room_if_valid(t_graph *graph, char **input)
 		{
 			if (!(rname = ft_strdup(room->name)))
 				return (-1);
-			if (ft_vector_append(graph->room_list, rname) < 0)
+			if (ft_vector_append(graph->room_list, room) < 0)
 				return (-1);
 			if (ft_hashpush_data(graph->rooms, room->name, room, sizeof(*room)) < 0)
 				return (-1);

@@ -24,7 +24,8 @@ PARSING		=	$(addprefix  $(PARSING_DIR)/, \
 ALGO_DIR	=	algo
 
 ALGO		=	$(addprefix $(ALGO_DIR)/, \
-		find_best_path_combination.c get_next_path.c)
+		weight_graph.c get_best_paths.c compute_solution.c break_link.c \
+		bfs_utils.c)
 
 LMN_IO_DIR	=	io
 
@@ -32,7 +33,7 @@ LMN_IO		=	$(addprefix $(LMN_IO_DIR)/, \
 		error_utils.c print_result.c)
 
 LMN_FILES	=	$(addprefix $(LMNDIR)/, \
-		main.c $(PARSING) $(ALGO) $(LMN_IO))
+		main.c bitmap.c $(PARSING) $(ALGO) $(LMN_IO))
 
 # **************************************************************************** #
 # Complete path :

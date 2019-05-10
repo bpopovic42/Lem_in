@@ -1,0 +1,35 @@
+100
+##start
+start 0 0
+##end
+end 1 1
+A 2 2
+B 3 3
+C 4 4
+D 5 5
+E 6 6
+F 7 7
+G 8 8
+H 9 9
+I 10 10
+J 11 11
+K 12 12
+M 13 13
+start-A
+A-E
+E-F
+F-end
+A-G
+G-end
+start-B
+B-H
+H-G
+start-C
+C-I
+I-J
+J-end
+C-M
+M-end
+start-D
+D-K
+K-M

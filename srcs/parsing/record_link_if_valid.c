@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/26 20:06:07 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/03/21 20:22:37 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/04/29 17:31:27 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,17 +28,17 @@ int			record_link(t_graph *graph, char *room_a, char *room_b)
 	ptr_b = ft_hashget_data(graph->rooms, room_b);
 	if (!ptr_a->links)
 	{
-		if (!(ptr_a->links = ft_vector_init(sizeof(ptr_b), 0)))
+		if (!(ptr_a->links = ft_lstnew()))
 			return (-1);
 	}
 	if (!ptr_b->links)
 	{
-		if (!(ptr_b->links = ft_vector_init(sizeof(ptr_a), 0)))
+		if (!(ptr_b->links = ft_lstnew()))
 			return (-1);
 	}
-	if (ft_vector_append(ptr_a->links, ptr_b) < 0)
+	if (ft_lstadd_data(ptr_a->links, &ptr_b, sizeof(ptr_b)) < 0)
 		return (-1);
-	if (ft_vector_append(ptr_b->links, ptr_a) < 0)
+	if (ft_lstadd_data(ptr_b->links, &ptr_a, sizeof(ptr_a)) < 0)
 		return (-1);
 	graph->nbr_of_links++;
 	return (0);
@@ -46,7 +46,7 @@ int			record_link(t_graph *graph, char *room_a, char *room_b)
 
 static int	room_exists(t_graph *graph, char *room)
 {
-	char	*ptr;
+	t_room	*ptr;
 	size_t	i;
 
 	i = 0;
@@ -57,7 +57,7 @@ static int	room_exists(t_graph *graph, char *room)
 		ptr = ft_vector_get(graph->room_list, i);
 		if (ptr)
 		{
-			if (!ft_strcmp(ptr, room))
+			if (!ft_strcmp(ptr->name, room))
 				return (1);
 		}
 		i++;
@@ -72,18 +72,18 @@ static int	room_exists(t_graph *graph, char *room)
 
 static int	link_exists(t_graph *graph, char *room_a, char *room_b)
 {
-	size_t	i;
 	t_room	*ptr;
+	t_node	*links_ptr;
 
-	i = 0;
 	ptr = ft_hashget_data(graph->rooms, room_a);
 	if (!ptr->links || !ptr->links->size)
 		return (0);
-	while (i < ptr->links->size)
+	links_ptr = ptr->links->head;
+	while (links_ptr)
 	{
-		if (!ft_strcmp(ptr->links->data[i], room_b))
+		if (!ft_strcmp((*(t_room**)links_ptr->data)->name, room_b))
 			return (1);
-		i++;
+		links_ptr = links_ptr->next;
 	}
 	return (0);
 }

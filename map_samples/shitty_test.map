@@ -1,0 +1,11 @@
+21
+##start
+start 0 0
+##end
+end 1 1
+A 2 2
+B 3 3
+start-A
+A-end
+start-B
+B-end

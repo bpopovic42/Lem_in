@@ -1,0 +1,7 @@
+ft_printf with no arguments segfaults (ft_printf("example %s and %s\n"))
+check : ft_strlen, ft_strncmp
+re-check parsing isn't broken
+check for segfaults and issues
+resolve leaks
+fix makefile
+remove ';;' from breaks

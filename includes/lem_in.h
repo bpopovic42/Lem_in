@@ -7,6 +7,7 @@
 ** DEFINES
 */
 
+# define LMN_BUFF_SIZE 15000
 # define ERR_DBG 1
 # define STDIN 0
 # define EINVANT	1
@@ -28,21 +29,57 @@ typedef struct		s_pos
 	int				y;
 }					t_pos;
 
+typedef struct	s_bmap
+{
+	size_t		size;
+	int			*bits;
+}				t_bmap;
+
+typedef struct	s_file
+{
+	char		*data;
+	size_t		capacity;
+	size_t		size;
+}				t_file;
+
 typedef struct		s_room
 {
 	char			*command;
 	char			*name;
-	int				depth;
-	int				start_len;
-	int				start_id;
-	int				end_len;
-	int				end_id;
-	t_vect			*links;
+	int				end_distance;
+	int				start_distance;
+	int				final_distance;
+	int				blocked;
+	int				pid;
+	int				cleaned;
+	int				recorded;
+	struct s_room	*from;
+	struct s_room	*to;
+	struct s_room	*solution_to;
+	struct s_room	*solution_from;
+	int				solution_len;
+	int				ant;
+	t_list			*links;
 	struct s_pos	pos;
 }					t_room;
 
+typedef struct		s_path
+{
+	t_room			*src;
+	t_room			*last_ant;
+	int				ants;
+}					t_path;
+
+typedef struct		s_output
+{
+	int				nbr_of_paths;
+	int				longest_path_len;
+	t_path			**paths;
+}					t_output;
+
 typedef struct		s_graph
 {
+	int				ants;
 	size_t			nbr_of_rooms;
 	size_t			nbr_of_links;
 	t_room			*start;
@@ -52,18 +89,20 @@ typedef struct		s_graph
 	char			*last_command;
 }					t_graph;
 
-typedef struct		s_path
+typedef struct		s_queue
 {
-	size_t			length;
-	int				id;
-	t_list			*rooms;
-}					t_path;
+	t_room			**rooms;
+	size_t			capacity;
+	size_t			size;
+	size_t			head;
+	size_t			tail;
+}					t_queue;
 
 /*
 ** PARSING
 */
 
-int		parse_input(int *ants, t_graph *graph, char **file);
+int		parse_input(int *ants, t_graph *graph, t_file *file);
 int		parse_line(t_graph *graph, int *ants, const char *line, char **cmd_list);
 
 // GRAPH_UTILS
@@ -89,8 +128,21 @@ t_room	*record_room(t_graph *graph, char **room_data);
 ** ALGO
 */
 
-int		find_best_path_combination(int ants, t_graph *graph);
-int		get_next_path(size_t *depth, t_list *bfs_paths, t_list *recorded_paths);
+int		weight_graph(t_queue *bfs, t_room *src, t_room *target);
+int		get_best_paths(t_graph *graph);
+int		compute_solution(t_list *start_rooms, int *solution, int ants);
+int		clean_weight(t_queue *bfs, t_room *src, t_room *target);
+int		break_link(t_room *initial);
+
+int		init_bfs_queue(t_queue **bfs, size_t nbr_of_rooms);
+void	bfs_add(t_queue *bfs, t_room *room);
+t_room	*bfs_pop(t_queue *bfs);
+
+t_bmap	*ft_bitmap_new(size_t binary_size);
+void	ft_bitmap_set_bit(t_bmap *bmap, size_t bit);
+void	ft_bitmap_clear_bit(t_bmap *bmap, size_t bit);
+int		ft_bitmap_has_bit(t_bmap *bmap, size_t bit);
+t_bmap	*ft_bitmap_dup(t_bmap *bmap);
 
 /*
 ** IO

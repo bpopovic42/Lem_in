@@ -1,0 +1,1 @@
+./lem-in < big_tmp_2.txt > tmp.txt ; head -1 tmp.txt ; cat tmp.txt | wc -l
