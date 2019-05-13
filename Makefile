@@ -27,13 +27,18 @@ ALGO		=	$(addprefix $(ALGO_DIR)/, \
 		graph_utils.c get_best_paths.c compute_solution.c break_link.c \
 		bfs_utils.c output.c)
 
+CMN_DIR		=	common
+
+CMN			=	$(addprefix $(CMN_DIR)/, \
+		main.c room_query_utils.c bitmap.c)
+
 LMN_IO_DIR	=	io
 
 LMN_IO		=	$(addprefix $(LMN_IO_DIR)/, \
 		error_utils.c print_result.c)
 
 LMN_FILES	=	$(addprefix $(LMNDIR)/, \
-		main.c bitmap.c $(PARSING) $(ALGO) $(LMN_IO))
+		$(CMN) $(PARSING) $(ALGO) $(LMN_IO))
 
 # **************************************************************************** #
 # Complete path :
@@ -109,6 +114,7 @@ MKODIR		=	if [ ! -d $(ODIR) ]; then \
 			/bin/mkdir -p $(ODIR); \
 			/bin/mkdir -p $(ODIR)/$(PARSING_DIR); \
 			/bin/mkdir -p $(ODIR)/$(ALGO_DIR); \
+			/bin/mkdir -p $(ODIR)/$(CMN_DIR); \
 			/bin/mkdir -p $(ODIR)/$(LMN_IO_DIR); fi
 
 CMP			=	if [ ! -e .cmp ]; then \

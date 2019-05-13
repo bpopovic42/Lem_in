@@ -6,35 +6,12 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/25 16:50:38 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/05/09 20:45:21 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/05/13 18:47:02 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 #include "ft_printf.h"
-
-int		room_has_multiple_links(t_room *room)
-{
-	if (room->links && room->links->size > 2)
-		return (1);
-	return (0);
-}
-
-int		room_is_end_connected(t_room *room)
-{
-	t_room	*ptr;
-	t_node	*links_ptr;
-
-	links_ptr = room->links->head;
-	while (links_ptr)
-	{
-		ptr = *(t_room**)links_ptr->data;
-		if (room_is_end(ptr))
-			return (1);
-		links_ptr = links_ptr->next;
-	}
-	return (0);
-}
 
 int		remove_link(t_room *room, t_room *link)
 {

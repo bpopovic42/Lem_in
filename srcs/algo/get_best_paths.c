@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/19 19:27:13 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/05/13 18:16:00 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/05/13 18:52:56 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,8 @@ t_room	*get_shortest_link(t_room *src)
 	link_ptr = src->links->head;
 	shortest = NULL;
 	link = NULL;
+	if (room_is_end(src))
+		return (src);
 	while (link_ptr)
 	{
 		link = *(t_room**)link_ptr->data;
@@ -104,25 +106,23 @@ void	mark_path(t_room *initial_room)
 	t_room	*ptr;
 	t_room	*from;
 
-	from = NULL;
-	ptr = initial_room;
-	ptr->start_distance = 1;
-	while (ptr)
+	from = initial_room;
+	from->start_distance = 1;
+	ptr = NULL;
+	while (!room_is_end(ptr) && (ptr = get_shortest_link(from)))
 	{
-		if (from)
+		from->to = ptr;
+		from->blocked = 1;
+		if (!room_is_end(ptr))
 		{
-			from->to = ptr;
 			ptr->pid = from->pid;
 			ptr->start_distance = from->start_distance + 1;
+			ptr->from = from;
+			from = ptr;
 		}
-		ptr->from = from;
-		ptr->blocked = 1;
-		from = ptr;
-		if (room_is_end(ptr))
-			break;
-		ptr = get_shortest_link(from);
 	}
-	initial_room->final_distance = from->start_distance - 1;
+	if (from && room_is_end(ptr))
+		initial_room->final_distance = from->start_distance;
 }
 
 int		find_paths_simple(t_graph *graph, t_list *srcs, t_queue *bfs, int *sol)

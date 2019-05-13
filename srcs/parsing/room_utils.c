@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/04 16:09:29 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/04/30 18:50:43 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/05/13 18:38:47 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,6 @@
 static void	erase_ptr(void **ptr)
 {
 	ft_bzero(ptr, sizeof(ptr));
-}
-
-int			room_is_end(t_room *room)
-{
-	if (room && room->command && !ft_strcmp("##end", room->command))
-		return (1);
-	return (0);
-}
-
-int			room_is_start(t_room *room)
-{
-	if (room && room->command && !ft_strcmp("##start", room->command))
-		return (1);
-	return (0);
 }
 
 t_room		*new_room(char *name, char **cmd, t_pos *coord)

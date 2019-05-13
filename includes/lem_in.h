@@ -112,9 +112,6 @@ void	free_graph(t_graph *graph);
 // ROOM_UTILS
 t_room	*new_room(char *name, char **cmd, t_pos *coord);
 void	free_room(void *room);
-int		room_has_id(t_room *room, int id);
-int		room_is_end(t_room *room);
-int		room_is_start(t_room *room);
 
 // RECORD LINK
 int		record_link_if_valid(t_graph *graph, const char *link);
@@ -152,5 +149,14 @@ int		print_ants(int ants, t_room *start, t_room *end);
 
 void	print_result(t_graph *graph, char *file);
 void	lemin_perror(int error_code, char *line);
+
+/*
+** COMMON
+*/
+
+int		room_is_end(t_room *room);
+int		room_is_start(t_room *room);
+int		room_has_multiple_links(t_room *room);
+int		room_is_end_connected(t_room *room);
 
 #endif
