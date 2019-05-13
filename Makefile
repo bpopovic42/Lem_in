@@ -24,8 +24,8 @@ PARSING		=	$(addprefix  $(PARSING_DIR)/, \
 ALGO_DIR	=	algo
 
 ALGO		=	$(addprefix $(ALGO_DIR)/, \
-		weight_graph.c get_best_paths.c compute_solution.c break_link.c \
-		bfs_utils.c)
+		graph_utils.c get_best_paths.c compute_solution.c break_link.c \
+		bfs_utils.c output.c)
 
 LMN_IO_DIR	=	io
 

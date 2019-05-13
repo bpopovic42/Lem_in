@@ -131,7 +131,8 @@ t_room	*record_room(t_graph *graph, char **room_data);
 int		weight_graph(t_queue *bfs, t_room *src, t_room *target);
 int		get_best_paths(t_graph *graph);
 int		compute_solution(t_list *start_rooms, int *solution, int ants);
-int		clean_weight(t_queue *bfs, t_room *src, t_room *target);
+void	clean_weight(t_graph *graph);
+void	clean_graph(t_graph *graph);
 int		break_link(t_room *initial);
 
 int		init_bfs_queue(t_queue **bfs, size_t nbr_of_rooms);
@@ -144,6 +145,7 @@ void	ft_bitmap_clear_bit(t_bmap *bmap, size_t bit);
 int		ft_bitmap_has_bit(t_bmap *bmap, size_t bit);
 t_bmap	*ft_bitmap_dup(t_bmap *bmap);
 
+int		print_ants(int ants, t_room *start, t_room *end);
 /*
 ** IO
 */
