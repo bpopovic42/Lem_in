@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/28 13:14:02 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/03/21 20:08:53 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/05/13 20:55:34 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static int		get_cmd(t_graph *graph, const char *line, char **cmd_list)
 {
 	if (graph->last_command)
 		return (1);
-	else if (*cmd_list && ft_strstr(*cmd_list, line))
+	else if (*cmd_list && ft_strnstr(*cmd_list, line, ft_strlen(line)))
 		return (1);
 	if (!(graph->last_command = ft_strdup(line)))
 		return (-1);
