@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 10:49:40 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/05/13 17:48:03 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/05/13 20:23:28 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	clean_graph(t_graph *graph)
 	while (i < graph->room_list->size)
 	{
 		next_ptr = ft_vector_get(graph->room_list, i);
-		if (!room_is_start(next_ptr) && !room_is_end(next_ptr) && !next_ptr->cleaned)
+		if (!room_is_start(next_ptr) && !next_ptr->cleaned)
 		{
 			if (next_ptr->start_distance > 1)
 				next_ptr->pid = -1;
@@ -48,7 +48,7 @@ void	clean_weight(t_graph *graph)
 	while (i < graph->room_list->size)
 	{
 		next_ptr = ft_vector_get(graph->room_list, i);
-		if (next_ptr != graph->start && next_ptr != graph->end && next_ptr->end_distance >= 0)
+		if (next_ptr != graph->start && next_ptr->end_distance >= 0)
 		{
 			next_ptr->end_distance = -1;
 		}

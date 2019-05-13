@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/19 19:27:13 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/05/13 18:52:56 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/05/13 20:28:36 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,13 +87,15 @@ t_room	*get_shortest_link(t_room *src)
 	link_ptr = src->links->head;
 	shortest = NULL;
 	link = NULL;
-	if (room_is_end(src))
-		return (src);
 	while (link_ptr)
 	{
 		link = *(t_room**)link_ptr->data;
 		if (room_is_end(link))
+		{
+			if (room_is_start(src) && link->blocked)
+				return (NULL);
 			return (link);
+		}
 		else if (link_is_shorter(src, link, shortest))
 			shortest = link;
 		link_ptr = link_ptr->next;
@@ -109,6 +111,12 @@ void	mark_path(t_room *initial_room)
 	from = initial_room;
 	from->start_distance = 1;
 	ptr = NULL;
+	if (room_is_end(initial_room))
+	{
+		initial_room->blocked = 1;
+		initial_room->final_distance = 1;
+		return;
+	}
 	while (!room_is_end(ptr) && (ptr = get_shortest_link(from)))
 	{
 		from->to = ptr;

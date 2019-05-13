@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/19 22:56:40 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/05/13 17:33:34 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/05/13 20:07:02 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ void	restore_solution_len(t_room *start)
 		room_ptr = *(t_room**)ptr->data;
 		if (room_ptr->solution_to)
 			get_path_len(room_ptr);
+		else if (room_is_end(room_ptr))
+			room_ptr->solution_len = 0;
 		ptr = ptr->next;
 	}
 }
