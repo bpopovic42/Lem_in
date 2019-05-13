@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 17:06:36 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/05/13 20:15:44 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/05/13 20:46:53 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,12 @@ int		print_ants(int ants, t_room *start, t_room *end)
 		return (-1);
 	if (get_output_data(out, start) < 0)
 		return (-1);
-	get_paths(out, ants, start);
-	print_ants_route(out, ants, end);
-	return (0);
+	if (out->nbr_of_paths > 0)
+	{
+		get_paths(out, ants, start);
+		print_ants_route(out, ants, end);
+		return (0);
+	}
+	lemin_perror(ENOPATH, NULL);
+	return (1);
 }

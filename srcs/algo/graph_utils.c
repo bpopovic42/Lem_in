@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 10:49:40 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/05/13 20:39:55 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/05/13 20:45:01 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,7 @@ int		weight_graph(t_queue *bfs, t_room *src, t_room *target)
 	t_room	*current;
 	t_room	*next_ptr;
 	t_node	*links_ptr;
-	int		has_solution;
 
-	has_solution = 0;
 	bfs_add(bfs, src);
 	src->end_distance = 0;
 	//ft_printf("WEIGHT START\n");
@@ -74,8 +72,6 @@ int		weight_graph(t_queue *bfs, t_room *src, t_room *target)
 		while (links_ptr)
 		{
 			next_ptr = *(t_room**)links_ptr->data;
-			if (!has_solution && next_ptr == target)
-				has_solution = 1;
 			if ((next_ptr != src && next_ptr != target && next_ptr->end_distance < 0)
 				|| (next_ptr->end_distance >= 0 && next_ptr->end_distance > current->end_distance + 1))
 			{
@@ -90,7 +86,5 @@ int		weight_graph(t_queue *bfs, t_room *src, t_room *target)
 			links_ptr = links_ptr->next;
 		}
 	}
-	if (!has_solution)
-		lemin_perror(ENOPATH, NULL);
-	return (has_solution);
+	return (0);
 }
