@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/19 19:27:13 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/05/13 18:13:14 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/05/13 18:16:00 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,31 +66,35 @@ t_list	*get_sorted_start_rooms(t_room *start)
 	return (start_rooms);
 }
 
+int		link_is_shorter(t_room *src, t_room *link, t_room *shortest)
+{
+	if (link == src->from || room_is_start(link) || link->blocked)
+		return (0);
+	else if (link->end_distance >= 0)
+	{
+		if (shortest == NULL || shortest->end_distance > link->end_distance)
+			return (1);
+	}
+	return (0);
+}
+
 t_room	*get_shortest_link(t_room *src)
 {
-	t_node	*links_ptr;
+	t_node	*link_ptr;
 	t_room	*shortest;
-	t_room	*room_ptr;
+	t_room	*link;
 
-	links_ptr = src->links->head;
+	link_ptr = src->links->head;
 	shortest = NULL;
-	room_ptr = NULL;
-	while (links_ptr)
+	link = NULL;
+	while (link_ptr)
 	{
-		room_ptr = *(t_room**)links_ptr->data;
-		if ((room_ptr != src->from && !room_is_start(room_ptr) && !room_ptr->blocked && room_ptr->end_distance >= 0) || room_is_end(room_ptr))
-		{
-			if (room_is_end(room_ptr))
-				return (room_ptr);
-			else
-			{
-				if (shortest == NULL)
-					shortest = room_ptr;
-				else if (shortest->end_distance > room_ptr->end_distance)
-					shortest = room_ptr;
-			}
-		}
-		links_ptr = links_ptr->next;
+		link = *(t_room**)link_ptr->data;
+		if (room_is_end(link))
+			return (link);
+		else if (link_is_shorter(src, link, shortest))
+			shortest = link;
+		link_ptr = link_ptr->next;
 	}
 	return (shortest);
 }
