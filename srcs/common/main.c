@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/19 22:56:40 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/05/13 20:07:02 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/05/13 20:35:34 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,8 @@ int		main(void)
 		return (1);
 	if (parse_input(&graph.ants, &graph, file) != 0)
 		return (local_exit(&graph, file, 1));
-	get_best_paths(&graph);
+	if (get_best_paths(&graph))
+		return (local_exit(&graph, file, 1));
 	restore_solution_len(graph.start);
 	print_ants(graph.ants, graph.start, graph.end);
 	return (local_exit(&graph, file, 0));

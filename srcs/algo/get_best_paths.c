@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/19 19:27:13 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/05/13 20:28:36 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/05/13 20:34:53 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,7 +193,8 @@ int		get_best_paths(t_graph *graph)
 	solution = -1;
 	if (init_bfs_queue(&bfs, graph->nbr_of_rooms) < 0)
 		return (-1);
-	weight_graph(bfs, graph->end, graph->start);
+	if (!weight_graph(bfs, graph->end, graph->start))
+		return (1);
 	if (!(start_rooms = get_sorted_start_rooms(graph->start)))
 		return (-1);
 	find_paths_simple(graph, start_rooms, bfs, &solution);

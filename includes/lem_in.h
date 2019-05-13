@@ -14,10 +14,12 @@
 # define ENEROOM	2
 # define ENELINK	3
 # define EINVMAP	4
+# define ENOPATH	5
 # define EINVANT_MSG "Invalid number of ants."
 # define ENEROOM_MSG "Invalid number of rooms."
 # define ENELINK_MSG "Invalid number of links."
 # define EINVMAP_MSG "Invalid map."
+# define ENOPATH_MSG "No valid path."
 
 /*
 ** STRUCTURES

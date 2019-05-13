@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/27 16:47:04 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/05/13 19:34:19 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/05/13 20:38:40 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ static const char			*get_error_msg(int error_code)
 		return (ENELINK_MSG);
 	else if (error_code == EINVMAP)
 		return (EINVMAP_MSG);
+	else if (error_code == ENOPATH)
+		return (ENOPATH_MSG);
 	else
 		return ("Undefined error.");
 }
