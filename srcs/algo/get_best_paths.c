@@ -6,65 +6,12 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/19 19:27:13 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/05/13 20:46:45 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/05/14 20:02:50 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 #include "ft_printf.h"
-
-int		sort_by_end_distance(void *node_a, void *node_b)
-{
-	t_room *room_a;
-	t_room *room_b;
-
-	room_a = *(t_room**)node_a;
-	room_b = *(t_room**)node_b;
-	return (room_a->end_distance < room_b->end_distance);
-}
-
-void	assign_paths_ids(t_list *start_rooms)
-{
-	int		i;
-	t_node	*room_ptr;
-
-	i = 0;
-	room_ptr = start_rooms->head;
-	while (room_ptr)
-	{
-		(*(t_room**)room_ptr->data)->pid = i;
-		room_ptr = room_ptr->next;
-		i++;
-	}
-}
-
-t_list	*get_sorted_start_rooms(t_room *start)
-{
-	t_room	*ptr;
-	t_node	*links_ptr;
-	t_list	*start_rooms;
-
-	ptr = NULL;
-	if (!(start_rooms = ft_lstnew()))
-		return (NULL);
-	if (start && start->links)
-	{
-		links_ptr = start->links->head;
-		while (links_ptr)
-		{
-			ptr = *(t_room**)links_ptr->data;
-			if (ptr && ptr->end_distance >= 0)
-			{
-				if (ft_lstadd_data(start_rooms, &ptr, sizeof(ptr)) < 0)
-					return (NULL);
-			}
-			links_ptr = links_ptr->next;
-		}
-	}
-	ft_lstsort(start_rooms, &sort_by_end_distance);
-	assign_paths_ids(start_rooms);
-	return (start_rooms);
-}
 
 int		link_is_shorter(t_room *src, t_room *link, t_room *shortest)
 {
@@ -133,52 +80,43 @@ void	mark_path(t_room *initial_room)
 		initial_room->final_distance = from->start_distance;
 }
 
-int		find_paths_simple(t_graph *graph, t_list *srcs, t_queue *bfs, int *sol)
+void	mark_next_paths(t_graph *graph, t_queue *bfs)
 {
-	t_node	*room_ptr;
-	t_room	*next_path;
+	t_room *initial_room_ptr;
 
-	room_ptr = srcs->head;
-	next_path = NULL;
-	while (room_ptr)
+	initial_room_ptr = NULL;
+	while ((initial_room_ptr = get_shortest_link(graph->start)))
 	{
-		clean_graph(graph);
+		mark_path(initial_room_ptr);
+		clean_weight(graph);
 		weight_graph(bfs, graph->end, graph->start);
-		next_path = (*(t_room**)room_ptr->data);
-		while ((next_path = get_shortest_link(graph->start)))
-		{
-			mark_path(next_path);
-			clean_weight(graph);
-			weight_graph(bfs, graph->end, graph->start);
-		}
-		compute_solution(srcs, sol, graph->ants);
-		room_ptr = room_ptr->next;
 	}
-	return (0);
 }
 
-int		find_paths_br(t_graph *graph, t_list *srcs, t_queue *bfs, int *sol)
+int		find_combinations(t_graph *graph, t_list *srcs, t_queue *bfs, int *sol)
 {
 	t_node	*room_ptr;
-	t_room	*next_path;
+	t_room	*first_path;
+	int		break_flag;
 
 	room_ptr = srcs->head;
-	next_path = NULL;
+	first_path = NULL;
+	break_flag = 0;
 	while (room_ptr)
 	{
+		first_path = (*(t_room**)room_ptr->data);
+		mark_path(first_path);
+		mark_next_paths(graph, bfs);
+		compute_solution(srcs, sol, graph->ants);
+		if (!break_flag && !(room_ptr = room_ptr->next))
+		{
+			break_flag = 1;
+			room_ptr = srcs->head;
+		}
+		else if (break_flag && !break_link((*(t_room**)room_ptr->data)))
+			room_ptr = room_ptr->next;
 		clean_graph(graph);
 		weight_graph(bfs, graph->end, graph->start);
-		next_path = (*(t_room**)room_ptr->data);
-		while ((next_path = get_shortest_link(graph->start)))
-		{
-			mark_path(next_path);
-			clean_weight(graph);
-			weight_graph(bfs, graph->end, graph->start);
-		}
-		compute_solution(srcs, sol, graph->ants);
-		if (!break_link((*(t_room**)room_ptr->data)))
-			room_ptr = room_ptr->next;
-		clean_weight(graph);
 	}
 	clean_graph(graph);
 	return (0);
@@ -196,8 +134,7 @@ int		get_best_paths(t_graph *graph)
 	weight_graph(bfs, graph->end, graph->start);
 	if (!(start_rooms = get_sorted_start_rooms(graph->start)))
 		return (-1);
-	find_paths_simple(graph, start_rooms, bfs, &solution);
-	find_paths_br(graph, start_rooms, bfs, &solution);
+	find_combinations(graph, start_rooms, bfs, &solution);
 	ft_printf("%d ", solution);
 	return (0);
 }

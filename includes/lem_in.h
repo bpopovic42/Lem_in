@@ -145,6 +145,8 @@ int		ft_bitmap_has_bit(t_bmap *bmap, size_t bit);
 t_bmap	*ft_bitmap_dup(t_bmap *bmap);
 
 int		print_ants(int ants, t_room *start, t_room *end);
+t_list	*get_sorted_start_rooms(t_room *start);
+
 /*
 ** IO
 */
