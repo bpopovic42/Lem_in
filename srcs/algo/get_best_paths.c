@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/19 19:27:13 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/05/14 20:02:50 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/05/14 21:21:01 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,15 @@ int		find_combinations(t_graph *graph, t_list *srcs, t_queue *bfs, int *sol)
 	return (0);
 }
 
+void	free_room_ptr(void *data, size_t data_size)
+{
+	t_room **ptr;
+
+	ptr = (t_room**)data;
+	ft_bzero(&ptr, data_size);
+	free(ptr);
+}
+
 int		get_best_paths(t_graph *graph)
 {
 	t_list	*start_rooms;
@@ -136,5 +145,7 @@ int		get_best_paths(t_graph *graph)
 		return (-1);
 	find_combinations(graph, start_rooms, bfs, &solution);
 	ft_printf("%d ", solution);
+	free_bfs_queue(&bfs);
+	ft_lstdel(start_rooms, &free_room_ptr);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/29 17:53:11 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/04/29 18:35:33 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/05/14 21:07:00 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,14 @@ int		init_bfs_queue(t_queue **bfs, size_t nbr_of_rooms)
 	(*bfs)->head = 0;
 	(*bfs)->tail = 0;
 	return (0);
+}
+
+void	free_bfs_queue(t_queue **bfs)
+{
+	ft_bzero((*bfs)->rooms, (*bfs)->capacity);
+	free((*bfs)->rooms);
+	ft_bzero((*bfs), sizeof(**bfs));
+	free(*bfs);
 }
 
 void	bfs_add(t_queue *bfs, t_room *room)

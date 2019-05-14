@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/19 22:56:40 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/05/13 20:44:44 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/05/14 21:04:02 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ static int		local_exit(t_graph *graph, t_file *file, int retval)
 	free_file(file);
 	return (retval);
 }
-
 
 void	get_path_len(t_room *src)
 {

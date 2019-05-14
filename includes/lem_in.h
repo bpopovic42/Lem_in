@@ -137,6 +137,7 @@ int		break_link(t_room *initial);
 int		init_bfs_queue(t_queue **bfs, size_t nbr_of_rooms);
 void	bfs_add(t_queue *bfs, t_room *room);
 t_room	*bfs_pop(t_queue *bfs);
+void	free_bfs_queue(t_queue **bfs);
 
 t_bmap	*ft_bitmap_new(size_t binary_size);
 void	ft_bitmap_set_bit(t_bmap *bmap, size_t bit);
