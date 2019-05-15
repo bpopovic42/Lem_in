@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/19 19:27:13 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/05/14 21:21:01 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/05/15 18:56:46 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void	mark_next_paths(t_graph *graph, t_queue *bfs)
 	}
 }
 
-int		find_combinations(t_graph *graph, t_list *srcs, t_queue *bfs, int *sol)
+int		find_combinations(t_graph *graph, t_list *srcs, t_queue *bfs, t_solution *sol)
 {
 	t_node	*room_ptr;
 	t_room	*first_path;
@@ -131,20 +131,18 @@ void	free_room_ptr(void *data, size_t data_size)
 	free(ptr);
 }
 
-int		get_best_paths(t_graph *graph)
+int		get_best_paths(t_graph *graph, t_solution *solution)
 {
 	t_list	*start_rooms;
 	t_queue	*bfs;
-	int		solution;
 
-	solution = -1;
 	if (init_bfs_queue(&bfs, graph->nbr_of_rooms) < 0)
 		return (-1);
 	weight_graph(bfs, graph->end, graph->start);
 	if (!(start_rooms = get_sorted_start_rooms(graph->start)))
 		return (-1);
-	find_combinations(graph, start_rooms, bfs, &solution);
-	ft_printf("%d ", solution);
+	find_combinations(graph, start_rooms, bfs, solution);
+	ft_printf("%d ", solution->value);
 	free_bfs_queue(&bfs);
 	ft_lstdel(start_rooms, &free_room_ptr);
 	return (0);

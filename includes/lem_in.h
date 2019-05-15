@@ -25,6 +25,14 @@
 ** STRUCTURES
 */
 
+typedef struct		s_solution
+{
+	int				value;
+	int				nbr_of_paths;
+	int				diff;
+	int				longest_path_size;
+}					t_solution;
+
 typedef struct		s_pos
 {
 	int				x;
@@ -128,11 +136,12 @@ t_room	*record_room(t_graph *graph, char **room_data);
 */
 
 int		weight_graph(t_queue *bfs, t_room *src, t_room *target);
-int		get_best_paths(t_graph *graph);
-int		compute_solution(t_list *start_rooms, int *solution, int ants);
+int		get_best_paths(t_graph *graph, t_solution *solution);
+int		compute_solution(t_list *start_rooms, t_solution *solution, int ants);
 void	clean_weight(t_graph *graph);
 void	clean_graph(t_graph *graph);
 int		break_link(t_room *initial);
+void	init_solution(t_solution *solution);
 
 int		init_bfs_queue(t_queue **bfs, size_t nbr_of_rooms);
 void	bfs_add(t_queue *bfs, t_room *room);

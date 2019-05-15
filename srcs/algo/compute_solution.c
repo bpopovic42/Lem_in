@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/20 13:22:23 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/05/09 21:09:15 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/05/15 18:55:30 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	remove_solution_marks_from_path(t_room *src)
 		previous_room_ptr->solution_to = NULL;
 		previous_room_ptr->solution_from = NULL;
 		previous_room_ptr = room_ptr;
-		if (room_ptr && room_ptr->to)
+		if (room_ptr)
 			room_ptr = room_ptr->to;
 	}
 }
@@ -101,44 +101,50 @@ void	clean_previous_solution_marks(t_list *start_rooms)
 	}
 }
 
-int		compute_solution(t_list *start_rooms, int *solution, int ants)
+void	get_current_solution(t_list *start_rooms, int ants, t_solution *solution)
 {
-	int paths;
-	int new_solution;
-	int best;
-	t_room *current;
-	int tmp;
-	int	diff;
-	int previous;
+	t_room	*current;
+	int		current_solution;
 
 	current = NULL;
-	paths = 0;
-	new_solution = -1;
-	tmp = 0;
-	best = -1;
-	diff = 0;
-	previous = -1;
-	clean_previous_solution_marks(start_rooms);
+	current_solution = -1;
 	while ((current = get_next_path(start_rooms)))
 	{
-		if (paths > 0 && (ants - (diff + ((current->final_distance - previous) * paths))) / paths <= 0)
+		if (solution->nbr_of_paths > 0 && (ants - (solution->diff + ((current->final_distance - solution->longest_path_size) * solution->nbr_of_paths))) / solution->nbr_of_paths <= 0)
 			break;
-		if (paths > 0)
-			diff += (current->final_distance - previous) * paths;
-		paths += 1;
+		if (solution->nbr_of_paths > 0)
+			solution->diff += (current->final_distance - solution->longest_path_size) * solution->nbr_of_paths;
+		solution->nbr_of_paths += 1;
 		current->solution_len = current->final_distance;
-		tmp = ((ants - diff) / paths) + current->final_distance + ((ants - diff) % paths > 0 ? 1 : 0);
-		if (new_solution < 0 || (tmp >= 0 && tmp < new_solution))
+		current_solution = ((ants - solution->diff) / solution->nbr_of_paths) + current->final_distance + ((ants - solution->diff) % solution->nbr_of_paths > 0 ? 1 : 0);
+		if (solution->value < 0 || (current_solution >= 0 && current_solution < solution->value))
 		{
-			new_solution = tmp;
-			if (new_solution < best || best < 0)
-				best = new_solution;
-			previous = current->final_distance;
+			solution->value = current_solution;
+			solution->longest_path_size = current->final_distance;
 		}
 	}
-	//ft_printf("best : %d\n", best);
-	if (*solution < 0 || (best >= 0 && best <= *solution))
+}
+
+int		new_solution_is_better(t_solution *previous, t_solution *new)
+{
+	if (previous->value < 0 || (new->value >= 0 && new->value <= previous->value))
+		return (1);
+	return (0);
+}
+
+int		compute_solution(t_list *start_rooms, t_solution *solution, int ants)
+{
+	t_solution	new_solution;
+
+	clean_previous_solution_marks(start_rooms);
+	init_solution(&new_solution);
+	get_current_solution(start_rooms, ants, &new_solution);
+	if (new_solution_is_better(solution, &new_solution))
 	{
+		solution->value = new_solution.value;
+		solution->nbr_of_paths = new_solution.nbr_of_paths;
+		solution->diff = new_solution.diff;
+		solution->longest_path_size = new_solution.longest_path_size;
 		replace_previous_solution(start_rooms);
 		t_node *ptr = start_rooms->head;
 		t_room *lolptr;
@@ -153,7 +159,6 @@ int		compute_solution(t_list *start_rooms, int *solution, int ants)
 			ptr = ptr->next;
 		}
 		//ft_putchar('\n');
-		*solution = best;
 	}
 	t_node *node_ptr;
 	node_ptr = start_rooms->head;
