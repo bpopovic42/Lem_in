@@ -157,6 +157,8 @@ t_bmap	*ft_bitmap_dup(t_bmap *bmap);
 int		print_ants(int ants, t_room *start, t_room *end);
 t_list	*get_sorted_start_rooms(t_room *start);
 
+void	clean_previous_solution_marks(t_list *start_rooms);
+void	replace_solution(t_list *initial_rooms, t_solution *old, t_solution *new);
 /*
 ** IO
 */
