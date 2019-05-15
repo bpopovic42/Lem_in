@@ -1,2 +1,20 @@
+FIXES :
 Fix unprotected mallocs
-Clean code
+ft_printf with no arguments segfaults (ft_printf("example %s and %s\n"))
+leaks
+fix makefile
+remove ';;' from breaks
+
+TO CHECK :
+check for segfaults and issues
+ft_strlen, ft_strncmp
+re-check parsing isn't broken
+
+REFACTORING :
+Make data access functions ? (instead of (*(t_room**)) casts)
+Make functions for comparisons (IF UNINITIALIZED OR SMALLER THAN instead of (!var || var < var2)
+Rework structures names and variables:
+	t_anthill instead of graph
+	anthill substructures : marks/flags/path/solution ?
+	parsing specific structure ? (not. *last_command variable field)
+Decide wether to move bitmap functions to libft or not
