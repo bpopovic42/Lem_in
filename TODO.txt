@@ -18,3 +18,4 @@ Rework structures names and variables:
 	anthill substructures : marks/flags/path/solution ?
 	parsing specific structure ? (not. *last_command variable field)
 Decide wether to move bitmap functions to libft or not
+Rename 'compute_solution' into 'record_selected_paths_if_better'
