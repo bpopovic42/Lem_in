@@ -10,6 +10,10 @@ check for segfaults and issues
 ft_strlen, ft_strncmp
 re-check parsing isn't broken
 
+ADD :
+Tester :
+	average of time and lines as well as best and worst
+
 REFACTORING :
 Make data access functions ? (instead of (*(t_room**)) casts)
 Make functions for comparisons (IF UNINITIALIZED OR SMALLER THAN instead of (!var || var < var2)
