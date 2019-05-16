@@ -117,7 +117,7 @@ function run_from_folder
 	for file in $INPUT_DIR/*; do
 		output_file=$file
 		target_solution="$(grep -m 1 '#Here is the number*' $file | awk 'NF>1{print $NF}')"
-		time="$((/usr/bin/time ./lem-in < map_samples/generator/big_superposition_001.map) 2>&1 | grep real | awk '{print $1}')"
+		time="$((/usr/bin/time ./$EXE < $file) 2>&1 | grep real | awk '{print $1}')"
 		out="$((./$EXE < $file) 2>&1)"
 		solution=`echo "${out}" | wc -l | sed 's/^ *//'`
 		echo "$solution - $target_solution"
@@ -136,7 +136,7 @@ function run_from_generator
 		output_file="$OUT_FILE_PREFIX$i$OUT_FILE_SUFFIX"
 		./generator $GENERATOR_ARG > $TMP_FILE
 		target_solution="$(grep -m 1 '#Here is the number*' $TMP_FILE | awk 'NF>1{print $NF}')"
-		time="$((/usr/bin/time ./lem-in < map_samples/generator/big_superposition_001.map) 2>&1 | grep real | awk '{print $1}')"
+		time="$((/usr/bin/time ./$EXE < $TMP_FILE) 2>&1 | grep real | awk '{print $1}')"
 		out="$((./$EXE < $TMP_FILE) 2>&1)"
 		solution=`echo "${out}" | wc -l | sed 's/^ *//'`
 		echo "$solution - $target_solution"
@@ -150,6 +150,10 @@ function run_from_generator
 
 get_cmdl_options $@
 echo $OUTPUT_DIR
+
+if [[ ! -e $EXE ]]; then
+	make
+fi
 
 if [[ $INPUT_DIR == "" ]]; then
 	run_from_generator
