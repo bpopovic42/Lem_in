@@ -67,7 +67,7 @@ function print_previous_result
 		elif [[ $previous_result < $new_result ]]; then
 			printf "${RED}(worst than previous : $previous_result)\n${CLR}"
 		else
-			printf "(same as previous : $previous_result)\n"
+			printf " (same as previous : $previous_result)\n"
 		fi
 	fi
 }
@@ -116,17 +116,18 @@ function run_from_folder
 {
 	for file in $INPUT_DIR/*; do
 		output_file=$file
+		echo "Processing file : $file"
 		target_solution="$(grep -m 1 '#Here is the number*' $file | awk 'NF>1{print $NF}')"
 		time="$((/usr/bin/time ./$EXE < $file) 2>&1 | grep real | awk '{print $1}')"
 		out="$((./$EXE < $file) 2>&1)"
 		solution=`echo "${out}" | wc -l | sed 's/^ *//'`
+		print_time $time
 		echo "$solution - $target_solution"
 		let answer=$solution-$target_solution
-		print_time $time
 		print_result $answer
 		print_previous_result $file $answer
 		record_map $answer $file $OUTPUT_DIR/"$(basename $output_file)"
-		echo
+		echo ""
 	done
 }
 
@@ -139,12 +140,12 @@ function run_from_generator
 		time="$((/usr/bin/time ./$EXE < $TMP_FILE) 2>&1 | grep real | awk '{print $1}')"
 		out="$((./$EXE < $TMP_FILE) 2>&1)"
 		solution=`echo "${out}" | wc -l | sed 's/^ *//'`
+		print_time $time
 		echo "$solution - $target_solution"
 		let answer=$solution-$target_solution
-		print_time $time
 		print_result $answer
 		record_map $answer $TMP_FILE $OUTPUT_DIR/$output_file
-		echo
+		echo ""
 	done
 }
 
