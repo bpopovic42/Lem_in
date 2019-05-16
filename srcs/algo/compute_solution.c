@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/20 13:22:23 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/05/15 21:44:02 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/05/16 18:25:15 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,34 +43,35 @@ t_room	*get_next_path(t_list *paths)
 int		path_improves_solution(t_room *path_head, int ants, t_solution *solution)
 {
 	int new_diff;
+	int new_solution;
+	int ants_left;
 
-	if (solution->nbr_of_paths > 0)
+	if (solution->nbr_of_paths == 0)
+		return (1);
+	new_diff = path_head->final_distance - solution->longest_path_size;
+	new_diff *= solution->nbr_of_paths;
+	new_diff += solution->diff;
+	ants_left = ants - new_diff;
+	if (ants_left > 0 && ants_left / (solution->nbr_of_paths + 1) > 0)
 	{
-		new_diff = (path_head->final_distance - solution->longest_path_size) * solution->nbr_of_paths;
-		if ((ants - (solution->diff + new_diff)) / solution->nbr_of_paths <= 0)
-			return (0);
-		else
+		new_solution = ants_left / (solution->nbr_of_paths + 1);
+		new_solution += path_head->final_distance ;
+		new_solution += (ants_left % (solution->nbr_of_paths + 1) > 0);
+		if (solution->value < 0 || new_solution <= solution->value)
 		{
-			solution->diff += (path_head->final_distance - solution->longest_path_size) * solution->nbr_of_paths;
+			solution->diff = new_diff;
 			return (1);
 		}
 	}
-	else
-		return (1);
+	return (0);
 }
 
 void	update_solution(t_room *path_head, int ants, t_solution *solution)
 {
-	int current_solution;
-
 	solution->nbr_of_paths += 1;
 	path_head->solution_len = path_head->final_distance;
-	current_solution = ((ants - solution->diff) / solution->nbr_of_paths) + path_head->final_distance + ((ants - solution->diff) % solution->nbr_of_paths > 0 ? 1 : 0);
-	if (solution->value < 0 || (current_solution >= 0 && current_solution < solution->value))
-	{
-		solution->value = current_solution;
-		solution->longest_path_size = path_head->final_distance;
-	}
+	solution->value = ((ants - solution->diff) / solution->nbr_of_paths) + path_head->final_distance + ((ants - solution->diff) % solution->nbr_of_paths > 0 ? 1 : 0);
+	solution->longest_path_size = path_head->final_distance;
 }
 
 void	get_current_solution(t_list *start_rooms, int ants, t_solution *solution)
@@ -81,11 +82,7 @@ void	get_current_solution(t_list *start_rooms, int ants, t_solution *solution)
 	while ((current = get_next_path(start_rooms)))
 	{
 		if (path_improves_solution(current, ants, solution))
-		{
 			update_solution(current, ants, solution);
-		}
-		else
-			break;
 	}
 }
 
@@ -99,11 +96,13 @@ int		new_solution_is_better(t_solution *previous, t_solution *new)
 void	clean_record_flags(t_list *start_rooms)
 {
 	t_node *node_ptr;
+	t_room *room_ptr;
 
 	node_ptr = start_rooms->head;
 	while (node_ptr)
 	{
-		(*(t_room**)node_ptr->data)->recorded = 0;
+		room_ptr = (*(t_room**)node_ptr->data);
+		room_ptr->recorded = 0;
 		node_ptr = node_ptr->next;
 	}
 }
