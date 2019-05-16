@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/19 22:56:40 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/05/15 18:47:40 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/05/16 22:28:22 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,8 @@ void	restore_solution_len(t_room *start)
 
 void	init_solution(t_solution *solution)
 {
+	ft_bzero(solution, sizeof(*solution));
 	solution->value = -1;
-	solution->nbr_of_paths = 0;
-	solution->diff = 0;
-	solution->longest_path_size = 0;
 }
 
 int		main(void)
