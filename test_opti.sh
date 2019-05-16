@@ -112,6 +112,14 @@ function print_time
 	printf "${CLR}"
 }
 
+function wait_for_next_generator_seed
+{
+	time=$1
+	if (( $(echo "$time < 1.0" | bc -l) )); then
+		sleep $(echo "1.0 - $time" | bc -l)
+	fi
+}
+
 function run_from_folder
 {
 	for file in $INPUT_DIR/*; do
@@ -146,6 +154,8 @@ function run_from_generator
 		print_result $answer
 		record_map $answer $TMP_FILE $OUTPUT_DIR/$output_file
 		echo ""
+		echo ""
+		wait_for_next_generator_seed $time
 	done
 }
 
