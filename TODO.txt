@@ -4,11 +4,13 @@ ft_printf with no arguments segfaults (ft_printf("example %s and %s\n"))
 leaks
 fix makefile
 remove ';;' from breaks
+GNL leaks
 
 TO CHECK :
 check for segfaults and issues
 ft_strlen, ft_strncmp
 re-check parsing isn't broken
+integer overflows
 
 ADD :
 Tester :
