@@ -7,9 +7,11 @@ strange valgring leak report on 'sujet3' variations maps
 
 TO CHECK :
 check for segfaults and issues
-ft_strlen, ft_strncmp
 re-check parsing isn't broken
 integer overflows
+libft's functions :
+	ft_strlen, ft_strncmp
+	hash, vectors and bitmaps
 
 ADD :
 Tester :
@@ -23,4 +25,4 @@ Rework structures names and variables:
 	anthill substructures : marks/flags/path/solution ?
 	parsing specific structure ? (not. *last_command variable field)
 Decide wether to move bitmap functions to libft or not
-Rename 'compute_solution' into 'record_selected_paths_if_better'
+Rename 'compute_solution' into 'record_selected_paths_if_better
