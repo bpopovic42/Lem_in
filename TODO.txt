@@ -4,6 +4,7 @@ ft_printf with no arguments segfaults (ft_printf("example %s and %s\n"))
 fix makefile
 remove ';;' from breaks
 strange valgring leak report on 'sujet3' variations maps
+remaining issues with 'bad_test' maps
 
 TO CHECK :
 check for segfaults and issues
