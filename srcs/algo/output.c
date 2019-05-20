@@ -6,35 +6,12 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 17:06:36 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/05/14 21:29:55 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/05/20 16:00:20 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 #include "ft_printf.h"
-
-int		get_output_data(t_output *out, t_room *start)
-{
-	t_node *node_ptr;
-	t_room *room_ptr;
-
-	out->longest_path_len = -1;
-	out->nbr_of_paths = 0;
-	room_ptr = NULL;
-	node_ptr = start->links->head;
-	while (node_ptr)
-	{
-		room_ptr = *(t_room**)node_ptr->data;
-		if (room_ptr->solution_to || room_is_end(room_ptr))
-		{
-			out->nbr_of_paths++;
-			if (room_ptr->solution_len > out->longest_path_len)
-				out->longest_path_len = room_ptr->solution_len;
-		}
-		node_ptr = node_ptr->next;
-	}
-	return (0);
-}
 
 int		get_paths(t_output *out, int ants, t_room *start)
 {
@@ -154,7 +131,7 @@ int		print_ants(int ants, t_room *start, t_room *end)
 {
 	t_output *out;
 
-	if (!(out = ft_memalloc(sizeof(*out))))
+	if (!(init_output(&out)))
 		return (-1);
 	if (get_output_data(out, start) < 0)
 		return (-1);
@@ -162,8 +139,10 @@ int		print_ants(int ants, t_room *start, t_room *end)
 	{
 		get_paths(out, ants, start);
 		print_ants_route(out, ants, end);
+		free_output(&out);
 		return (0);
 	}
+	free_output(&out);
 	lemin_perror(ENOPATH, NULL);
 	return (1);
 }

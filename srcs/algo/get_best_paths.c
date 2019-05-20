@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/19 19:27:13 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/05/15 18:56:46 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/05/20 17:11:49 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,15 +120,6 @@ int		find_combinations(t_graph *graph, t_list *srcs, t_queue *bfs, t_solution *s
 	}
 	clean_graph(graph);
 	return (0);
-}
-
-void	free_room_ptr(void *data, size_t data_size)
-{
-	t_room **ptr;
-
-	ptr = (t_room**)data;
-	ft_bzero(&ptr, data_size);
-	free(ptr);
 }
 
 int		get_best_paths(t_graph *graph, t_solution *solution)

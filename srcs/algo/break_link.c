@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/25 16:50:38 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/05/13 18:47:02 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/05/20 17:11:35 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int		remove_link(t_room *room, t_room *link)
 		if (ptr == link)
 		{
 			ft_lstnode_remove(room->links, links_ptr);
-			ft_node_del(&links_ptr, &ft_bzero);
+			ft_node_del(&links_ptr, &free_room_ptr);
 			return (1);
 		}
 		links_ptr = links_ptr->next;

@@ -122,6 +122,7 @@ void	free_graph(t_graph *graph);
 // ROOM_UTILS
 t_room	*new_room(char *name, char **cmd, t_pos *coord);
 void	free_room(void *room);
+void	free_room_ptr(void *data, size_t data_size);
 
 // RECORD LINK
 int		record_link_if_valid(t_graph *graph, const char *link);
@@ -162,6 +163,10 @@ void	replace_solution(t_list *initial_rooms, t_solution *old, t_solution *new);
 /*
 ** IO
 */
+
+int		init_output(t_output **output);
+int		get_output_data(t_output *out, t_room *start);
+void	free_output(t_output **output);
 
 void	print_result(t_graph *graph, char *file);
 void	lemin_perror(int error_code, char *line);

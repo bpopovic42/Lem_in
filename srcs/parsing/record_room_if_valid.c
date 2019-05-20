@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 18:41:55 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/04/29 17:29:01 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/05/20 16:03:06 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,17 +76,13 @@ static int		room_conflict(t_graph *graph, t_room *room)
 int				record_room_if_valid(t_graph *graph, char **input)
 {
 	t_room	*room;
-	char	*rname;
 
-	rname = NULL;
 	if (input && is_valid(input))
 	{
 		if (!(room = record_room(graph, input)))
 			return (-1);
 		if (!room_conflict(graph, room))
 		{
-			if (!(rname = ft_strdup(room->name)))
-				return (-1);
 			if (ft_vector_append(graph->room_list, room) < 0)
 				return (-1);
 			if (ft_hashpush_data(graph->rooms, room->name, room, sizeof(*room)) < 0)
