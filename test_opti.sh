@@ -59,16 +59,21 @@ function get_cmdl_options
 
 function print_previous_result
 {
+	file=$1
 	new_result=$2
-	if [[ -e $1 ]]; then
-		previous_result="$(grep -m 1 '#PREVIOUS_RESULT*' $1 | awk 'NF>1{print $NF}')"
+	if [[ -e $file ]]; then
+		previous_result="$(grep -m 1 '#PREVIOUS_RESULT*' $file | awk 'NF>1{print $NF}')"
 		if [[ $previous_result > $new_result ]]; then
-			printf "${GREEN}(better than previous : $previous_result)\n${CLR}"
+			printf "|${GREEN}% 6d${CLR}      |" $previous_result
 		elif [[ $previous_result < $new_result ]]; then
-			printf "${RED}(worst than previous : $previous_result)\n${CLR}"
+			printf "|${RED}% 6d${CLR}      |" $previous_result
 		else
-			printf " (same as previous : $previous_result)\n"
+			printf "|% 6d${CLR}      |" $previous_result
 		fi
+		printf " (file : %s)" $file
+	else
+		printf "|% 6s      |" "N/A"
+		printf " (file : %s)" "N/A"
 	fi
 }
 
@@ -87,7 +92,7 @@ function record_map
 function print_result
 {
 	result=$1
-	printf "result = "
+	printf "|"
 	if (( $result <= 0 )); then
 		printf "${GREEN}"
 	elif (( $result < 10 )); then
@@ -95,12 +100,14 @@ function print_result
 	else
 		printf "${RED}"
 	fi
-	printf "%d${CLR}" $result
+	printf "% 6d${CLR}" $result
+	printf "    "
 }
 
 function print_time
 {
 	time=$1
+	printf "|"
 	if (( $(echo "$time < 1.0" | bc -l) )); then
 		printf "${GREEN}"
 	elif (( $(echo "$time < 3.0" | bc -l) )); then
@@ -108,8 +115,9 @@ function print_time
 	else
 		printf "${RED}"
 	fi
-	echo $time
+	printf "% 6s" $time
 	printf "${CLR}"
+	printf "  |"
 }
 
 function wait_for_next_generator_seed
@@ -120,22 +128,39 @@ function wait_for_next_generator_seed
 	fi
 }
 
+function print_header
+{
+	echo " ---------------------------------------------------------"
+	printf "|  TIME  |  GENERATOR  |  LEM-IN  |  RESULT  |  PREVIOUS  |\n"
+	#echo "|--------|-------------|----------|----------|------------|"
+}
+
+function print_formatted_results
+{
+	timer=$1
+	generator=$2
+	lemin=$3
+	result=$4
+	file=$5
+	echo "|--------|-------------|----------|----------|------------|"
+	print_time $timer
+	printf "% 8s     |% 6s    " $generator $lemin
+	print_result $result
+	print_previous_result $file $result
+	echo ""
+}
+
 function run_from_folder
 {
 	for file in $INPUT_DIR/*; do
 		output_file=$file
-		echo "Processing file : $file"
 		target_solution="$(grep -m 1 '#Here is the number*' $file | awk 'NF>1{print $NF}')"
 		time="$((/usr/bin/time ./$EXE < $file) 2>&1 | grep real | awk '{print $1}')"
 		out="$((./$EXE < $file) 2>&1)"
 		solution=`echo "${out}" | wc -l | sed 's/^ *//'`
-		print_time $time
-		echo "$solution - $target_solution"
 		let answer=$solution-$target_solution
-		print_result $answer
-		print_previous_result $file $answer
+		print_formatted_results $time $target_solution $solution $answer $file
 		record_map $answer $file $OUTPUT_DIR/"$(basename $output_file)"
-		echo ""
 	done
 }
 
@@ -148,13 +173,9 @@ function run_from_generator
 		time="$((/usr/bin/time ./$EXE < $TMP_FILE) 2>&1 | grep real | awk '{print $1}')"
 		out="$((./$EXE < $TMP_FILE) 2>&1)"
 		solution=`echo "${out}" | wc -l | sed 's/^ *//'`
-		print_time $time
-		echo "$solution - $target_solution"
 		let answer=$solution-$target_solution
-		print_result $answer
+		print_formatted_results $time $solution $target_solution $answer
 		record_map $answer $TMP_FILE $OUTPUT_DIR/$output_file
-		echo ""
-		echo ""
 		wait_for_next_generator_seed $time
 	done
 }
@@ -166,12 +187,14 @@ if [[ ! -e $EXE ]]; then
 	make
 fi
 
+print_header
+
 if [[ $INPUT_DIR == "" ]]; then
 	run_from_generator
 elif [[ $INPUT_DIR != "" ]]; then
 	run_from_folder
 fi
-
+echo " ---------------------------------------------------------"
 if [[ -e $TMP_FILE ]]; then
 	rm -i $TMP_FILE
 fi
