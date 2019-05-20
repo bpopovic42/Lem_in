@@ -1,10 +1,9 @@
 FIXES :
 Fix unprotected mallocs
 ft_printf with no arguments segfaults (ft_printf("example %s and %s\n"))
-leaks
 fix makefile
 remove ';;' from breaks
-GNL leaks
+strange valgring leak report on 'sujet3' variations maps
 
 TO CHECK :
 check for segfaults and issues
