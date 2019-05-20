@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 18:41:55 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/05/20 16:03:06 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/05/20 20:38:35 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ t_room			*record_room(t_graph *graph, char **room_data)
 	coord.y = ft_atoi(room_data[2]);
 	if (!(room = new_room(room_data[0], &graph->last_command, &coord)))
 		return (NULL);
-	graph->nbr_of_rooms++;
 	if (room->command)
 	{
 		if (!ft_strcmp(room->command, "##start"))
@@ -83,6 +82,7 @@ int				record_room_if_valid(t_graph *graph, char **input)
 			return (-1);
 		if (!room_conflict(graph, room))
 		{
+			graph->nbr_of_rooms++;
 			if (ft_vector_append(graph->room_list, room) < 0)
 				return (-1);
 			if (ft_hashpush_data(graph->rooms, room->name, room, sizeof(*room)) < 0)
@@ -90,7 +90,7 @@ int				record_room_if_valid(t_graph *graph, char **input)
 			ft_delarray(input);
 			return (0);
 		}
-		free_room(room);
+		free_room(&room);
 	}
 	ft_delarray(input);
 	return (1);
