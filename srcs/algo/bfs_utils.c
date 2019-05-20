@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/29 17:53:11 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/05/14 21:07:00 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/05/20 20:12:57 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,13 @@ int		init_bfs_queue(t_queue **bfs, size_t nbr_of_rooms)
 {
 	if (!(*bfs = ft_memalloc(sizeof(**bfs))))
 		return (-1);
+	ft_bzero(*bfs, sizeof(**bfs));
 	if (!((*bfs)->rooms = ft_memalloc(sizeof(t_room*) * nbr_of_rooms)))
+	{
+		free_bfs_queue(bfs);
 		return (-1);
+	}
 	(*bfs)->capacity = nbr_of_rooms;
-	(*bfs)->size = 0;
-	(*bfs)->head = 0;
-	(*bfs)->tail = 0;
 	return (0);
 }
 

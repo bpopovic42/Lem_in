@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/19 22:56:40 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/05/16 22:28:22 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/05/20 20:05:37 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,28 +16,6 @@
 __attribute__((unused)) static int fun_abs(int a)
 {
 	return (a * (1 - 2 * (a < 0)));
-}
-
-void	free_file(t_file *file)
-{
-	if (file)
-	{
-		if (file->data)
-			ft_strdel(&file->data);
-		ft_bzero(file, sizeof(*file));
-		free(file);
-	}
-}
-
-int		init_file(t_file **file)
-{
-	if (!(*file = ft_memalloc(sizeof(**file))))
-		return (-1);
-	if (!((*file)->data = ft_strnew(LMN_BUFF_SIZE + 1)))
-		return (-1);
-	(*file)->capacity = LMN_BUFF_SIZE + 1;
-	(*file)->size = 0;
-	return (0);
 }
 
 static int		local_exit(t_graph *graph, t_file *file, int retval)
@@ -61,7 +39,6 @@ void	get_path_len(t_room *src)
 	}
 	src->solution_len = len;
 }
-
 
 void	restore_solution_len(t_room *start)
 {

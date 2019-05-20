@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/19 19:27:13 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/05/20 17:11:49 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/05/20 20:18:15 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,19 +122,26 @@ int		find_combinations(t_graph *graph, t_list *srcs, t_queue *bfs, t_solution *s
 	return (0);
 }
 
+static int	local_exit(t_queue *bfs, t_list *start_rooms, int retval)
+{
+	if (start_rooms)
+		ft_lstdel(start_rooms, &free_room_ptr);
+	if (bfs)
+		free_bfs_queue(&bfs);
+	return (retval);
+}
+
 int		get_best_paths(t_graph *graph, t_solution *solution)
 {
 	t_list	*start_rooms;
 	t_queue	*bfs;
 
 	if (init_bfs_queue(&bfs, graph->nbr_of_rooms) < 0)
-		return (-1);
+		return (local_exit(bfs, NULL, -1));
 	weight_graph(bfs, graph->end, graph->start);
 	if (!(start_rooms = get_sorted_start_rooms(graph->start)))
-		return (-1);
+		return (local_exit(bfs, start_rooms, -1));
 	find_combinations(graph, start_rooms, bfs, solution);
 	ft_printf("%d ", solution->value);
-	free_bfs_queue(&bfs);
-	ft_lstdel(start_rooms, &free_room_ptr);
-	return (0);
+	return (local_exit(bfs, start_rooms, 0));
 }

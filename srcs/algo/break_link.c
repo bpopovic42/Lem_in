@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/25 16:50:38 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/05/20 17:11:35 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/05/20 20:14:30 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,11 @@ int		has_alternative(t_room *room)
 
 int		break_link(t_room *initial)
 {
-	t_room *ptr;
+	t_room	*ptr;
+	int		alt;
 
 	ptr = initial;
-	int alt = 0;
+	alt = 0;
 	while (ptr->to && !room_is_end(ptr->to))
 		ptr = ptr->to;
 	while (ptr && !room_is_start(ptr))

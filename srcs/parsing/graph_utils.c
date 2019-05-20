@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/04 16:12:41 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/05/20 15:20:44 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/05/20 20:29:44 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,5 @@ void		free_graph(t_graph *graph)
 	graph->rooms = NULL;
 	if (graph->last_command)
 		ft_strdel(&graph->last_command);
+	//ft_bzero(graph, sizeof(*graph));
 }

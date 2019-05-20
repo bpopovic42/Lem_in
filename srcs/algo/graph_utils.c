@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 10:49:40 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/05/13 20:45:01 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/05/20 20:19:39 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	clean_graph(t_graph *graph)
 		next_ptr = ft_vector_get(graph->room_list, i);
 		if (!room_is_start(next_ptr) && !next_ptr->cleaned)
 		{
+			// USE MEMSET
 			if (next_ptr->start_distance > 1)
 				next_ptr->pid = -1;
 			next_ptr->final_distance = -1;
