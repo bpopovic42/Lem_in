@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/19 22:56:40 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/05/20 20:05:37 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/05/22 17:03:36 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,36 @@ void	init_solution(t_solution *solution)
 	solution->value = -1;
 }
 
+void tmp_print_rooms(t_room *src)
+{
+	t_room *ptr;
+
+	ptr = src;
+	while (ptr && !room_is_end(ptr))
+	{
+		ft_printf("%s ", ptr->name);
+		ptr = ptr->solution_to;
+	}
+	ft_putchar('\n');
+}
+
+void tmp_print_paths_rooms(t_room *start)
+{
+	t_node *ptr;
+	t_room *room;
+
+	ptr = start->links->head;
+	while (ptr)
+	{
+		room = *(t_room**)ptr->data;
+		if (room->solution_len >= 0)
+		{
+			tmp_print_rooms(room);
+		}
+		ptr = ptr->next;
+	}
+}
+
 int		main(void)
 {
 	t_file		*file;
@@ -81,6 +111,8 @@ int		main(void)
 	if (get_best_paths(&graph, &solution))
 		return (local_exit(&graph, file, 1));
 	restore_solution_len(graph.start);
+	tmp_print_paths_rooms(graph.start);
+	exit(0);
 	if (print_ants(graph.ants, graph.start, graph.end))
 		return (local_exit(&graph, file, 0));
 	return (local_exit(&graph, file, 0));
