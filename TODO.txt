@@ -1,3 +1,6 @@
+CRITICAL :
+Conflicting paths used on vlamb_003.map, most likely coming from the final solution restoration and output process (testing seemed to indicate the algorithm itself isn't the culprit).
+
 FIXES :
 Fix unprotected mallocs
 ft_printf with no arguments segfaults (ft_printf("example %s and %s\n"))
@@ -27,3 +30,4 @@ Rework structures names and variables:
 	parsing specific structure ? (not. *last_command variable field)
 Decide wether to move bitmap functions to libft or not
 Rename 'compute_solution' into 'record_selected_paths_if_better
+Rename 'solution_to/from' to 'solution_prev/next'
