@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/19 22:56:40 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/05/22 17:03:36 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/05/24 20:56:16 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,15 @@ void	restore_solution_len(t_room *start)
 
 	ptr = start->links->head;
 	room_ptr = NULL;
+	//ft_printf("FINAL SOLUTION :\n");
 	while (ptr)
 	{
 		room_ptr = *(t_room**)ptr->data;
-		if (room_ptr->solution_to)
+		if (room_ptr->is_solution)
+		{
 			get_path_len(room_ptr);
+			//ft_printf("%s\n", room_ptr->name);
+		}
 		else if (room_is_end(room_ptr))
 			room_ptr->solution_len = 0;
 		ptr = ptr->next;
@@ -64,20 +68,20 @@ void	init_solution(t_solution *solution)
 	solution->value = -1;
 }
 
-void tmp_print_rooms(t_room *src)
+__attribute__((unused)) void tmp_print_rooms(t_room *src)
 {
 	t_room *ptr;
 
 	ptr = src;
 	while (ptr && !room_is_end(ptr))
 	{
-		ft_printf("%s ", ptr->name);
+		ft_printf("%s\n", ptr->name);
 		ptr = ptr->solution_to;
 	}
 	ft_putchar('\n');
 }
 
-void tmp_print_paths_rooms(t_room *start)
+__attribute__((unused)) void tmp_print_paths_rooms(t_room *start)
 {
 	t_node *ptr;
 	t_room *room;
@@ -92,6 +96,7 @@ void tmp_print_paths_rooms(t_room *start)
 		}
 		ptr = ptr->next;
 	}
+	exit(0);
 }
 
 int		main(void)
@@ -111,8 +116,7 @@ int		main(void)
 	if (get_best_paths(&graph, &solution))
 		return (local_exit(&graph, file, 1));
 	restore_solution_len(graph.start);
-	tmp_print_paths_rooms(graph.start);
-	exit(0);
+	//tmp_print_paths_rooms(graph.start);
 	if (print_ants(graph.ants, graph.start, graph.end))
 		return (local_exit(&graph, file, 0));
 	return (local_exit(&graph, file, 0));

@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/04 16:09:29 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/05/20 20:27:16 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/05/24 20:48:54 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ t_room		*new_room(char *name, char **cmd, t_pos *coord)
 	new_room->solution_to = NULL;
 	new_room->solution_from = NULL;
 	new_room->solution_len = -1;
+	new_room->is_solution = 0;
 	new_room->ant = 0;
 	if (!(new_room->links = ft_lstnew()))
 		return (NULL);

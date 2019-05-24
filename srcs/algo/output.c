@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 17:06:36 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/05/22 16:42:26 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/05/24 21:34:07 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,10 +71,11 @@ void	move_ant_to_next_room(t_room *room)
 			room->solution_to->ant++;
 		else
 			room->solution_to->ant = room->ant;
-		room->ant = 0;
+		//if (!room_is_end(room))
+			room->ant = 0;
 	}
-	else
-		ft_printf("ABNORMAL BEHAVIOR\n");
+	//else
+		//ft_printf("ABNORMAL BEHAVIOR\n");
 }
 
 void	advance_path(t_path *path, int *ants_count)
@@ -87,12 +88,16 @@ void	advance_path(t_path *path, int *ants_count)
 	//ft_printf("from %s %d\n", ptr->name, path->ants);
 	while (ptr && !room_is_start(ptr))
 	{
-		move_ant_to_next_room(ptr);
-		if (ptr == path->src)
+		if (ptr != path->src)
+			move_ant_to_next_room(ptr);
+		else if (ptr == path->src)
 		{
 			if (path->ants > 0)
 			{
-				ptr->ant = (*ants_count)++;
+				if (room_is_end(ptr))
+					ptr->ant++;
+				else
+					ptr->ant = (*ants_count)++;
 				path->ants--;
 				ft_printf("L%d-%s ", ptr->ant, ptr->name);
 			}

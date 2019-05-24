@@ -6,11 +6,12 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 20:38:49 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/05/15 20:52:28 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/05/24 20:50:59 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
+#include "ft_printf.h"
 
 void	remove_solution_marks_from_path(t_room *src)
 {
@@ -34,11 +35,32 @@ void	mark_solution_path(t_room *src)
 	t_room *room_ptr;
 
 	room_ptr = src;
+	src->is_solution = 1;
 	while (room_ptr && !room_is_end(room_ptr))
 	{
 		room_ptr->solution_from = room_ptr->from;
 		room_ptr->solution_to = room_ptr->to;
 		room_ptr = room_ptr->to;
+	}
+	src->solution_len = -1;
+}
+
+void	replace_solution_marks(t_list *start_rooms)
+{
+	t_node	*ptr;
+	t_room	*room_ptr;
+
+	ptr = start_rooms->head;
+	//ft_putstr("NEW SOLUTION FOUND :\n");
+	while (ptr)
+	{
+		room_ptr = *(t_room**)ptr->data;
+		if (room_ptr->solution_len >= 0)
+		{
+			//ft_putendl(room_ptr->name);
+			mark_solution_path(room_ptr);
+		}
+		ptr = ptr->next;
 	}
 }
 
@@ -48,26 +70,6 @@ void	replace_solution_data(t_solution *old, t_solution *new)
 	old->nbr_of_paths = new->nbr_of_paths;
 	old->diff = new->diff;
 	old->longest_path_size = new->longest_path_size;
-}
-
-
-void	replace_solution_marks(t_list *start_rooms)
-{
-	t_node	*ptr;
-	t_room	*room_ptr;
-
-	ptr = start_rooms->head;
-	while (ptr)
-	{
-		room_ptr = *(t_room**)ptr->data;
-		if (room_ptr->solution_to != NULL)
-			remove_solution_marks_from_path(room_ptr);
-		if (room_ptr->solution_len >= 0)
-		{
-			mark_solution_path(room_ptr);
-		}
-		ptr = ptr->next;
-	}
 }
 
 void	replace_solution(t_list *initial_rooms, t_solution *old, t_solution *new)

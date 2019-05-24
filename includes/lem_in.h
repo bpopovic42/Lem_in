@@ -68,6 +68,7 @@ typedef struct		s_room
 	struct s_room	*solution_to;
 	struct s_room	*solution_from;
 	int				solution_len;
+	int				is_solution;
 	int				ant;
 	t_list			*links;
 	struct s_pos	pos;
@@ -142,7 +143,7 @@ void	free_file(t_file *file);
 
 int		weight_graph(t_queue *bfs, t_room *src, t_room *target);
 int		get_best_paths(t_graph *graph, t_solution *solution);
-int		compute_solution(t_list *start_rooms, t_solution *solution, int ants);
+int		compute_solution(t_graph *graph, t_list *start_rooms, t_solution *solution, int ants);
 void	clean_weight(t_graph *graph);
 void	clean_graph(t_graph *graph);
 int		break_link(t_room *initial);

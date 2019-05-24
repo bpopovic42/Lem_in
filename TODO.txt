@@ -1,6 +1,3 @@
-CRITICAL :
-Conflicting paths used on vlamb_003.map, most likely coming from the final solution restoration and output process (testing seemed to indicate the algorithm itself isn't the culprit).
-
 FIXES :
 Fix unprotected mallocs
 ft_printf with no arguments segfaults (ft_printf("example %s and %s\n"))

@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/19 19:27:13 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/05/20 20:18:15 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/05/24 19:14:40 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ int		find_combinations(t_graph *graph, t_list *srcs, t_queue *bfs, t_solution *s
 		first_path = (*(t_room**)room_ptr->data);
 		mark_path(first_path);
 		mark_next_paths(graph, bfs);
-		compute_solution(srcs, sol, graph->ants);
+		compute_solution(graph, srcs, sol, graph->ants);
 		if (!break_flag && !(room_ptr = room_ptr->next))
 		{
 			break_flag = 1;

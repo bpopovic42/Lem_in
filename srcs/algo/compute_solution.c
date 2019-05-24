@@ -6,39 +6,12 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/20 13:22:23 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/05/16 18:25:15 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/05/24 20:51:58 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 #include "ft_printf.h"
-
-t_room	*get_next_path(t_list *paths)
-{
-	t_node *node_ptr;
-	t_room *room_ptr;
-	t_room *shortest;
-
-	node_ptr = paths->head;
-	room_ptr = NULL;
-	shortest = NULL;
-	while (node_ptr)
-	{
-		room_ptr = (*(t_room**)node_ptr->data);
-		if (room_ptr->final_distance >= 0)
-		{
-			if (!shortest || room_ptr->final_distance < shortest->final_distance)
-			{
-				if (room_ptr->recorded == 0)
-					shortest = room_ptr;
-			}
-		}
-		node_ptr = node_ptr->next;
-	}
-	if (shortest)
-		shortest->recorded = 1;
-	return (shortest);
-}
 
 int		path_improves_solution(t_room *path_head, int ants, t_solution *solution)
 {
@@ -66,26 +39,6 @@ int		path_improves_solution(t_room *path_head, int ants, t_solution *solution)
 	return (0);
 }
 
-void	update_solution(t_room *path_head, int ants, t_solution *solution)
-{
-	solution->nbr_of_paths += 1;
-	path_head->solution_len = path_head->final_distance;
-	solution->value = ((ants - solution->diff) / solution->nbr_of_paths) + path_head->final_distance + ((ants - solution->diff) % solution->nbr_of_paths > 0 ? 1 : 0);
-	solution->longest_path_size = path_head->final_distance;
-}
-
-void	get_current_solution(t_list *start_rooms, int ants, t_solution *solution)
-{
-	t_room	*current;
-
-	current = NULL;
-	while ((current = get_next_path(start_rooms)))
-	{
-		if (path_improves_solution(current, ants, solution))
-			update_solution(current, ants, solution);
-	}
-}
-
 int		new_solution_is_better(t_solution *previous, t_solution *new)
 {
 	if (previous->value < 0 || (new->value >= 0 && new->value <= previous->value))
@@ -107,7 +60,76 @@ void	clean_record_flags(t_list *start_rooms)
 	}
 }
 
-int		compute_solution(t_list *start_rooms, t_solution *solution, int ants)
+void	update_solution(t_room *path_head, int ants, t_solution *solution)
+{
+	solution->nbr_of_paths += 1;
+	path_head->solution_len = path_head->final_distance;
+	solution->value = ((ants - solution->diff) / solution->nbr_of_paths) + path_head->final_distance + ((ants - solution->diff) % solution->nbr_of_paths > 0 ? 1 : 0);
+	solution->longest_path_size = path_head->final_distance;
+	path_head->final_distance = -1;
+}
+
+t_room	*get_next_path(t_list *paths)
+{
+	t_node *node_ptr;
+	t_room *room_ptr;
+	t_room *shortest;
+
+	node_ptr = paths->head;
+	room_ptr = NULL;
+	shortest = NULL;
+	while (node_ptr)
+	{
+		room_ptr = (*(t_room**)node_ptr->data);
+		if (room_ptr->final_distance >= 0)
+		{
+			if (!shortest || room_ptr->final_distance < shortest->final_distance)
+			{
+				if (room_ptr->recorded == 0)
+					shortest = room_ptr;
+			}
+		}
+		node_ptr = node_ptr->next;
+	}
+	if (shortest)
+	{
+		shortest->recorded = 1;
+	}
+	return (shortest);
+}
+
+void	get_current_solution(t_list *start_rooms, int ants, t_solution *solution)
+{
+	t_room	*current;
+
+	current = NULL;
+	while ((current = get_next_path(start_rooms)))
+	{
+		if (path_improves_solution(current, ants, solution))
+			update_solution(current, ants, solution);
+	}
+}
+
+void	clean_solution_marks_from_graph(t_graph *graph)
+{
+	size_t i;
+	t_room *next_ptr;
+
+	i = 0;
+	while (i < graph->room_list->size)
+	{
+		next_ptr = ft_vector_get(graph->room_list, i);
+		if (!room_is_start(next_ptr))
+		{
+			next_ptr->is_solution = 0;
+			next_ptr->solution_from = NULL;
+			next_ptr->solution_to = NULL;
+		}
+		i++;
+	}
+}
+
+int		compute_solution(t_graph *graph, t_list *start_rooms, t_solution *solution, int ants)
 {
 	t_solution	new_solution;
 
@@ -115,7 +137,11 @@ int		compute_solution(t_list *start_rooms, t_solution *solution, int ants)
 	clean_previous_solution_marks(start_rooms);
 	get_current_solution(start_rooms, ants, &new_solution);
 	if (new_solution_is_better(solution, &new_solution))
+	{
+		//ft_printf("BETTER\n");
+		clean_solution_marks_from_graph(graph);
 		replace_solution(start_rooms, solution, &new_solution);
+	}
 	clean_record_flags(start_rooms);
 	return (0);
 }
