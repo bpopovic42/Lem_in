@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 17:06:36 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/05/24 21:34:07 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/05/27 18:52:17 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int		get_paths(t_output *out, int ants, t_room *start)
 	while (node_ptr)
 	{
 		room_ptr = *(t_room**)node_ptr->data;
-		if (room_ptr->solution_to || room_is_end(room_ptr))
+		if (room_ptr->is_solution || room_is_end(room_ptr))
 		{
 			if (!(out->paths[i] = ft_memalloc(sizeof(t_path))))
 				return (-1);
@@ -71,11 +71,27 @@ void	move_ant_to_next_room(t_room *room)
 			room->solution_to->ant++;
 		else
 			room->solution_to->ant = room->ant;
-		//if (!room_is_end(room))
+		if (!room_is_end(room))
 			room->ant = 0;
 	}
 	//else
 		//ft_printf("ABNORMAL BEHAVIOR\n");
+}
+
+void	move_new_ant_to_path(t_path *path, int *ants_count)
+{
+	t_room *ptr;
+
+	ptr = path->src;
+	if (path->ants > 0)
+	{
+		if (room_is_end(ptr))
+			ptr->ant++;
+		else
+			ptr->ant = (*ants_count)++;
+		path->ants--;
+		ft_printf("L%d-%s ", ptr->ant, ptr->name);
+	}
 }
 
 void	advance_path(t_path *path, int *ants_count)
@@ -85,34 +101,19 @@ void	advance_path(t_path *path, int *ants_count)
 	if (!path->last_ant)
 		path->last_ant = path->src;
 	ptr = path->last_ant;
+	if (ptr == path->src && ptr->ant > 0 && ptr->solution_to->ant == 0 && !room_is_end(ptr->solution_to))
+		move_ant_to_next_room(ptr);
 	//ft_printf("from %s %d\n", ptr->name, path->ants);
 	while (ptr && !room_is_start(ptr))
 	{
 		if (ptr != path->src)
 			move_ant_to_next_room(ptr);
-		else if (ptr == path->src)
+		else
 		{
-			if (path->ants > 0)
-			{
-				if (room_is_end(ptr))
-					ptr->ant++;
-				else
-					ptr->ant = (*ants_count)++;
-				path->ants--;
-				ft_printf("L%d-%s ", ptr->ant, ptr->name);
-			}
-			//else
-			//	break;
+			if (ptr->ant > 0)
+				move_ant_to_next_room(ptr);
+			move_new_ant_to_path(path, ants_count);
 		}
-		/*else if (ptr->solution_from && ptr->solution_from->ant > 0)
-		{
-			ft_printf("L%d-%s ", ptr->solution_from->ant, ptr->name);
-			ptr->ant = ptr->solution_from->ant;
-			ptr->solution_from->ant = 0;
-		}*/
-
-		//if (ptr->solution_from && ptr->solution_from->ant == 0 && ptr->ant == 0 && ptr != path->src)
-		//	break;
 		ptr = ptr->solution_from;
 	}
 	if (!room_is_end(path->last_ant->solution_to) && path->last_ant->solution_to->ant > 0)
@@ -133,7 +134,7 @@ void	print_ants_route(t_output *out, int ants, t_room *end)
 			advance_path(out->paths[i], &ants_count);
 			i++;
 		}
-		ft_printf("end ants : %d\n", end->ant);
+		//ft_printf("[ end ants : %d ]\n", end->ant);
 		ft_putchar('\n');
 	}
 }
