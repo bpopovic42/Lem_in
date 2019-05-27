@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 15:06:03 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/05/20 16:00:19 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/05/27 18:50:11 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int		get_output_data(t_output *out, t_room *start)
 	while (node_ptr)
 	{
 		room_ptr = *(t_room**)node_ptr->data;
-		if (room_ptr->solution_to || room_is_end(room_ptr))
+		if (room_ptr->is_solution || room_is_end(room_ptr))
 		{
 			out->nbr_of_paths++;
 			if (room_ptr->solution_len > out->longest_path_len)
