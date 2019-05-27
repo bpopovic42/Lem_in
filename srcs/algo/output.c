@@ -6,45 +6,19 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 17:06:36 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/05/27 19:23:50 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/05/27 19:32:22 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 #include "ft_printf.h"
 
-int		get_paths(t_output *out, int ants, t_room *start)
+void	add_remaining_ants_to_paths(t_output *out, int ants, int diff)
 {
-	t_node	*node_ptr;
-	t_room	*room_ptr;
-	int		surplus;
 	int		div_ants;
+	int		surplus;
 	int		i;
-	int		diff;
 
-	room_ptr = NULL;
-	diff = 0;
-	i = 0;
-	surplus = 0;
-	node_ptr = start->links->head;
-	if (!(out->paths = ft_memalloc(sizeof(t_path*) * out->nbr_of_paths)))
-		return (-1);
-	while (node_ptr)
-	{
-		room_ptr = *(t_room**)node_ptr->data;
-		if (room_ptr->is_solution || room_is_end(room_ptr))
-		{
-			if (!(out->paths[i] = ft_memalloc(sizeof(t_path))))
-				return (-1);
-			out->paths[i]->last_ant = NULL;
-			out->paths[i]->src = room_ptr;
-			out->paths[i]->ants = out->longest_path_len - room_ptr->solution_len;
-			diff += out->paths[i]->ants;
-			i++;
-		}
-		node_ptr = node_ptr->next;
-	}
-	//ft_printf("Diff %d\n", diff);
 	div_ants = (ants - diff) / out->nbr_of_paths;
 	surplus = (ants - diff) % out->nbr_of_paths;
 	i = 0;
@@ -56,9 +30,38 @@ int		get_paths(t_output *out, int ants, t_room *start)
 			out->paths[i]->ants += 1;
 			surplus--;
 		}
-		//ft_printf("for path %s of len %d, %d ants\n", out->paths[i]->src->name, out->paths[i]->src->solution_len, out->paths[i]->ants);
 		i++;
 	}
+}
+
+int		get_paths(t_output *out, int ants, t_room *start)
+{
+	t_node	*node_ptr;
+	t_room	*room_ptr;
+	int		i;
+	int		diff;
+
+	room_ptr = NULL;
+	diff = 0;
+	i = 0;
+	node_ptr = start->links->head;
+	if (!(out->paths = ft_memalloc(sizeof(t_path*) * out->nbr_of_paths)))
+		return (-1);
+	while (node_ptr)
+	{
+		room_ptr = *(t_room**)node_ptr->data;
+		if (room_ptr->is_solution || room_is_end(room_ptr))
+		{
+			if (!(out->paths[i] = ft_memalloc(sizeof(t_path))))
+				return (-1);
+			out->paths[i]->src = room_ptr;
+			out->paths[i]->ants = out->longest_path_len - room_ptr->solution_len;
+			diff += out->paths[i]->ants;
+			i++;
+		}
+		node_ptr = node_ptr->next;
+	}
+	add_remaining_ants_to_paths(out, ants, diff);
 	return (0);
 }
 
