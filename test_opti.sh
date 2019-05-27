@@ -18,7 +18,7 @@ readonly ORANGE="\e[38;5;208m"
 
 function print_help
 {
-	echo "OPTIONS: 
+	echo "OPTIONS:
 		-h : print this message
 		-i : specify input directory to read maps
 		-o : specify output directory to write maps
@@ -155,12 +155,14 @@ function run_from_folder
 	for file in $INPUT_DIR/*; do
 		output_file=$file
 		target_solution="$(grep -m 1 '#Here is the number*' $file | awk 'NF>1{print $NF}')"
-		time="$((/usr/bin/time ./$EXE < $file) 2>&1 | grep real | awk '{print $1}')"
-		out="$((./$EXE < $file) 2>&1)"
-		solution=`echo "${out}" | wc -l | sed 's/^ *//'`
-		let answer=$solution-$target_solution
-		print_formatted_results $time $target_solution $solution $answer $file
-		record_map $answer $file $OUTPUT_DIR/"$(basename $output_file)"
+		if [[ $target_solution != "" ]]; then
+			time="$((/usr/bin/time ./$EXE < $file) 2>&1 | grep real | awk '{print $1}')"
+			out="$((./$EXE < $file) 2>&1)"
+			solution=`echo "${out}" | wc -l | sed 's/^ *//'`
+			let answer=$solution-$target_solution
+			print_formatted_results $time $target_solution $solution $answer $file
+			record_map $answer $file $OUTPUT_DIR/"$(basename $output_file)"
+		fi
 	done
 }
 
