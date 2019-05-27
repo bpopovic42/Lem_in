@@ -165,6 +165,10 @@ t_list	*get_sorted_start_rooms(t_room *start);
 
 void	clean_previous_solution_marks(t_list *start_rooms);
 void	replace_solution(t_list *initial_rooms, t_solution *old, t_solution *new);
+
+
+void	move_ants(t_path *path, int *ants_count, int *first_ant);
+
 /*
 ** IO
 */

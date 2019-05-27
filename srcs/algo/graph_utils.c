@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 10:49:40 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/05/20 20:19:39 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/05/28 01:58:15 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ int		weight_graph(t_queue *bfs, t_room *src, t_room *target)
 
 	bfs_add(bfs, src);
 	src->end_distance = 0;
-	//ft_printf("WEIGHT START\n");
 	while (bfs->size > 0)
 	{
 		current = bfs_pop(bfs);
@@ -78,7 +77,6 @@ int		weight_graph(t_queue *bfs, t_room *src, t_room *target)
 			{
 				if (!next_ptr->blocked)
 				{
-					//ft_printf("weighting %s\n", next_ptr->name);
 					next_ptr->cleaned = 0;
 					next_ptr->end_distance = current->end_distance + 1;
 					bfs_add(bfs, next_ptr);
