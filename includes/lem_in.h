@@ -134,7 +134,7 @@ int		record_room_if_valid(t_graph *graph, char **input);
 t_room	*record_room(t_graph *graph, char **room_data);
 
 // FILE UTILS
-int		init_file(t_file **file);
+int		init_file(t_file *file);
 void	free_file(t_file *file);
 
 /*

@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/19 22:56:40 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/05/24 20:56:16 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/05/28 18:05:37 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,42 @@ __attribute__((unused)) static int fun_abs(int a)
 	return (a * (1 - 2 * (a < 0)));
 }
 
-static int		local_exit(t_graph *graph, t_file *file, int retval)
+__attribute__((unused)) void tmp_print_rooms(t_room *src)
+{
+	t_room *ptr;
+
+	ptr = src;
+	while (ptr && !room_is_end(ptr))
+	{
+		ft_printf("%s\n", ptr->name);
+		ptr = ptr->solution_to;
+	}
+	ft_putchar('\n');
+}
+
+__attribute__((unused)) void tmp_print_paths_rooms(t_room *start)
+{
+	t_node *ptr;
+	t_room *room;
+
+	ptr = start->links->head;
+	while (ptr)
+	{
+		room = *(t_room**)ptr->data;
+		if (room->solution_len >= 0)
+		{
+			tmp_print_rooms(room);
+		}
+		ptr = ptr->next;
+	}
+	exit(0);
+}
+
+static int		local_exit(t_graph *graph, t_file *file, t_solution *solution, int retval)
 {
 	free_graph(graph);
 	free_file(file);
+	ft_bzero(solution, sizeof(*solution));
 	return (retval);
 }
 
@@ -68,56 +100,33 @@ void	init_solution(t_solution *solution)
 	solution->value = -1;
 }
 
-__attribute__((unused)) void tmp_print_rooms(t_room *src)
+int		initialize_lem_in_data(t_graph *graph, t_file *file, t_solution *solution)
 {
-	t_room *ptr;
-
-	ptr = src;
-	while (ptr && !room_is_end(ptr))
-	{
-		ft_printf("%s\n", ptr->name);
-		ptr = ptr->solution_to;
-	}
-	ft_putchar('\n');
-}
-
-__attribute__((unused)) void tmp_print_paths_rooms(t_room *start)
-{
-	t_node *ptr;
-	t_room *room;
-
-	ptr = start->links->head;
-	while (ptr)
-	{
-		room = *(t_room**)ptr->data;
-		if (room->solution_len >= 0)
-		{
-			tmp_print_rooms(room);
-		}
-		ptr = ptr->next;
-	}
-	exit(0);
+	if (init_graph(graph) < 0)
+		return (-1);
+	if (init_file(file) < 0)
+		return (-1);
+	init_solution(solution);
+	return (0);
 }
 
 int		main(void)
 {
-	t_file		*file;
+	t_file		file;
 	t_graph		graph;
 	t_solution	solution;
 
-	file = NULL;
-	if (init_graph(&graph) < 0)
-		return (1);
-	if (init_file(&file) < 0)
-		return (1);
-	init_solution(&solution);
-	if (parse_input(&graph.ants, &graph, file) != 0)
-		return (local_exit(&graph, file, 1));
-	if (get_best_paths(&graph, &solution))
-		return (local_exit(&graph, file, 1));
-	restore_solution_len(graph.start);
+	if (initialize_lem_in_data(&graph, &file, &solution) < 0)
+		return (local_exit(&graph, &file, &solution, 1));
+	if (parse_input(&graph.ants, &graph, &file) == 0)
+	{
+		if (get_best_paths(&graph, &solution) == 0)
+		{
+			restore_solution_len(graph.start);
+			if (print_ants(graph.ants, graph.start, graph.end) == 0)
+				return (local_exit(&graph, &file, &solution, 0));
+		}
+	}
+	return (local_exit(&graph, &file, &solution, 1));
 	//tmp_print_paths_rooms(graph.start);
-	if (print_ants(graph.ants, graph.start, graph.end))
-		return (local_exit(&graph, file, 0));
-	return (local_exit(&graph, file, 0));
 }

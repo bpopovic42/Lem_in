@@ -25,7 +25,8 @@ ALGO_DIR	=	algo
 
 ALGO		=	$(addprefix $(ALGO_DIR)/, \
 		graph_utils.c get_best_paths.c compute_solution.c break_link.c \
-		bfs_utils.c output.c sort_rooms.c solution_utils.c output_utils.c)
+		bfs_utils.c output.c sort_rooms.c solution_utils.c output_utils.c \
+		move_ants.c)
 
 CMN_DIR		=	common
 
