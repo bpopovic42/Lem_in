@@ -6,51 +6,22 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 18:41:55 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/05/20 20:38:35 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/05/28 20:15:33 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-t_room			*record_room(t_graph *graph, char **room_data)
+static int		local_exit(char **room_data, t_room *room, int retval)
 {
-	t_pos	coord;
-	t_room	*room;
-
-	coord.x = ft_atoi(room_data[1]);
-	coord.y = ft_atoi(room_data[2]);
-	if (!(room = new_room(room_data[0], &graph->last_command, &coord)))
-		return (NULL);
-	if (room->command)
-	{
-		if (!ft_strcmp(room->command, "##start"))
-			graph->start = room;
-		else if (!ft_strcmp(room->command, "##end"))
-			graph->end = room;
-	}
-	return (room);
+	if (room_data)
+		ft_delarray(room_data);
+	if (room)
+		free_room(&room);
+	return (retval);
 }
 
-static int		is_valid(char **input)
-{
-	char *room;
-	char *x;
-	char *y;
-
-	room = input[0];
-	x = input[1];
-	y = input[2];
-	if (ft_strchr(room, '-'))
-		return (0);
-	else if (!ft_is_valid_int(x) || !ft_is_valid_int(y))
-		return (0);
-	else if (ft_atoi(x) < 0 || ft_atoi(y) < 0)
-		return (0);
-	else
-		return (1);
-}
-
-static int		room_conflict(t_graph *graph, t_room *room)
+static int		room_has_conflict(t_graph *graph, t_room *room)
 {
 	t_room	*ptr;
 	size_t	i;
@@ -72,26 +43,40 @@ static int		room_conflict(t_graph *graph, t_room *room)
 	return (0);
 }
 
-int				record_room_if_valid(t_graph *graph, char **input)
+static int		record_room(t_graph *graph, t_room *room)
+{
+	if (!room_has_conflict(graph, room))
+	{
+		graph->nbr_of_rooms++;
+		if (ft_vector_append(graph->room_list, room) < 0)
+			return (-1);
+		if (ft_hashpush_data(graph->rooms, room->name, room, sizeof(*room)) < 0)
+			return (-1);
+		if (graph->last_command)
+			room->command = graph->last_command;
+		graph->last_command = NULL;
+		if (room_is_start(room))
+			graph->start = room;
+		else if (room_is_end(room))
+			graph->end = room;
+		return (0);
+	}
+	return (1);
+}
+
+int				record_room_if_valid(t_graph *graph, const char *line)
 {
 	t_room	*room;
+	int		error_status;
+	char	**room_data;
 
-	if (input && is_valid(input))
-	{
-		if (!(room = record_room(graph, input)))
-			return (-1);
-		if (!room_conflict(graph, room))
-		{
-			graph->nbr_of_rooms++;
-			if (ft_vector_append(graph->room_list, room) < 0)
-				return (-1);
-			if (ft_hashpush_data(graph->rooms, room->name, room, sizeof(*room)) < 0)
-				return (-1);
-			ft_delarray(input);
-			return (0);
-		}
-		free_room(&room);
-	}
-	ft_delarray(input);
-	return (1);
+	room = NULL;
+	error_status = 0;
+	if (!(room_data = ft_strsplit(line, WSPCS)))
+		return (local_exit(room_data, NULL, -1));
+	if ((error_status = create_room_if_valid(room_data, &room)) != 0)
+		return (local_exit(room_data, room, error_status));
+	if ((error_status = record_room(graph, room)) != 0)
+		return (local_exit(room_data, room, error_status));
+	return (local_exit(room_data, NULL, 0));
 }

@@ -109,19 +109,37 @@ typedef struct		s_queue
 	size_t			tail;
 }					t_queue;
 
+/*******************************************************************************
+*********************************** PARSING ************************************
+*******************************************************************************/
+
 /*
-** PARSING
+** parse_input.c
 */
 
 int		parse_input(int *ants, t_graph *graph, t_file *file);
+
+/*
+** parse_line.c
+*/
+
 int		parse_line(t_graph *graph, int *ants, const char *line, char **cmd_list);
+
+/*
+** parse_line_utils.c
+*/
+
+int		line_is_comment(const char *line);
+int		line_is_command(const char *line);
+int		line_is_link(const char *line);
+int		line_is_room(const char *line);
 
 // GRAPH_UTILS
 int		init_graph(t_graph *graph);
 void	free_graph(t_graph *graph);
 
 // ROOM_UTILS
-t_room	*new_room(char *name, char **cmd, t_pos *coord);
+t_room	*new_room(char *name, t_pos *coord);
 void	free_room(void *room);
 void	free_room_ptr(void *data, size_t data_size);
 
@@ -129,9 +147,17 @@ void	free_room_ptr(void *data, size_t data_size);
 int		record_link_if_valid(t_graph *graph, const char *link);
 int		record_link(t_graph *graph, char *room_a, char *room_b);
 
-// RECORD ROOM
-int		record_room_if_valid(t_graph *graph, char **input);
-t_room	*record_room(t_graph *graph, char **room_data);
+/*
+** record_room_if_valid.c
+*/
+
+int		record_room_if_valid(t_graph *graph, const char *line);
+
+/*
+** create_room_if_valid.c
+*/
+
+int		create_room_if_valid(char **room_data, t_room **room);
 
 // FILE UTILS
 int		init_file(t_file *file);

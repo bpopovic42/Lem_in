@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/14 16:59:13 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/04/29 16:22:19 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/05/28 18:07:53 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int		parse_input(int *ants, t_graph *graph, t_file *file)
 	while ((error_status = get_next_line(STDIN, &line)) > 0)
 	{
 		if ((error_status = parse_line(graph, ants, line, &cmd_list)) != 0)
-			break ;
+			break;
 		if (file_append_buffer(file, line) < 0)
 		{
 			error_status = -1;
