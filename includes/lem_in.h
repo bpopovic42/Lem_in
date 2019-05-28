@@ -168,6 +168,12 @@ int		create_room_if_valid(char **room_data, t_room **room);
 
 int		room_has_conflict(t_graph *graph, t_room *room);
 
+/*
+** record_command_if_valid.c
+*/
+
+int		record_command_if_valid(t_graph *graph, const char *cmd, char **cmd_list);
+
 // FILE UTILS
 int		init_file(t_file *file);
 void	free_file(t_file *file);
