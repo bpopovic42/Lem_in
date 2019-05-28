@@ -1,0 +1,37 @@
+==88209== Memcheck, a memory error detector
+==88209== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==88209== Using Valgrind-3.13.0 and LibVEX; rerun with -h for copyright info
+==88209== Command: ./lem-in
+==88209== 
+==88209== Syscall param msg->desc.port.name points to uninitialised byte(s)
+==88209==    at 0x1003C434A: mach_msg_trap (in /usr/lib/system/libsystem_kernel.dylib)
+==88209==    by 0x1003C3796: mach_msg (in /usr/lib/system/libsystem_kernel.dylib)
+==88209==    by 0x1003BD485: task_set_special_port (in /usr/lib/system/libsystem_kernel.dylib)
+==88209==    by 0x10055910E: _os_trace_create_debug_control_port (in /usr/lib/system/libsystem_trace.dylib)
+==88209==    by 0x100559458: _libtrace_init (in /usr/lib/system/libsystem_trace.dylib)
+==88209==    by 0x1000C29DF: libSystem_initializer (in /usr/lib/libSystem.B.dylib)
+==88209==    by 0x100032A1A: ImageLoaderMachO::doModInitFunctions(ImageLoader::LinkContext const&) (in /usr/lib/dyld)
+==88209==    by 0x100032C1D: ImageLoaderMachO::doInitialization(ImageLoader::LinkContext const&) (in /usr/lib/dyld)
+==88209==    by 0x10002E4A9: ImageLoader::recursiveInitialization(ImageLoader::LinkContext const&, unsigned int, char const*, ImageLoader::InitializerTimingList&, ImageLoader::UninitedUpwards&) (in /usr/lib/dyld)
+==88209==    by 0x10002E440: ImageLoader::recursiveInitialization(ImageLoader::LinkContext const&, unsigned int, char const*, ImageLoader::InitializerTimingList&, ImageLoader::UninitedUpwards&) (in /usr/lib/dyld)
+==88209==    by 0x10002D523: ImageLoader::processInitializers(ImageLoader::LinkContext const&, unsigned int, ImageLoader::InitializerTimingList&, ImageLoader::UninitedUpwards&) (in /usr/lib/dyld)
+==88209==    by 0x10002D5B8: ImageLoader::runInitializers(ImageLoader::LinkContext const&, ImageLoader::InitializerTimingList&) (in /usr/lib/dyld)
+==88209==  Address 0x1048a5a8c is on thread 1's stack
+==88209==  in frame #2, created by task_set_special_port (???:)
+==88209== 
+==88209== HEAP SUMMARY:
+==88209==     in use at exit: 18,426 bytes in 162 blocks
+==88209==   total heap usage: 499 allocs, 337 frees, 368,056 bytes allocated
+==88209== 
+==88209== LEAK SUMMARY:
+==88209==    definitely lost: 0 bytes in 0 blocks
+==88209==    indirectly lost: 2,064 bytes in 1 blocks
+==88209==      possibly lost: 0 bytes in 0 blocks
+==88209==    still reachable: 200 bytes in 6 blocks
+==88209==         suppressed: 16,162 bytes in 155 blocks
+==88209== Reachable blocks (those to which a pointer was found) are not shown.
+==88209== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==88209== 
+==88209== For counts of detected and suppressed errors, rerun with: -v
+==88209== Use --track-origins=yes to see where uninitialised values come from
+==88209== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 13 from 13)
