@@ -159,6 +159,12 @@ int		record_room_if_valid(t_graph *graph, const char *line);
 
 int		create_room_if_valid(char **room_data, t_room **room);
 
+/*
+** room_has_conflict.c
+*/
+
+int		room_has_conflict(t_graph *graph, t_room *room);
+
 // FILE UTILS
 int		init_file(t_file *file);
 void	free_file(t_file *file);
