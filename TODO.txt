@@ -31,6 +31,7 @@ Rework structures names and variables:
 Decide wether to move bitmap functions to libft or not
 Rename 'compute_solution' into 'record_selected_paths_if_better
 Rename 'solution_to/from' to 'solution_prev/next'
+Handle pointers erasing better (affected files : 'room_utils.c, )
 
 ADD :
 Tester :
