@@ -1,23 +1,24 @@
+1. Fix unprotected mallocs + fixes list
+2. Refactor (files, names, functions, see list below)
+3. Norm
+4. Final check for potential errors/leaks (see list below)
+5. Optional : fine tune program, give a last look at the algo for any improvement,
+	improve tester, make the repo nicer and add a description
+
 FIXES :
 Fix unprotected mallocs
 ft_printf with no arguments segfaults (ft_printf("example %s and %s\n"))
 fix makefile
 remove ';;' from breaks
-strange valgring leak report on 'sujet3' variations maps
-remaining issues with 'bad_test' maps
 trying to read a folder doesn't work as expected
 
 TO CHECK :
-check for segfaults and issues
+check for segfaults and issues (get some maps from friends)
 re-check parsing isn't broken
 integer overflows
 libft's functions :
 	ft_strlen, ft_strncmp
 	hash, vectors and bitmaps
-
-ADD :
-Tester :
-	average of time and lines as well as best and worst
 
 REFACTORING :
 Make data access functions ? (instead of (*(t_room**)) casts)
@@ -29,3 +30,8 @@ Rework structures names and variables:
 Decide wether to move bitmap functions to libft or not
 Rename 'compute_solution' into 'record_selected_paths_if_better
 Rename 'solution_to/from' to 'solution_prev/next'
+
+ADD :
+Tester :
+	average of time and lines as well as best and worst
+
