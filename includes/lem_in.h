@@ -138,9 +138,12 @@ int		line_is_room(const char *line);
 int		init_graph(t_graph *graph);
 void	free_graph(t_graph *graph);
 
-// ROOM_UTILS
+/*
+** room_utils.c
+*/
+
 t_room	*new_room(char *name, t_pos *coord);
-void	free_room(void *room);
+void	free_room(t_room **room);
 void	free_room_ptr(void *data, size_t data_size);
 
 // RECORD LINK
