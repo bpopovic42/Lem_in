@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   record_room_if_valid.c                             :+:      :+:    :+:   */
+/*   parse_room.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 18:41:55 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/05/28 21:16:53 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/05/29 19:37:47 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static int		record_room(t_graph *graph, t_room *room)
 	return (1);
 }
 
-int				record_room_if_valid(t_graph *graph, const char *line)
+int				parse_room(t_graph *graph, const char *line)
 {
 	t_room	*room;
 	int		error_status;

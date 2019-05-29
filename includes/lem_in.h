@@ -152,15 +152,17 @@ t_room	*new_room(char *name, t_pos *coord);
 void	free_room(t_room **room);
 void	free_room_ptr(void *data, size_t data_size);
 
-// RECORD LINK
-int		record_link_if_valid(t_graph *graph, const char *link);
-int		record_link(t_graph *graph, char *room_a, char *room_b);
-
 /*
-** record_room_if_valid.c
+** parse_link.c
 */
 
-int		record_room_if_valid(t_graph *graph, const char *line);
+int		parse_link(t_graph *graph, const char *link);
+
+/*
+** parse_room.c
+*/
+
+int		parse_room(t_graph *graph, const char *line);
 
 /*
 ** create_room_if_valid.c
@@ -175,10 +177,10 @@ int		create_room_if_valid(char **room_data, t_room **room);
 int		room_has_conflict(t_graph *graph, t_room *room);
 
 /*
-** record_command_if_valid.c
+** parse_command.c
 */
 
-int		record_command_if_valid(t_graph *graph, const char *cmd, char **cmd_list);
+int		parse_command(t_graph *graph, const char *cmd, char **cmd_list);
 
 // FILE UTILS
 int		init_file(t_file *file);

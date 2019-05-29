@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/28 13:14:02 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/05/28 21:56:25 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/05/29 19:39:37 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,13 @@ int		parse_line(t_graph *graph, int *ants, const char *line, char **cmd_list)
 	else if (!line_is_comment(line))
 	{
 		if (line_is_command(line) && *ants > 0)
-			return (record_command_if_valid(graph, line, cmd_list));
+			return (parse_command(graph, line, cmd_list));
 		else if (!(*ants))
 			return (get_ants(line, ants));
 		else if (line_is_room(line))
-			return (record_room_if_valid(graph, line));
+			return (parse_room(graph, line));
 		else if (line_is_link(line) && !graph->last_command)
-			return (record_link_if_valid(graph, line));
+			return (parse_link(graph, line));
 		else
 			return (1);
 	}

@@ -19,8 +19,8 @@ PARSING_DIR	=	parsing
 
 PARSING		=	$(addprefix  $(PARSING_DIR)/, \
 		parse_input.c parse_line.c parse_line_utils.c graph_utils.c \
-		room_utils.c record_room_if_valid.c record_link_if_valid.c \
-		create_room_if_valid.c room_has_conflict.c record_command_if_valid.c \
+		room_utils.c parse_room.c parse_link.c \
+		create_room_if_valid.c room_has_conflict.c parse_command.c \
 		file_append.c)
 
 ALGO_DIR	=	algo
