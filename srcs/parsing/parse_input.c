@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/14 16:59:13 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/05/28 18:07:53 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/05/29 19:12:07 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,62 +38,21 @@ static int	check_input(int ants, t_graph *graph)
 	return (error_status);
 }
 
-void	file_data_append(char *d, size_t d_size, char *l, size_t l_size)
+int			parse_input(int *ants, t_graph *graph, t_file *file)
 {
-	size_t i;
-
-	i = 0;
-	while (i < l_size)
-	{
-		d[d_size + i] = l[i];
-		i++;
-	}
-	d[d_size + i] = '\n';
-}
-
-int		file_append_buffer(t_file *file, char *line)
-{
-	char	*new_data;
-	size_t	line_size;
-	size_t	new_capacity;
-
-	new_data = NULL;
-	new_capacity = file->capacity;
-	line_size = ft_strlen(line);
-	if (line_size + file->size + 1 >= file->capacity)
-	{
-		while (new_capacity < (line_size + file->size + 1))
-			new_capacity *= 2;
-		if (!(new_data = ft_strnew(new_capacity)))
-			return (-1);
-		file->capacity = new_capacity;
-		ft_strncpy(new_data, file->data, file->size);
-		ft_strdel(&file->data);
-		file->data = new_data;
-	}
-	file_data_append(file->data, file->size, line, line_size);
-	file->size += line_size + 1;
-	return (0);
-}
-
-int		parse_input(int *ants, t_graph *graph, t_file *file)
-{
-	int		error_status;
-	char	*cmd_list;
 	char	*line;
+	char	*cmd_list;
+	int		error_status;
 
-	error_status = 0;
-	cmd_list = NULL;
 	line = NULL;
+	cmd_list = NULL;
+	error_status = 0;
 	while ((error_status = get_next_line(STDIN, &line)) > 0)
 	{
 		if ((error_status = parse_line(graph, ants, line, &cmd_list)) != 0)
 			break;
-		if (file_append_buffer(file, line) < 0)
-		{
-			error_status = -1;
+		if ((error_status = file_append(file, line)) < 0)
 			break;
-		}
 		ft_strdel(&line);
 	}
 	if (error_status < 0)

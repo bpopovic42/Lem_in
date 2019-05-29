@@ -120,6 +120,12 @@ typedef struct		s_queue
 int		parse_input(int *ants, t_graph *graph, t_file *file);
 
 /*
+** file_append.c
+*/
+
+int		file_append(t_file *file, char *line);
+
+/*
 ** parse_line.c
 */
 
