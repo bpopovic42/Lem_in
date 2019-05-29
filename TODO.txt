@@ -20,6 +20,7 @@ integer overflows
 libft's functions :
 	ft_strlen, ft_strncmp
 	hash, vectors and bitmaps
+Improve strcnpy function
 
 REFACTORING :
 Make data access functions ? (instead of (*(t_room**)) casts)
