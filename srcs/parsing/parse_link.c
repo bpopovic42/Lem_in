@@ -72,19 +72,8 @@ static int	room_exists(t_graph *graph, char *room)
 
 static int	link_exists(t_graph *graph, char *room_a, char *room_b)
 {
-	t_room	*ptr;
-	t_node	*links_ptr;
-
-	ptr = ft_hashget_data(graph->rooms, room_a);
-	if (!ptr->links || !ptr->links->size)
-		return (0);
-	links_ptr = ptr->links->head;
-	while (links_ptr)
-	{
-		if (!ft_strcmp((*(t_room**)links_ptr->data)->name, room_b))
-			return (1);
-		links_ptr = links_ptr->next;
-	}
+	if (graph->nbr_of_rooms && ft_hashget_data(graph->rooms, room))
+		return (1);
 	return (0);
 }
 
