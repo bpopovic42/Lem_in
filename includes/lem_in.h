@@ -238,4 +238,11 @@ int		room_is_start(t_room *room);
 int		room_has_multiple_links(t_room *room);
 int		room_is_end_connected(t_room *room);
 
+/*
+** link_utils.c
+*/
+
+int		link_add(t_graph *graph, t_room *a, t_room *b);
+int		room_has_link(t_room *room_a, t_room *room_b);
+
 #endif
