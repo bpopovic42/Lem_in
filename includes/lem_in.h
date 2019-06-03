@@ -39,12 +39,6 @@ typedef struct		s_pos
 	int				y;
 }					t_pos;
 
-typedef struct	s_bmap
-{
-	size_t		size;
-	int			*bits;
-}				t_bmap;
-
 typedef struct	s_file
 {
 	char		*data;
@@ -202,12 +196,6 @@ int		init_bfs_queue(t_queue **bfs, size_t nbr_of_rooms);
 void	bfs_add(t_queue *bfs, t_room *room);
 t_room	*bfs_pop(t_queue *bfs);
 void	free_bfs_queue(t_queue **bfs);
-
-t_bmap	*ft_bitmap_new(size_t binary_size);
-void	ft_bitmap_set_bit(t_bmap *bmap, size_t bit);
-void	ft_bitmap_clear_bit(t_bmap *bmap, size_t bit);
-int		ft_bitmap_has_bit(t_bmap *bmap, size_t bit);
-t_bmap	*ft_bitmap_dup(t_bmap *bmap);
 
 int		print_ants(int ants, t_room *start, t_room *end);
 t_list	*get_sorted_start_rooms(t_room *start);

@@ -33,7 +33,7 @@ ALGO		=	$(addprefix $(ALGO_DIR)/, \
 CMN_DIR		=	common
 
 CMN			=	$(addprefix $(CMN_DIR)/, \
-		main.c room_query_utils.c bitmap.c file_utils.c link_utils.c)
+		main.c room_query_utils.c file_utils.c link_utils.c)
 
 LMN_IO_DIR	=	io
 
