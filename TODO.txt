@@ -1,4 +1,4 @@
-1. Fix unprotected mallocs + fixes list
+1. Fixes list
 2. Refactor (files, names, functions, see list below)
 3. Norm
 4. Final check for potential errors/leaks (see list below)
@@ -6,8 +6,6 @@
 	improve tester, make the repo nicer and add a description
 
 FIXES :
-Fix unprotected mallocs
-ft_printf with no arguments segfaults (ft_printf("example %s and %s\n"))
 fix makefile
 remove ';;' from breaks
 trying to read a folder doesn't work as expected
@@ -21,6 +19,7 @@ libft's functions :
 	ft_strlen, ft_strncmp
 	hash, vectors and bitmaps
 Improve strcnpy function
+Re-check leaks in case of malloc failure
 
 REFACTORING :
 Make data access functions ? (instead of (*(t_room**)) casts)
