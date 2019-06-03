@@ -1,14 +1,8 @@
-1. Fixes list
-2. Refactor (files, names, functions, see list below)
-3. Norm
-4. Final check for potential errors/leaks (see list below)
-5. Optional : fine tune program, give a last look at the algo for any improvement,
+1. Refactor (files, names, functions, see list below)
+2. Norm
+3. Final check for potential errors/leaks (see list below)
+4. Optional : fine tune program, give a last look at the algo for any improvement,
 	improve tester, make the repo nicer and add a description
-
-FIXES :
-fix makefile
-trying to read a folder doesn't work as expected
-weird leak reports in valgrind on 'sujet3.map' variations (only at school)
 
 TO CHECK :
 check for segfaults and issues (get some maps from friends)
@@ -18,7 +12,10 @@ libft's functions :
 	ft_strlen, ft_strncmp
 	hash, vectors and bitmaps
 Improve strcnpy function
+Check makefile's working properly
 Re-check leaks in case of malloc failure
+Weird leak reports in valgrind on 'sujet3.map' variations (only at school)
+Reading a folder just returns a read error (probably normal)
 
 REFACTORING :
 Make data access functions ? (instead of (*(t_room**)) casts)
