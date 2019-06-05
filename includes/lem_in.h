@@ -176,6 +176,12 @@ int		room_has_conflict(t_graph *graph, t_room *room);
 
 int		parse_command(t_graph *graph, const char *cmd, char **cmd_list);
 
+/*
+** data_access_utils.c
+*/
+
+t_room	*get_room_from_node(t_node *node);
+
 // FILE UTILS
 int		init_file(t_file *file);
 void	free_file(t_file *file);
@@ -185,7 +191,7 @@ void	free_file(t_file *file);
 */
 
 int		weight_graph(t_queue *bfs, t_room *src, t_room *target);
-int		get_best_paths(t_graph *graph, t_solution *solution);
+int		mark_best_paths(t_graph *graph, t_solution *solution);
 int		compute_solution(t_graph *graph, t_list *start_rooms, t_solution *solution, int ants);
 void	clean_weight(t_graph *graph);
 void	clean_graph(t_graph *graph);

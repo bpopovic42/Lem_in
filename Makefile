@@ -26,14 +26,14 @@ PARSING		=	$(addprefix  $(PARSING_DIR)/, \
 ALGO_DIR	=	algo
 
 ALGO		=	$(addprefix $(ALGO_DIR)/, \
-		graph_utils.c get_best_paths.c compute_solution.c break_link.c \
+		graph_utils.c mark_best_paths.c compute_solution.c break_link.c \
 		bfs_utils.c output.c sort_rooms.c solution_utils.c output_utils.c \
 		move_ants.c)
 
 CMN_DIR		=	common
 
 CMN			=	$(addprefix $(CMN_DIR)/, \
-		main.c room_query_utils.c file_utils.c link_utils.c)
+		main.c room_query_utils.c file_utils.c link_utils.c data_access_utils.c)
 
 LMN_IO_DIR	=	io
 
