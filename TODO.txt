@@ -16,6 +16,7 @@ Check makefile's working properly
 Re-check leaks in case of malloc failure
 Weird leak reports in valgrind on 'sujet3.map' variations (only at school)
 Reading a folder just returns a read error (probably normal)
+Function pointers casts validity ((void*)free_fn_ptr))
 
 REFACTORING :
 Make data access functions ? (instead of (*(t_room**)) casts)
