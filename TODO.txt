@@ -4,6 +4,9 @@
 4. Optional : fine tune program, give a last look at the algo for any improvement,
 	improve tester, make the repo nicer and add a description
 
+FIX :
+Makefile not recompiling on libft's changes
+
 TO CHECK :
 check for segfaults and issues (get some maps from friends)
 re-check parsing isn't broken
