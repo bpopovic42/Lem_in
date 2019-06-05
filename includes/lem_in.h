@@ -70,16 +70,17 @@ typedef struct		s_room
 
 typedef struct		s_path
 {
-	t_room			*src;
+	t_room			*head;
 	t_room			*last_ant;
+	int				length;
+	int				final_length;
 	int				ants;
 }					t_path;
 
 typedef struct		s_output
 {
-	int				nbr_of_paths;
 	int				longest_path_len;
-	t_path			**paths;
+	t_list			*paths;
 }					t_output;
 
 typedef struct		s_graph
@@ -190,12 +191,13 @@ void	free_file(t_file *file);
 ** ALGO
 */
 
+int		get_initial_paths(t_graph *graph, t_queue *bfs, t_list *paths);
 int		weight_graph(t_queue *bfs, t_room *src, t_room *target);
-int		mark_best_paths(t_graph *graph, t_solution *solution);
+int		mark_best_paths(t_graph *graph, t_queue *bfs, t_list *paths, t_solution *solution);
 int		compute_solution(t_graph *graph, t_list *start_rooms, t_solution *solution, int ants);
 void	clean_weight(t_graph *graph);
 void	clean_graph(t_graph *graph);
-int		break_link(t_room *initial);
+int		break_link(t_path *path);
 void	init_solution(t_solution *solution);
 
 int		init_bfs_queue(t_queue **bfs, size_t nbr_of_rooms);
@@ -203,8 +205,8 @@ void	bfs_add(t_queue *bfs, t_room *room);
 t_room	*bfs_pop(t_queue *bfs);
 void	free_bfs_queue(t_queue **bfs);
 
-int		print_ants(int ants, t_room *start, t_room *end);
-t_list	*get_sorted_start_rooms(t_room *start);
+int		print_ants(int ants, t_list *paths, t_room *end);
+void	sort_paths(t_list *paths);
 
 void	clean_previous_solution_marks(t_list *start_rooms);
 void	replace_solution(t_list *initial_rooms, t_solution *old, t_solution *new);
@@ -217,7 +219,7 @@ void	move_ants(t_path *path, int *ants_count, int *first_ant);
 */
 
 int		init_output(t_output **output);
-int		get_output_data(t_output *out, t_room *start);
+void	get_output_data(t_output *out);
 void	free_output(t_output **output);
 
 void	print_result(t_graph *graph, char *file);

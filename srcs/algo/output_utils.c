@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/20 15:06:03 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/05/27 18:50:11 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/05 19:05:04 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,49 +22,32 @@ int		init_output(t_output **output)
 	return (-1);
 }
 
-int		get_output_data(t_output *out, t_room *start)
+int		get_longest_path_length(t_list *paths)
 {
-	t_node *node_ptr;
-	t_room *room_ptr;
+	int		longest_length;
+	t_node	*node_ptr;
+	t_path	*path_ptr;
 
-	out->longest_path_len = -1;
-	out->nbr_of_paths = 0;
-	room_ptr = NULL;
-	node_ptr = start->links->head;
+	longest_length = -1;
+	node_ptr = paths->head;
+	path_ptr = NULL;
 	while (node_ptr)
 	{
-		room_ptr = *(t_room**)node_ptr->data;
-		if (room_ptr->is_solution || room_is_end(room_ptr))
-		{
-			out->nbr_of_paths++;
-			if (room_ptr->solution_len > out->longest_path_len)
-				out->longest_path_len = room_ptr->solution_len;
-		}
+		path_ptr = *(t_path**)node_ptr->data;
+		if (path_ptr->head->solution_len > longest_length)
+			longest_length = path_ptr->head->solution_len;
 		node_ptr = node_ptr->next;
 	}
-	return (0);
+	return (longest_length);
 }
 
-void	free_paths(t_path **paths, int nbr_of_paths)
+void	get_output_data(t_output *out)
 {
-	int i;
-
-	i = 0;
-	while (i < nbr_of_paths)
-	{
-		ft_bzero(paths[i], sizeof(paths[i]));
-		free(paths[i]);
-		i++;
-	}
-	ft_bzero(paths, sizeof(paths));
-	free(paths);
-
+	out->longest_path_len = get_longest_path_length(out->paths);
 }
 
 void	free_output(t_output **output)
 {
-	if ((*output)->paths && (*output)->nbr_of_paths)
-		free_paths((*output)->paths, (*output)->nbr_of_paths);
 	ft_bzero(*output, sizeof(**output));
 	free(*output);
 }

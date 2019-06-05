@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/14 19:11:36 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/05/20 17:03:13 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/05 17:51:33 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,53 +14,44 @@
 
 int		sort_by_end_distance(void *node_a, void *node_b)
 {
-	t_room *room_a;
-	t_room *room_b;
+	t_path *path_a;
+	t_path *path_b;
 
-	room_a = *(t_room**)node_a;
-	room_b = *(t_room**)node_b;
-	return (room_a->end_distance < room_b->end_distance);
+	path_a = *(t_path**)node_a;
+	path_b = *(t_path**)node_b;
+	return (path_a->length < path_b->length);
 }
 
-void	assign_paths_ids(t_list *start_rooms)
+void	assign_paths_ids(t_list *paths)
 {
 	int		i;
-	t_node	*room_ptr;
+	t_path	*path_ptr;
+	t_node	*node_ptr;
 
 	i = 0;
-	room_ptr = start_rooms->head;
-	while (room_ptr)
+	path_ptr = NULL;
+	node_ptr = paths->head;
+	while (node_ptr)
 	{
-		(*(t_room**)room_ptr->data)->pid = i;
-		room_ptr = room_ptr->next;
+		path_ptr = (*(t_path**)node_ptr->data);
+		path_ptr->head->pid = i;
+		node_ptr = node_ptr->next;
 		i++;
 	}
 }
 
-t_list	*get_sorted_start_rooms(t_room *start)
+void	sort_paths(t_list *paths)
 {
-	t_room	*ptr;
-	t_node	*links_ptr;
-	t_list	*start_rooms;
+	t_node	*node_ptr;
+	t_path	*path_ptr;
 
-	ptr = NULL;
-	if (!(start_rooms = ft_lstnew()))
-		return (NULL);
-	if (start && start->links)
+	node_ptr = paths->head;
+	while (node_ptr)
 	{
-		links_ptr = start->links->head;
-		while (links_ptr)
-		{
-			ptr = *(t_room**)links_ptr->data;
-			if (ptr && ptr->end_distance >= 0)
-			{
-				if (ft_lstadd_data(start_rooms, &ptr, sizeof(ptr)) < 0)
-					return (NULL);
-			}
-			links_ptr = links_ptr->next;
-		}
+		path_ptr = *(t_path**)node_ptr->data;
+		path_ptr->length = path_ptr->head->end_distance;
+		node_ptr = node_ptr->next;
 	}
-	ft_lstsort(start_rooms, &sort_by_end_distance);
-	assign_paths_ids(start_rooms);
-	return (start_rooms);
+	ft_lstsort(paths, &sort_by_end_distance);
+	assign_paths_ids(paths);
 }
