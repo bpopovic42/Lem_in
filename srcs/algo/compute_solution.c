@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/20 13:22:23 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/06/05 19:42:09 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/05 20:08:54 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	update_solution(t_path *path, int ants, t_solution *solution)
 	path->final_length = path->length;
 	solution->value = ((ants - solution->diff) / solution->nbr_of_paths) + path->final_length + ((ants - solution->diff) % solution->nbr_of_paths > 0 ? 1 : 0);
 	solution->longest_path_size = path->final_length;
-	path->final_length = -1;
+	path->length = -1;
 }
 
 void	clean_solution_marks_from_graph(t_graph *graph)

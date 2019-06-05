@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/19 19:27:13 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/06/05 19:41:27 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/05 20:33:09 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ void	mark_next_room(t_room **from, t_room **next)
 	(*from)->blocked = 1;
 	if (!room_is_end((*next)))
 	{
+		ft_putendl((*from)->name);
 		(*next)->pid = (*from)->pid;
 		(*next)->start_distance = (*from)->start_distance + 1;
 		(*next)->from = (*from);
@@ -98,11 +99,6 @@ void	mark_next_room(t_room **from, t_room **next)
 int		path_reached_end(t_room *from, t_room *last)
 {
 	return (from && room_is_end(last));
-}
-
-void	path_set_final_length(t_path *path, int length)
-{
-	path->length = length;
 }
 
 void	mark_path(t_path *path)
@@ -118,7 +114,9 @@ void	mark_path(t_path *path)
 		while (!room_is_end(ptr) && (ptr = get_shortest_link(from)))
 			mark_next_room(&from, &ptr);
 		if (path_reached_end(from, ptr))
-			path_set_final_length(path, from->start_distance);
+			path->length = from->start_distance;
+		else
+			path->length = -1;
 	}
 	else
 	{

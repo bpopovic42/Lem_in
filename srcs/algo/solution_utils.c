@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/15 20:38:49 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/06/05 19:40:49 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/05 20:30:48 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,8 @@ void	clean_previous_solution_marks(t_list *paths)
 	while (node_ptr)
 	{
 		path_ptr = *(t_path**)node_ptr->data;
-		if (path_ptr->length >= 0)
-			path_ptr->length = -1;
+		if (path_ptr->final_length >= 0)
+			path_ptr->final_length = -1;
 		node_ptr = node_ptr->next;
 	}
 }

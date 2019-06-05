@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/19 22:56:40 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/06/05 19:38:57 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/05 20:29:08 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,18 +31,18 @@ __attribute__((unused)) void tmp_print_rooms(t_room *src)
 	ft_putchar('\n');
 }
 
-__attribute__((unused)) void tmp_print_paths_rooms(t_room *start)
+__attribute__((unused)) void tmp_print_paths_rooms(t_list *paths)
 {
 	t_node *ptr;
-	t_room *room;
+	t_path *path;
 
-	ptr = start->links->head;
+	ptr = paths->head;
 	while (ptr)
 	{
-		room = *(t_room**)ptr->data;
-		if (room->solution_len >= 0)
+		path = *(t_path**)ptr->data;
+		if (path->final_length >= 0)
 		{
-			tmp_print_rooms(room);
+			tmp_print_rooms(path->head);
 		}
 		ptr = ptr->next;
 	}
@@ -59,19 +59,19 @@ static int		local_exit(t_graph *graph, t_file *file, t_queue *bfs, t_solution *s
 	return (retval);
 }
 
-void	get_path_len(t_room *src)
+void	get_path_len(t_path *path)
 {
 	size_t len;
 	t_room *ptr;
 
-	ptr = src;
+	ptr = path->head;
 	len = 0;
 	while (ptr && !room_is_end(ptr))
 	{
 		len++;
 		ptr = ptr->solution_to;
 	}
-	src->solution_len = len;
+	path->final_length = len;
 }
 
 void	restore_best_solution(t_list *paths)
@@ -89,12 +89,11 @@ void	restore_best_solution(t_list *paths)
 		tmp = ptr->next;
 		if (path_ptr->head->is_solution)
 		{
-			ft_putendl("YAAAAAAAAAAAAY");
-			get_path_len(path_ptr->head);
+			get_path_len(path_ptr);
 			//ft_printf("%s\n", room_ptr->name);
 		}
 		else if (room_is_end(path_ptr->head))
-			path_ptr->head->solution_len = 0;
+			path_ptr->final_length = 0;
 		else
 			ft_lstnode_remove(paths, ptr);
 		ptr = tmp;
@@ -138,6 +137,8 @@ int		main(void)
 		if (mark_best_paths(&graph, bfs, &paths, &solution) == 0)
 		{
 			restore_best_solution(&paths);
+			tmp_print_paths_rooms(&paths);
+			exit(0);
 			if (print_ants(graph.ants, &paths, graph.end) == 0)
 				return (local_exit(&graph, &file, bfs, &solution, 0));
 		}
