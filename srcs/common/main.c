@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/19 22:56:40 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/06/05 20:29:08 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/06 22:28:25 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ __attribute__((unused)) void tmp_print_rooms(t_room *src)
 	ptr = src;
 	while (ptr && !room_is_end(ptr))
 	{
-		ft_printf("%s\n", ptr->name);
+		ft_printf("%s ", ptr->name);
 		ptr = ptr->solution_to;
 	}
 	ft_putchar('\n');
@@ -40,7 +40,7 @@ __attribute__((unused)) void tmp_print_paths_rooms(t_list *paths)
 	while (ptr)
 	{
 		path = *(t_path**)ptr->data;
-		if (path->final_length >= 0)
+		if (path->head->is_solution > 0)
 		{
 			tmp_print_rooms(path->head);
 		}
@@ -49,70 +49,22 @@ __attribute__((unused)) void tmp_print_paths_rooms(t_list *paths)
 	exit(0);
 }
 
-static int		local_exit(t_graph *graph, t_file *file, t_queue *bfs, t_solution *solution, int retval)
+static int		local_exit(t_graph *graph, t_file *file, t_route *route, int retval)
 {
 	free_graph(graph);
 	free_file(file);
-	if (bfs)
-		free_bfs_queue(&bfs);
-	ft_bzero(solution, sizeof(*solution));
+	free_route(route);
 	return (retval);
 }
 
-void	get_path_len(t_path *path)
-{
-	size_t len;
-	t_room *ptr;
-
-	ptr = path->head;
-	len = 0;
-	while (ptr && !room_is_end(ptr))
-	{
-		len++;
-		ptr = ptr->solution_to;
-	}
-	path->final_length = len;
-}
-
-void	restore_best_solution(t_list *paths)
-{
-	t_node *ptr;
-	t_node *tmp;
-	t_path *path_ptr;
-
-	ptr = paths->head;
-	path_ptr = NULL;
-	//ft_printf("FINAL SOLUTION :\n");
-	while (ptr)
-	{
-		path_ptr = *(t_path**)ptr->data;
-		tmp = ptr->next;
-		if (path_ptr->head->is_solution)
-		{
-			get_path_len(path_ptr);
-			//ft_printf("%s\n", room_ptr->name);
-		}
-		else if (room_is_end(path_ptr->head))
-			path_ptr->final_length = 0;
-		else
-			ft_lstnode_remove(paths, ptr);
-		ptr = tmp;
-	}
-}
-
-void	init_solution(t_solution *solution)
-{
-	ft_bzero(solution, sizeof(*solution));
-	solution->value = -1;
-}
-
-int		initialize_lem_in_data(t_graph *graph, t_file *file, t_solution *solution)
+int		initialize_lem_in_data(t_graph *graph, t_file *file, t_route *route)
 {
 	if (init_graph(graph) < 0)
 		return (-1);
 	if (init_file(file) < 0)
 		return (-1);
-	init_solution(solution);
+	if (init_route(route) < 0)
+		return (-1);
 	return (0);
 }
 
@@ -120,29 +72,19 @@ int		main(void)
 {
 	t_file		file;
 	t_graph		graph;
-	t_solution	solution;
-	t_list		paths;
-	t_queue		*bfs;
+	t_route		route;
 
-	bfs = NULL;
-	if (initialize_lem_in_data(&graph, &file, &solution) < 0)
-		return (local_exit(&graph, &file, bfs, &solution, 1));
-	if (parse_input(&graph.ants, &graph, &file) == 0)
-	{
-		if (init_bfs_queue(&bfs, graph.nbr_of_rooms) < 0)
-			return (local_exit(&graph, &file, bfs, &solution, 1));
-		if (get_initial_paths(&graph, bfs, &paths) <= 0)
-			return (local_exit(&graph, &file, bfs, &solution, 0));//
-		//print_file
-		if (mark_best_paths(&graph, bfs, &paths, &solution) == 0)
-		{
-			restore_best_solution(&paths);
-			tmp_print_paths_rooms(&paths);
-			exit(0);
-			if (print_ants(graph.ants, &paths, graph.end) == 0)
-				return (local_exit(&graph, &file, bfs, &solution, 0));
-		}
-	}
-	return (local_exit(&graph, &file, bfs, &solution, 1));
-	//tmp_print_paths_rooms(graph.start);
+	if (initialize_lem_in_data(&graph, &file, &route) < 0)
+		return (local_exit(&graph, &file, &route, 1));
+	if (parse_input(&graph.ants, &graph, &file) != 0)
+		return (local_exit(&graph, &file, &route, 1));
+	if (get_best_route(&graph, &route) < 0)
+		return (local_exit(&graph, &file, &route, 1));
+	//if (route.paths->size <= 0)
+	//	return (2); // NOPATHS
+	tmp_print_paths_rooms(route.paths);
+	//print_file
+	//if (print_ants(graph, route) != 0)
+	//	return (local_exit(&graph, &file, &route, 1));
+	return (local_exit(&graph, &file, &route, 0));
 }

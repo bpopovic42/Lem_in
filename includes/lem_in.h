@@ -25,14 +25,6 @@
 ** STRUCTURES
 */
 
-typedef struct		s_solution
-{
-	int				value;
-	int				nbr_of_paths;
-	int				diff;
-	int				longest_path_size;
-}					t_solution;
-
 typedef struct		s_pos
 {
 	int				x;
@@ -68,6 +60,15 @@ typedef struct		s_room
 	struct s_pos	pos;
 }					t_room;
 
+typedef struct		s_score
+{
+	int				total_ants;
+	int				diff;
+	int				output_size;
+	int				nbr_of_paths;
+	int				longest_path_size;
+}					t_score;
+
 typedef struct		s_path
 {
 	t_room			*head;
@@ -76,6 +77,13 @@ typedef struct		s_path
 	int				final_length;
 	int				ants;
 }					t_path;
+
+typedef struct	s_route
+{
+	t_score		*score;
+	t_list		*paths;
+}				t_route;
+
 
 typedef struct		s_output
 {
@@ -193,25 +201,15 @@ void	free_file(t_file *file);
 
 int		get_initial_paths(t_graph *graph, t_queue *bfs, t_list *paths);
 int		weight_graph(t_queue *bfs, t_room *src, t_room *target);
-int		mark_best_paths(t_graph *graph, t_queue *bfs, t_list *paths, t_solution *solution);
-int		compute_solution(t_graph *graph, t_list *start_rooms, t_solution *solution, int ants);
 void	clean_weight(t_graph *graph);
 void	clean_graph(t_graph *graph);
 int		break_link(t_path *path);
-void	init_solution(t_solution *solution);
-
 int		init_bfs_queue(t_queue **bfs, size_t nbr_of_rooms);
 void	bfs_add(t_queue *bfs, t_room *room);
 t_room	*bfs_pop(t_queue *bfs);
 void	free_bfs_queue(t_queue **bfs);
-
 int		print_ants(int ants, t_list *paths, t_room *end);
 void	sort_paths(t_list *paths);
-
-void	clean_previous_solution_marks(t_list *start_rooms);
-void	replace_solution(t_list *initial_rooms, t_solution *old, t_solution *new);
-
-
 void	move_ants(t_path *path, int *ants_count, int *first_ant);
 
 /*
@@ -240,5 +238,32 @@ int		room_is_end_connected(t_room *room);
 
 int		link_add(t_graph *graph, t_room *a, t_room *b);
 int		room_has_link(t_room *room_a, t_room *room_b);
+
+/*
+** ALGO 2
+*/
+
+
+t_path	*get_path_from_node(t_node *path_container);
+int		find_best_route(t_graph *graph, t_route *route, t_queue *bfs);
+int		get_best_route(t_graph *graph, t_route *route);
+void	get_new_score(t_graph *graph, t_route *route, t_score **new_score);
+void	mark_next_paths(t_graph *graph, t_list *paths, t_queue *bfs);
+void	mark_path(t_path *path);
+void	sort_paths_by_head_distance(t_list *paths);
+int		update_score(t_graph *graph, t_route *route);
+
+// route_utils.c
+
+int		init_route(t_route *route);
+void	free_route(t_route *route);
+
+// path_utils.c
+
+void	free_path(t_path **path);
+t_path	*path_new();
+void	path_set_head(t_path *path, t_room *head);
+void	path_set_final_length(t_path *path, int final_length);
+void	path_set_length(t_path *path, int length);
 
 #endif
