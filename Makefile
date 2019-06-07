@@ -35,7 +35,8 @@ ALGO2_DIR	=	algo2
 ALGO2		=	$(addprefix $(ALGO2_DIR)/, \
 		algo_data_utils.c find_best_route.c get_best_route.c get_new_score.c \
 		mark_next_paths.c mark_path.c path_utils.c route_utils.c \
-		update_score.c sort_paths.c bfs_utils.c graph_utils.c)
+		update_score.c sort_paths.c bfs_utils.c graph_utils.c score_utils.c \
+		update_paths_length.c)
 
 CMN_DIR		=	common
 

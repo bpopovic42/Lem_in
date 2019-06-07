@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 10:49:40 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/05/28 01:58:15 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/07 16:16:43 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int		weight_graph(t_queue *bfs, t_room *src, t_room *target)
 		links_ptr = current->links->head;
 		while (links_ptr)
 		{
-			next_ptr = *(t_room**)links_ptr->data;
+			next_ptr = get_room_from_node(links_ptr);
 			if ((next_ptr != src && next_ptr != target && next_ptr->end_distance < 0)
 				|| (next_ptr->end_distance >= 0 && next_ptr->end_distance > current->end_distance + 1))
 			{

@@ -247,7 +247,7 @@ int		room_has_link(t_room *room_a, t_room *room_b);
 t_path	*get_path_from_node(t_node *path_container);
 int		find_best_route(t_graph *graph, t_route *route, t_queue *bfs);
 int		get_best_route(t_graph *graph, t_route *route);
-void	get_new_score(t_graph *graph, t_route *route, t_score **new_score);
+void	get_new_score(t_route *route, t_score **new_score);
 void	mark_next_paths(t_graph *graph, t_list *paths, t_queue *bfs);
 void	mark_path(t_path *path);
 void	sort_paths_by_head_distance(t_list *paths);
@@ -265,5 +265,14 @@ t_path	*path_new();
 void	path_set_head(t_path *path, t_room *head);
 void	path_set_final_length(t_path *path, int final_length);
 void	path_set_length(t_path *path, int length);
+
+// score_utils.c
+
+t_score	*score_new();
+void	free_score(t_score **score);
+
+// update_paths_length.c
+
+void	update_paths_length(t_list *paths);
 
 #endif

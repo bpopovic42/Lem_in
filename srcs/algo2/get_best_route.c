@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 19:33:14 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/06/06 22:30:02 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/07 15:52:53 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,31 @@ static void	graph_mark_end_distance(t_room *end, t_queue *bfs) //DIRTY
 	}
 }
 
+int			initialize_path_heads(t_graph *graph, t_list *paths)
+{
+	t_room *room;
+	t_node *node;
+	t_path *tmp;
+
+	room = NULL;
+	node = graph->start->links->head;
+	tmp = NULL;
+	while (node)
+	{
+		room = get_room_from_node(node);
+		if (room->end_distance >= 0)
+		{
+			if (!(tmp = path_new()))
+				return (-1);
+			path_set_head(tmp, room);
+			if (ft_lstadd_data(paths, &tmp, sizeof(tmp)) < 0)
+				return (-1);
+		}
+		node = node->next;
+	}
+	return (0);
+}
+
 int			get_best_route(t_graph *graph, t_route *route)
 {
 	t_queue	*bfs;
@@ -52,8 +77,10 @@ int			get_best_route(t_graph *graph, t_route *route)
 	if (init_bfs_queue(&bfs, graph->nbr_of_rooms) < 0)
 		return (local_exit(&bfs, -1));
 	graph_mark_end_distance(graph->end, bfs);
+	if (initialize_path_heads(graph, route->paths) < 0)
+		return (local_exit(&bfs, -1));
 	sort_paths_by_head_distance(route->paths);
 	find_best_route(graph, route, bfs);
-	//tmp_print_best_solution_score();
+	ft_putnbr(route->score->output_size);
 	return (local_exit(&bfs, 0)); //nbr of paths found
 }

@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 21:05:31 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/06/06 22:24:33 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/07 15:28:33 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,11 +73,13 @@ int		update_score(t_graph *graph, t_route *route)
 {
 	t_score *new_score;
 
-	new_score = NULL;
-	get_new_score(graph, route, &new_score);
+	if (!(new_score = score_new()))
+		return (-1);
+	new_score->total_ants = graph->ants;
+	get_new_score(route, &new_score);
 	if (new_score_is_better(route->score, new_score))
 	{
-		//free_score(route->score);
+		free_score(&route->score);
 		route->score = new_score;
 		remove_previous_route_marks(graph);
 		mark_new_route(route);
