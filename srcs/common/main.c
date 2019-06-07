@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/19 22:56:40 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/06/06 22:28:25 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/07 18:51:24 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 #include "ft_printf.h"
 
 __attribute__((unused)) static int fun_abs(int a)
-{
-	return (a * (1 - 2 * (a < 0)));
+{ return (a * (1 - 2 * (a < 0)));
 }
 
 __attribute__((unused)) void tmp_print_rooms(t_room *src)
@@ -82,6 +81,7 @@ int		main(void)
 		return (local_exit(&graph, &file, &route, 1));
 	//if (route.paths->size <= 0)
 	//	return (2); // NOPATHS
+	ft_printf("Final score : %d\n", route.score->output_size);
 	tmp_print_paths_rooms(route.paths);
 	//print_file
 	//if (print_ants(graph, route) != 0)

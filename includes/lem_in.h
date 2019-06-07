@@ -260,7 +260,7 @@ void	free_route(t_route *route);
 
 // path_utils.c
 
-void	free_path(t_path **path);
+void	free_path(t_path ***path);
 t_path	*path_new();
 void	path_set_head(t_path *path, t_room *head);
 void	path_set_final_length(t_path *path, int final_length);

@@ -6,16 +6,16 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 20:12:42 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/06/06 22:21:57 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/07 18:40:32 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-void	free_path(t_path **path)
+void	free_path(t_path ***path)
 {
-	ft_bzero(*path, sizeof(**path));
-	ft_memdel((void**)path);
+	ft_bzero(**path, sizeof(***path));
+	ft_memdel((void**)*path);
 }
 
 t_path	*path_new()
