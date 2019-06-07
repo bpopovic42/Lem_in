@@ -6,11 +6,12 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 20:52:23 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/06/07 19:33:37 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/07 20:04:29 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
+#include "ft_printf.h"
 
 void	mark_next_room(t_room **from, t_room **next)
 {
@@ -24,8 +25,6 @@ void	mark_next_room(t_room **from, t_room **next)
 		(*from) = (*next); //
 	}
 }
-
-#include "ft_printf.h"
 
 int		link_is_shorter(t_room *src, t_room *link, t_room *shortest)
 {
@@ -107,10 +106,10 @@ void	mark_path(t_path *path)
 
 	ptr = NULL;
 	from = path->head;
-	ft_putendl(from->name);
 	from->start_distance = 1;
 	while (!room_is_end(ptr) && (ptr = get_shortest_link(from))) //Might cause some issues
 		mark_next_room(&from, &ptr);
+
 	if ((from && room_is_end(ptr)) || (room_is_end(from) && !ptr)) // if end is properly reached or start->end
 	{
 		path_set_final_length(path, from->start_distance);

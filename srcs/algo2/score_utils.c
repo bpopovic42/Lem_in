@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 15:18:12 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/06/07 15:22:27 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/07 20:12:39 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,6 @@ t_score		*score_new()
 
 	if (!(new = ft_memalloc(sizeof(*new))))
 		return (NULL);
+	new->output_size = -1;
 	return (new);
 }
