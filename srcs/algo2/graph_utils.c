@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 10:49:40 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/06/07 16:16:43 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/07 19:10:43 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,4 +86,22 @@ int		weight_graph(t_queue *bfs, t_room *src, t_room *target)
 		}
 	}
 	return (0);
+}
+
+void	clean_path_length(t_node *path_container)
+{
+	path_set_length(*(t_path**)path_container->data, -1);
+}
+
+void	clean_marks(t_graph *graph, t_list *paths)
+{
+	clean_graph(graph);
+	ft_lstiter(paths, &clean_path_length);
+}
+
+void	reweight_graph(t_graph *graph, t_list *paths, t_queue *bfs)
+{
+	clean_weight(graph);
+	weight_graph(bfs, graph->end, graph->start);
+	update_paths_length(paths);
 }

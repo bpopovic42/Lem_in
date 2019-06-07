@@ -275,4 +275,9 @@ void	free_score(t_score **score);
 
 void	update_paths_length(t_list *paths);
 
+// graph_utils.c
+
+void	reweight_graph(t_graph *graph, t_list *paths, t_queue *bfs);
+void	clean_marks(t_graph *graph, t_list *paths);
+
 #endif

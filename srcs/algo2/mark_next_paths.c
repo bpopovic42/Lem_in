@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 20:59:29 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/06/07 18:44:20 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/07 19:11:20 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,16 +49,10 @@ void	mark_next_paths(t_graph *graph, t_list *paths, t_queue *bfs)
 	t_path *path_ptr;
 
 	path_ptr = NULL;
-	clean_weight(graph);
-	weight_graph(bfs, graph->end, graph->start);
-	update_paths_length(paths);
-	(void)bfs;
-	(void)graph;
+	reweight_graph(graph, paths, bfs);
 	while ((path_ptr = get_next_shortest_path(paths)))
 	{
 		mark_path(path_ptr);
-		clean_weight(graph);
-		weight_graph(bfs, graph->end, graph->start);
-		update_paths_length(paths);
+		reweight_graph(graph, paths, bfs);
 	}
 }
