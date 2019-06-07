@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 20:52:23 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/06/07 16:14:53 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/07 16:31:26 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	mark_next_room(t_room **from, t_room **next)
 {
 	(*from)->to = (*next);
 	(*from)->blocked = 1;
+	(*from)->cleaned = 0;
 	if (!room_is_end((*next)))
 	{
 		(*next)->start_distance = (*from)->start_distance + 1;
@@ -28,31 +29,31 @@ void	mark_next_room(t_room **from, t_room **next)
 
 int		link_is_shorter(t_room *src, t_room *link, t_room *shortest)
 {
-	ft_printf("for room %s link %s is ", src->name, link->name);
+	//ft_printf("for room %s link %s is ", src->name, link->name);
 	if (link == src->from || room_is_start(link) || link->blocked)
 	{
-		if (link == src->from)
+		/*if (link == src->from)
 			ft_putendl("previous");
 		else if (room_is_start(link))
 			ft_putendl("start");
 		else if (link->blocked)
-			ft_putendl("blocked");
+			ft_putendl("blocked");*/
 		return (0);
 	}
 	else if (link->end_distance >= 0)
 	{
 		if (shortest == NULL || shortest->end_distance > link->end_distance)
 		{
-			ft_putendl("valid");
+			//ft_putendl("valid");
 			return (1);
 		}
 		else
 		{
-			ft_printf("longer than %s\n", shortest->name);
+			//ft_printf("longer than %s\n", shortest->name);
 			return (0);
 		}
 	}
-	ft_printf("unmarked (%d)\n", link->end_distance);
+	//ft_printf("unmarked (%d)\n", link->end_distance);
 	return (0);
 }
 
