@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 20:52:23 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/06/07 16:31:26 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/07 19:33:37 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,24 @@ t_room	*get_shortest_link(t_room *src) //DIRTY
 	return (shortest);
 }
 
+void	unmark_path(t_path *path, t_room *last_marked_room)
+{
+	t_room *ptr;
+	t_room *previous;
+
+	ptr = last_marked_room;
+	while (ptr)
+	{
+		previous = ptr->from;
+		ptr->blocked = 0;
+		ptr->to = NULL;
+		ptr->from = NULL;
+		ptr = previous;
+	}
+	path->head->blocked = 1; //So that path is not re-selected for current set
+	path->final_length = -1;
+}
+
 void	mark_path(t_path *path)
 {
 	t_room	*ptr;
@@ -92,19 +110,13 @@ void	mark_path(t_path *path)
 	ft_putendl(from->name);
 	from->start_distance = 1;
 	while (!room_is_end(ptr) && (ptr = get_shortest_link(from))) //Might cause some issues
-	{
-		ft_putstr(from->name);
-		ft_putchar(' ');
 		mark_next_room(&from, &ptr);
-	}
-	ft_putchar('\n');
 	if ((from && room_is_end(ptr)) || (room_is_end(from) && !ptr)) // if end is properly reached or start->end
 	{
 		path_set_final_length(path, from->start_distance);
-		if (!ptr)
+		if (!ptr) // if start->end block it
 			path->head->blocked = 1; //UNSURE
 	}
 	else
-		path->final_length = -1;
-	path->head->blocked = 1; //UNSURE
+		unmark_path(path, from);
 }
