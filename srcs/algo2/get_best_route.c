@@ -6,12 +6,11 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 19:33:14 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/06/07 18:50:18 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/13 20:27:00 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
-
 static int	local_exit(t_queue **bfs, int retval)
 {
 	if (*bfs)
@@ -62,7 +61,10 @@ int			initialize_path_heads(t_graph *graph, t_list *paths)
 				return (-1);
 			path_set_head(tmp, room);
 			if (ft_lstadd_data(paths, &tmp, sizeof(tmp)) < 0)
+			{
+				free_path(&tmp);
 				return (-1);
+			}
 		}
 		node = node->next;
 	}
