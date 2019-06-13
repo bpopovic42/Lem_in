@@ -1,3 +1,4 @@
+0. Fix leaks (notably the 8 bytes from route->paths)
 1. Refactor (files, names, functions, see list below)
 2. Norm
 3. Final check for potential errors/leaks (see list below)
