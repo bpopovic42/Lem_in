@@ -6,16 +6,21 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 20:12:42 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/06/13 15:30:03 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/13 20:26:06 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-void	free_path(t_path ***path)
+void	free_path(t_path **path)
 {
-	ft_bzero(**path, sizeof(***path));
-	ft_memdel((void**)*path);
+	ft_bzero(*path, sizeof(*path));
+	ft_memdel((void**)path);
+}
+
+void	free_path_from_node(t_path ***path)
+{
+	free_path(*path);
 }
 
 t_path	*path_new()
