@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 20:52:23 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/06/07 20:04:29 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/13 16:48:19 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 void	mark_next_room(t_room **from, t_room **next)
 {
+	print_dbg(0, "\t[Marking] %s->%s\n", (*from)->name, (*next)->name);
 	(*from)->to = (*next);
 	(*from)->blocked = 1;
 	(*from)->cleaned = 0;
@@ -70,8 +71,8 @@ t_room	*get_shortest_link(t_room *src) //DIRTY
 		link = get_room_from_node(link_ptr);
 		if (room_is_end(link))//WUT
 		{
-			if (room_is_start(src) && link->blocked)
-				return (NULL);
+			//if (room_is_start(src) && link->blocked)
+			//	return (NULL);
 			return (link);
 		}
 		else if (link_is_shorter(src, link, shortest))
@@ -96,7 +97,7 @@ void	unmark_path(t_path *path, t_room *last_marked_room)
 		ptr = previous;
 	}
 	path->head->blocked = 1; //So that path is not re-selected for current set
-	path->final_length = -1;
+	path->length = -1;
 }
 
 void	mark_path(t_path *path)
@@ -106,16 +107,21 @@ void	mark_path(t_path *path)
 
 	ptr = NULL;
 	from = path->head;
+	print_dbg(0, "Marking path %s :\n", from->name);
 	from->start_distance = 1;
 	while (!room_is_end(ptr) && (ptr = get_shortest_link(from))) //Might cause some issues
 		mark_next_room(&from, &ptr);
 
 	if ((from && room_is_end(ptr)) || (room_is_end(from) && !ptr)) // if end is properly reached or start->end
 	{
-		path_set_final_length(path, from->start_distance);
-		if (!ptr) // if start->end block it
+		print_dbg(2, "\tPath successfully marked, setting length %d\n", from->start_distance);
+		path_set_length(path, from->start_distance);
+		if (!ptr) // if start->end, block it
 			path->head->blocked = 1; //UNSURE
 	}
 	else
+	{
+		print_dbg(1, "\tFailed to mark path, cleaning.");
 		unmark_path(path, from);
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/19 22:56:40 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/06/07 18:51:24 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/13 16:41:29 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ __attribute__((unused)) void tmp_print_paths_rooms(t_list *paths)
 		}
 		ptr = ptr->next;
 	}
-	exit(0);
 }
 
 static int		local_exit(t_graph *graph, t_file *file, t_route *route, int retval)
@@ -81,8 +80,8 @@ int		main(void)
 		return (local_exit(&graph, &file, &route, 1));
 	//if (route.paths->size <= 0)
 	//	return (2); // NOPATHS
-	ft_printf("Final score : %d\n", route.score->output_size);
-	tmp_print_paths_rooms(route.paths);
+	//tmp_print_paths_rooms(route.paths);
+	print_dbg(0, "Final score : %d\n", route.score->output_size);
 	//print_file
 	//if (print_ants(graph, route) != 0)
 	//	return (local_exit(&graph, &file, &route, 1));

@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 10:49:40 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/06/07 19:10:43 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/13 14:44:58 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,7 @@ void	clean_graph(t_graph *graph)
 			next_ptr->solution_len = -1;
 			next_ptr->from = NULL;
 			next_ptr->to = NULL;
-			next_ptr->start_distance = -1;
-			next_ptr->blocked = 0;
+			next_ptr->start_distance = -1; next_ptr->blocked = 0;
 			next_ptr->cleaned = 1;
 		}
 		i++;
@@ -103,5 +102,6 @@ void	reweight_graph(t_graph *graph, t_list *paths, t_queue *bfs)
 {
 	clean_weight(graph);
 	weight_graph(bfs, graph->end, graph->start);
-	update_paths_length(paths);
+	//update_paths_length(paths);
+	(void)paths;
 }

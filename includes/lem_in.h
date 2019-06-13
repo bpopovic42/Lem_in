@@ -9,6 +9,7 @@
 
 # define LMN_BUFF_SIZE 15000
 # define ERR_DBG 1
+# define DBG_PRINT 1
 # define STDIN 0
 # define EINVANT	1
 # define ENEROOM	2
@@ -283,5 +284,11 @@ void	clean_marks(t_graph *graph, t_list *paths);
 // break_link.c
 
 int		break_link(t_path *path);
+
+/*
+** DEBUGGING
+*/
+
+void	print_dbg(int is_msg_last, const char *fmt_msg, ...);
 
 #endif

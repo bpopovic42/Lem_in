@@ -1,26 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   update_paths_length.c                              :+:      :+:    :+:   */
+/*   debug.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/06/07 15:32:51 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/06/13 14:44:35 by bopopovi         ###   ########.fr       */
+/*   Created: 2019/06/13 16:20:25 by bopopovi          #+#    #+#             */
+/*   Updated: 2019/06/13 16:33:04 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
+#include "ft_printf.h"
 
-void	update_path_length(t_node *path_container)
+void	print_dbg(int is_msg_last, const char *fmt_msg, ...)
 {
-	t_path *path;
+	va_list ap;
 
-	path = get_path_from_node(path_container);
-	path->length = path->head->end_distance;
-}
-
-void	update_paths_length(t_list *paths)
-{
-	ft_lstiter(paths, &update_path_length);
+	if (DBG_PRINT == 1)
+	{
+		va_start(ap, fmt_msg);
+		ft_vdprintf(1, fmt_msg, ap);
+		if (is_msg_last)
+			ft_putchar('\n');
+		va_end(ap);
+	}
 }

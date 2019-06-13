@@ -6,19 +6,17 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 21:23:42 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/06/07 20:21:20 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/13 16:40:40 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
+#include "ft_printf.h"
 
 void	add_path_to_score(t_score *score, t_path *path)
 {
 	score->nbr_of_paths += 1;
-	//path->final_length = path->length;
-	score->output_size = ((score->total_ants - score->diff) / score->nbr_of_paths)
-		+ path->final_length + ((score->total_ants - score->diff)
-			% score->nbr_of_paths > 0 ? 1 : 0);
+	score->output_size = ((score->total_ants - score->diff) / score->nbr_of_paths) + path->length + ((score->total_ants - score->diff) % score->nbr_of_paths > 0 ? 1 : 0);
 	score->longest_path_size = path->length;
 	path->final_length = path->length; //WILL BE USED TO RETRIEVE PATH IF SCORE IS BETTER
 	path->length = -1;
@@ -41,7 +39,7 @@ int		update_score_if_improved_by_path(t_score *score, t_path *path)
 		new_score = ants_left / (score->nbr_of_paths + 1);
 		new_score += path->length;
 		new_score += (ants_left % (score->nbr_of_paths + 1) > 0);
-		if (score->output_size < 0 || new_score <= score->output_size)
+		if (score->output_size < 0 || new_score < score->output_size)
 		{
 			score->diff = new_diff;
 			return (1);
@@ -61,9 +59,9 @@ static t_path	*get_next_shortest_path(t_list *paths)
 	shortest = NULL;
 	while ((path_ptr = get_path_from_node(node_ptr)))
 	{
-		if (path_ptr->final_length >= 0)
+		if (path_ptr->length >= 0 && path_ptr->head->recorded == 0)
 		{
-			if (!shortest || path_ptr->final_length < shortest->final_length)
+			if (!shortest || path_ptr->length < shortest->length)
 			{
 				if (!path_ptr->head->recorded) //recorded field to put into t_path
 					shortest = path_ptr;
@@ -80,9 +78,15 @@ void	get_new_score(t_route *route, t_score **new_score)
 {
 	t_path *path;
 
+	print_dbg(0, "Computing score for current route :\n", NULL);
 	while ((path = get_next_shortest_path(route->paths)))
 	{
 		if (update_score_if_improved_by_path(*new_score, path))
+		{
+			print_dbg(0, "\tPath %s of length %d improves score, recording.\n", path->head->name, path->length);
 			add_path_to_score(*new_score, path);
+		}
+		else
+			path->length = -1;
 	}
 }

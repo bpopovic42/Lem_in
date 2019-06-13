@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/25 16:50:38 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/06/07 19:49:58 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/13 16:48:56 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int		break_link(t_path *path)
 		if (room_has_multiple_links(ptr) && !room_is_end_connected(ptr)
 			&& !room_is_end(ptr) && !room_is_start(ptr) && alt)
 		{
-			ft_printf("Removing link %s->%s\n", ptr->name, ptr->to->name);
+			print_dbg(1, "\nRemoving link %s->%s\n", ptr->name, ptr->to->name);
 			remove_link(ptr, ptr->to);
 			remove_link(ptr->to, ptr);
 			return (1);

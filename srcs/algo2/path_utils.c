@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 20:12:42 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/06/07 20:29:52 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/13 15:30:03 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ t_path	*path_new()
 	if (!(new_path = ft_memalloc(sizeof(*new_path))))
 		return (NULL);
 	new_path->final_length = -1;
+	new_path->length = -1;
 	return (new_path);
 }
 
