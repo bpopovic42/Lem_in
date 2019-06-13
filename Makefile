@@ -71,11 +71,11 @@ LFT			=	$(addprefix $(LFTDIR)/, libft.a)
 
 LFT_INC_DIR	=	$(addprefix $(LFTDIR)/, $(IDIR))
 
-LFT_INC		=	$(addprefix $(LFTDIR)/, $(IDIR)/libft.h)
+LFT_INC		=	$(addprefix $(LFTDIR)/, $(IDIR)/libft.h $(IDIR)/ft_printf.h)
 
 LMN_INC		=	$(addprefix $(IDIR)/, lem_in.h)
 
-HEADERS		=	$(LFT_INC) #$(LMN_INC)
+HEADERS		=	$(LFT_INC) $(LMN_INC)
 
 INCS		=	$(addprefix -I,$(IDIR) $(LFT_INC_DIR))
 
@@ -101,7 +101,7 @@ $(ODIR)/%.o	:	$(SDIR)/%.c $(HEADERS)
 			@$(CLR)
 			@echo -n $@
 
-$(LFT)		:
+$(LFT)		:	$(LFT_INC)
 		@$(IF_NO_LFT)
 		@$(MAKE) DEBUG="$(DEBUG)" -C $(LFTDIR)
 

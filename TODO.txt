@@ -5,8 +5,6 @@
 	improve tester, make the repo nicer and add a description
 
 FIX :
-Makefile not recompiling sources on header change
-Makefile not recompiling on libft's changes
 
 TO CHECK :
 check for segfaults and issues (get some maps from friends)
