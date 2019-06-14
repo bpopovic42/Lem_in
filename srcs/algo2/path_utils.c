@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 20:12:42 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/06/13 20:26:06 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/14 16:04:56 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	free_path(t_path **path)
 void	free_path_from_node(t_path ***path)
 {
 	free_path(*path);
+	ft_memdel((void**)path);
 }
 
 t_path	*path_new()
