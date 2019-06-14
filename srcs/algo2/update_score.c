@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 21:05:31 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/06/13 16:49:53 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/14 16:20:29 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,8 @@ int		update_score(t_graph *graph, t_route *route)
 		remove_previous_route_marks(graph);
 		mark_new_route(route);
 	}
+	else
+		free_score(&new_score);
 	ft_lstiter(route->paths, (void*)&remove_recorded_mark);
 	return (0);
 }
