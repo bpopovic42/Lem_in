@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 21:05:31 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/06/14 16:20:29 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/17 16:53:26 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void	mark_new_route(t_route *route)
 		if (path_ptr->final_length >= 0)
 		{
 			print_dbg(0, "\tMarking path %s of final length %d\n\t", path_ptr->head->name, path_ptr->final_length);
+			path_ptr->head->solution_len = path_ptr->final_length;
 			mark_solution_path(path_ptr);
 		}
 		node_ptr = node_ptr->next;
@@ -60,6 +61,7 @@ void	remove_previous_route_marks(t_graph *graph)
 		if (!room_is_start(next_ptr))
 		{
 			next_ptr->is_solution = 0;
+			next_ptr->solution_len = -1;
 			next_ptr->solution_from = NULL;
 			next_ptr->solution_to = NULL;
 		}

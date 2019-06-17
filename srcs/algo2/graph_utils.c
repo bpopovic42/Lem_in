@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 10:49:40 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/06/13 14:44:58 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/17 16:08:55 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ void	clean_graph(t_graph *graph)
 				next_ptr->pid = -1;
 			next_ptr->final_distance = -1;
 			next_ptr->end_distance = -1;
-			next_ptr->solution_len = -1;
 			next_ptr->from = NULL;
 			next_ptr->to = NULL;
 			next_ptr->start_distance = -1; next_ptr->blocked = 0;
