@@ -9,7 +9,7 @@
 
 # define LMN_BUFF_SIZE 15000
 # define ERR_DBG 1
-# define DBG_PRINT 1
+# define DBG_PRINT 0
 # define STDIN 0
 # define EINVANT	1
 # define ENEROOM	2
@@ -84,7 +84,6 @@ typedef struct	s_route
 	t_score		*score;
 	t_list		*paths;
 }				t_route;
-
 
 typedef struct		s_output
 {
@@ -209,13 +208,14 @@ int		init_bfs_queue(t_queue **bfs, size_t nbr_of_rooms);
 void	bfs_add(t_queue *bfs, t_room *room);
 t_room	*bfs_pop(t_queue *bfs);
 void	free_bfs_queue(t_queue **bfs);
-int		print_ants(int ants, t_list *paths, t_room *end);
 void	sort_paths(t_list *paths);
 void	move_ants(t_path *path, int *ants_count, int *first_ant);
 
 /*
-** IO
+** OUTPUT
 */
+
+int		print_ants(t_graph *graph, t_route *route);
 
 int		init_output(t_output **output);
 void	get_output_data(t_output *out);
@@ -248,7 +248,7 @@ int		room_has_link(t_room *room_a, t_room *room_b);
 t_path	*get_path_from_node(t_node *path_container);
 int		find_best_route(t_graph *graph, t_route *route, t_queue *bfs);
 int		get_best_route(t_graph *graph, t_route *route);
-void	get_new_score(t_route *route, t_score **new_score);
+void	get_new_score(t_route *route, t_score *new_score);
 void	mark_next_paths(t_graph *graph, t_list *paths, t_queue *bfs);
 void	mark_path(t_path *path);
 void	sort_paths_by_head_distance(t_list *paths);
@@ -270,8 +270,9 @@ void	path_set_length(t_path *path, int length);
 
 // score_utils.c
 
-t_score	*score_new();
+t_score	*score_new(void);
 void	free_score(t_score **score);
+void	init_score(t_score *score);
 
 // update_paths_length.c
 

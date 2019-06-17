@@ -44,13 +44,13 @@ CMN			=	$(addprefix $(CMN_DIR)/, \
 		main.c room_query_utils.c file_utils.c link_utils.c \
 		data_access_utils.c debug.c)
 
-LMN_IO_DIR	=	io
+LMN_OUT_DIR	=	output
 
-LMN_IO		=	$(addprefix $(LMN_IO_DIR)/, \
-		error_utils.c print_result.c)
+LMN_OUT		=	$(addprefix $(LMN_OUT_DIR)/, \
+		error_utils.c print_result.c move_ants.c output.c)
 
 LMN_FILES	=	$(addprefix $(LMNDIR)/, \
-		$(CMN) $(PARSING) $(LMN_IO) $(ALGO2))
+		$(CMN) $(PARSING) $(LMN_OUT) $(ALGO2))
 
 # **************************************************************************** #
 # Complete path :
@@ -127,7 +127,7 @@ MKODIR		=	if [ ! -d $(ODIR) ]; then \
 			/bin/mkdir -p $(ODIR)/$(PARSING_DIR); \
 			/bin/mkdir -p $(ODIR)/$(ALGO2_DIR); \
 			/bin/mkdir -p $(ODIR)/$(CMN_DIR); \
-			/bin/mkdir -p $(ODIR)/$(LMN_IO_DIR); fi
+			/bin/mkdir -p $(ODIR)/$(LMN_OUT_DIR); fi
 
 CMP			=	if [ ! -e .cmp ]; then \
 				echo $(BY)Compiling $(B)Project $(X)files...$(BY); \
