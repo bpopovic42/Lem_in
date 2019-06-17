@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/19 22:56:40 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/06/13 16:41:29 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/17 17:27:06 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,12 +78,17 @@ int		main(void)
 		return (local_exit(&graph, &file, &route, 1));
 	if (get_best_route(&graph, &route) < 0)
 		return (local_exit(&graph, &file, &route, 1));
-	//if (route.paths->size <= 0)
-	//	return (2); // NOPATHS
-	//tmp_print_paths_rooms(route.paths);
-	print_dbg(0, "Final score : %d\n", route.score->output_size);
-	//print_file
-	//if (print_ants(graph, route) != 0)
-	//	return (local_exit(&graph, &file, &route, 1));
+	if (route.paths->size <= 0)
+	{
+		lemin_perror(ENOPATH, ENOPATH_MSG);
+		return (local_exit(&graph, &file, &route, 1));
+	}
+	else
+	{
+		print_dbg(0, "Final score : %d\n", route.score->output_size);
+		ft_putendl(file.data);
+		if (print_ants(&graph, &route) != 0)
+			return (local_exit(&graph, &file, &route, 1));
+	}
 	return (local_exit(&graph, &file, &route, 0));
 }
