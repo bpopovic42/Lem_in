@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/19 22:56:40 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/06/17 17:27:06 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/17 19:46:02 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,9 @@ static int		local_exit(t_graph *graph, t_file *file, t_route *route, int retval)
 
 int		initialize_lem_in_data(t_graph *graph, t_file *file, t_route *route)
 {
+	ft_bzero(graph, sizeof(*graph));
+	ft_bzero(file, sizeof(*file));
+	ft_bzero(route, sizeof(*route));
 	if (init_graph(graph) < 0)
 		return (-1);
 	if (init_file(file) < 0)
