@@ -5,14 +5,14 @@
 OUTPUT_DIR=""
 INPUT_DIR=""
 EXE="lem-in"
-GENERATOR_ARG="--big-superposition"
+GENERATOR_ARG="--big"
 TMP_FILE="big_tmp.map"
 TEST_AMOUNT=1
 OUT_FILES_PREFIX="test_"
 OUT_FILES_SUFFIX=".map"
 
-readonly GREEN="\e[92;m"
-readonly RED="\e[31;m"
+readonly GREEN="\e[92m"
+readonly RED="\e[31m"
 readonly CLR="\e[0;m"
 readonly ORANGE="\e[38;5;208m"
 
@@ -132,7 +132,6 @@ function print_header
 {
 	echo " ---------------------------------------------------------"
 	printf "|  TIME  |  GENERATOR  |  LEM-IN  |  RESULT  |  PREVIOUS  |\n"
-	#echo "|--------|-------------|----------|----------|------------|"
 }
 
 function print_formatted_results
@@ -150,15 +149,23 @@ function print_formatted_results
 	echo ""
 }
 
+function get_output_size
+{
+	local_file=$1
+
+	out=$((./$EXE < $local_file )2>&1)
+	out=`echo "$out" | grep '^L' | wc -l | sed 's/^ *//'`
+	echo $out
+}
+
 function run_from_folder
 {
 	for file in $INPUT_DIR/*; do
 		output_file=$file
 		target_solution="$(grep -m 1 '#Here is the number*' $file | awk 'NF>1{print $NF}')"
 		if [[ $target_solution != "" ]]; then
-			time="$((/usr/bin/time ./$EXE < $file) 2>&1 | grep real | awk '{print $1}')"
-			out="$((./$EXE < $file) 2>&1)"
-			solution=`echo "${out}" | wc -l | sed 's/^ *//'`
+			time=$((/usr/bin/time ./$EXE < $file) 2>&1 | grep real | awk '{print $1}')
+			solution=$(get_output_size $file)
 			let answer=$solution-$target_solution
 			print_formatted_results $time $target_solution $solution $answer $file
 			record_map $answer $file $OUTPUT_DIR/"$(basename $output_file)"
@@ -166,17 +173,17 @@ function run_from_folder
 	done
 }
 
+
 function run_from_generator
 {
 	for (( i = 0; i < $TEST_AMOUNT; i++ )) do
 		output_file="$OUT_FILE_PREFIX$i$OUT_FILE_SUFFIX"
 		./generator $GENERATOR_ARG > $TMP_FILE
 		target_solution="$(grep -m 1 '#Here is the number*' $TMP_FILE | awk 'NF>1{print $NF}')"
-		time="$((/usr/bin/time ./$EXE < $TMP_FILE) 2>&1 | grep real | awk '{print $1}')"
-		out="$((./$EXE < $TMP_FILE) 2>&1)"
-		solution=`echo "${out}" | wc -l | sed 's/^ *//'`
+		time=$((/usr/bin/time ./$EXE < $TMP_FILE) 2>&1 | grep real | awk '{print $1}')
+		solution=$(get_output_size $TMP_FILE)
 		let answer=$solution-$target_solution
-		print_formatted_results $time $solution $target_solution $answer
+		print_formatted_results $time $target_solution $solution $answer
 		record_map $answer $TMP_FILE $OUTPUT_DIR/$output_file
 		wait_for_next_generator_seed $time
 	done
