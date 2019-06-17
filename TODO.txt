@@ -34,4 +34,3 @@ Handle pointers erasing better (affected files : 'room_utils.c, )
 ADD :
 Tester :
 	average of time and lines as well as best and worst
-helper debug printing function included in lem_in.h in order to easily print/unprint and removed debugging output (instead of using printf directly)
