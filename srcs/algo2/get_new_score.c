@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 21:23:42 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/06/13 16:40:40 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/17 16:52:58 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,17 +74,17 @@ static t_path	*get_next_shortest_path(t_list *paths)
 	return (shortest);
 }
 
-void	get_new_score(t_route *route, t_score **new_score)
+void	get_new_score(t_route *route, t_score *new_score)
 {
 	t_path *path;
 
 	print_dbg(0, "Computing score for current route :\n", NULL);
 	while ((path = get_next_shortest_path(route->paths)))
 	{
-		if (update_score_if_improved_by_path(*new_score, path))
+		if (update_score_if_improved_by_path(new_score, path))
 		{
 			print_dbg(0, "\tPath %s of length %d improves score, recording.\n", path->head->name, path->length);
-			add_path_to_score(*new_score, path);
+			add_path_to_score(new_score, path);
 		}
 		else
 			path->length = -1;

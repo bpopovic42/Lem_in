@@ -84,25 +84,29 @@ void	remove_recorded_mark(t_path ***path_container)
 	path->head->recorded = 0;
 }
 
+void	replace_score(t_score *old_score, t_score *new_score)
+{
+	old_score->total_ants = new_score->total_ants;
+	old_score->diff = new_score->diff;
+	old_score->output_size = new_score->output_size;
+	old_score->nbr_of_paths = new_score->nbr_of_paths;
+	old_score->longest_path_size = new_score->longest_path_size;
+}
+
 int		update_score(t_graph *graph, t_route *route)
 {
-	t_score *new_score;
+	t_score new_score;
 
-	if (!(new_score = score_new()))
-		return (-1);
-	new_score->total_ants = graph->ants;
+	init_score(&new_score);
+	new_score.total_ants = graph->ants;
 	get_new_score(route, &new_score);
-	if (new_score_is_better(route->score, new_score))
+	if (new_score_is_better(route->score, &new_score))
 	{
 		print_dbg(1, "ROUTE IS BETTER", NULL);
-		if (route->score)
-			free_score(&route->score);
-		route->score = new_score;
+		replace_score(route->score, &new_score);
 		remove_previous_route_marks(graph);
 		mark_new_route(route);
 	}
-	else
-		free_score(&new_score);
 	ft_lstiter(route->paths, (void*)&remove_recorded_mark);
 	return (0);
 }

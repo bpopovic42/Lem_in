@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 20:06:21 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/06/13 20:29:40 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/17 16:56:50 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ int		init_route(t_route *route)
 {
 	ft_bzero(route, sizeof(*route));
 	if (!(route->paths = ft_lstnew()))
+		return (-1);
+	if (!(route->score = score_new()))
 		return (-1);
 	return (0);
 }
