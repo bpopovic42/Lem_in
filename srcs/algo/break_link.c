@@ -6,14 +6,13 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/25 16:50:38 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/06/18 16:14:57 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/18 19:42:48 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
-#include "ft_printf.h"
 
-static int		remove_link(t_room *room, t_room *link)
+static int	remove_link(t_room *room, t_room *link)
 {
 	t_node	*links_ptr;
 	t_room	*ptr;
@@ -21,7 +20,7 @@ static int		remove_link(t_room *room, t_room *link)
 	links_ptr = room->links->head;
 	while (links_ptr)
 	{
-		ptr = *(t_room**)links_ptr->data;
+		ptr = get_room_from_node(links_ptr);
 		if (ptr == link)
 		{
 			ft_lstnode_remove(room->links, links_ptr);
@@ -33,7 +32,7 @@ static int		remove_link(t_room *room, t_room *link)
 	return (0);
 }
 
-static int		has_alternative(t_room *room)
+static int	has_alternative(t_room *room)
 {
 	t_node	*links_ptr;
 	t_room	*ptr;
@@ -41,16 +40,15 @@ static int		has_alternative(t_room *room)
 	links_ptr = room->links->head;
 	while (links_ptr)
 	{
-		ptr = *(t_room**)links_ptr->data;
+		ptr = get_room_from_node(links_ptr);
 		if (ptr != room->to && ptr->end_distance >= 0)
 			return (1);
 		links_ptr = links_ptr->next;
 	}
 	return (0);
-
 }
 
-int		break_link(t_path *path)
+int			break_link(t_path *path)
 {
 	t_room	*ptr;
 	int		alt;
@@ -71,7 +69,6 @@ int		break_link(t_path *path)
 			remove_link(ptr->to, ptr);
 			return (1);
 		}
-		//alt = 0;
 		ptr = ptr->from;
 	}
 	return (0);
