@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 10:49:40 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/05/28 01:58:15 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/17 16:08:55 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,9 @@ void	clean_graph(t_graph *graph)
 				next_ptr->pid = -1;
 			next_ptr->final_distance = -1;
 			next_ptr->end_distance = -1;
-			next_ptr->solution_len = -1;
 			next_ptr->from = NULL;
 			next_ptr->to = NULL;
-			next_ptr->start_distance = -1;
-			next_ptr->blocked = 0;
+			next_ptr->start_distance = -1; next_ptr->blocked = 0;
 			next_ptr->cleaned = 1;
 		}
 		i++;
@@ -71,7 +69,7 @@ int		weight_graph(t_queue *bfs, t_room *src, t_room *target)
 		links_ptr = current->links->head;
 		while (links_ptr)
 		{
-			next_ptr = *(t_room**)links_ptr->data;
+			next_ptr = get_room_from_node(links_ptr);
 			if ((next_ptr != src && next_ptr != target && next_ptr->end_distance < 0)
 				|| (next_ptr->end_distance >= 0 && next_ptr->end_distance > current->end_distance + 1))
 			{
@@ -86,4 +84,23 @@ int		weight_graph(t_queue *bfs, t_room *src, t_room *target)
 		}
 	}
 	return (0);
+}
+
+void	clean_path_length(t_node *path_container)
+{
+	path_set_length(*(t_path**)path_container->data, -1);
+}
+
+void	clean_marks(t_graph *graph, t_list *paths)
+{
+	clean_graph(graph);
+	ft_lstiter(paths, &clean_path_length);
+}
+
+void	reweight_graph(t_graph *graph, t_list *paths, t_queue *bfs)
+{
+	clean_weight(graph);
+	weight_graph(bfs, graph->end, graph->start);
+	//update_paths_length(paths);
+	(void)paths;
 }

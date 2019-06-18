@@ -23,16 +23,9 @@ PARSING		=	$(addprefix  $(PARSING_DIR)/, \
 		create_room_if_valid.c room_has_conflict.c parse_command.c \
 		file_append.c)
 
-#ALGO_DIR	=	algo
+ALGO_DIR	=	algo
 
-#ALGO		=	$(addprefix $(ALGO_DIR)/, \
-		graph_utils.c mark_best_paths.c compute_solution.c break_link.c \
-		bfs_utils.c output.c sort_rooms.c solution_utils.c output_utils.c \
-		move_ants.c get_initial_paths.c)
-
-ALGO2_DIR	=	algo2
-
-ALGO2		=	$(addprefix $(ALGO2_DIR)/, \
+ALGO		=	$(addprefix $(ALGO_DIR)/, \
 		algo_data_utils.c find_best_route.c get_best_route.c get_new_score.c \
 		mark_next_paths.c mark_path.c path_utils.c route_utils.c \
 		update_score.c sort_paths.c bfs_utils.c graph_utils.c score_utils.c \
@@ -50,7 +43,7 @@ LMN_OUT		=	$(addprefix $(LMN_OUT_DIR)/, \
 		error_utils.c print_result.c move_ants.c output.c)
 
 LMN_FILES	=	$(addprefix $(LMNDIR)/, \
-		$(CMN) $(PARSING) $(LMN_OUT) $(ALGO2))
+		$(CMN) $(PARSING) $(LMN_OUT) $(ALGO))
 
 # **************************************************************************** #
 # Complete path :
@@ -125,7 +118,7 @@ DBGDIR		=	$(NAME).dSYM
 MKODIR		=	if [ ! -d $(ODIR) ]; then \
 			/bin/mkdir -p $(ODIR); \
 			/bin/mkdir -p $(ODIR)/$(PARSING_DIR); \
-			/bin/mkdir -p $(ODIR)/$(ALGO2_DIR); \
+			/bin/mkdir -p $(ODIR)/$(ALGO_DIR); \
 			/bin/mkdir -p $(ODIR)/$(CMN_DIR); \
 			/bin/mkdir -p $(ODIR)/$(LMN_OUT_DIR); fi
 
