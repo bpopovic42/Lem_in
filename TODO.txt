@@ -11,10 +11,9 @@ TO CHECK :
 check for segfaults and issues (get some maps from friends)
 integer overflows
 libft's functions :
-	ft_strlen, ft_strncmp
+	ft_strncmp
 	hash, vectors and bitmaps
-Improve strcnpy function
-Check makefile's working properly
+	improve strncpy function
 Re-check leaks in case of malloc failure
 Function pointers casts validity ((void*)free_fn_ptr))
 
