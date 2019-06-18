@@ -51,7 +51,6 @@ typedef struct		s_room
 	int				final_distance;
 	int				blocked;
 	int				cleaned;
-	int				recorded;
 	struct s_room	*from;
 	struct s_room	*to;
 	struct s_room	*solution_to;
@@ -78,6 +77,7 @@ typedef struct		s_path
 	t_room			*last_ant;
 	int				length;
 	int				final_length;
+	int				recorded;
 	int				ants;
 }					t_path;
 
@@ -184,7 +184,6 @@ t_score	*score_new(void);
 void	free_score(t_score **score);
 void	init_score(t_score *score);
 void	sort_paths_by_head_distance(t_list *paths);
-void	update_paths_length(t_list *paths);
 int		update_score(t_graph *graph, t_route *route);
 void	mark_new_route(t_route *route);
 

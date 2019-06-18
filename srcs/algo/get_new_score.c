@@ -6,14 +6,14 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 21:23:42 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/06/17 16:52:58 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/18 19:20:55 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 #include "ft_printf.h"
 
-void	add_path_to_score(t_score *score, t_path *path)
+static void	add_path_to_score(t_score *score, t_path *path)
 {
 	score->nbr_of_paths += 1;
 	score->output_size = ((score->total_ants - score->diff) / score->nbr_of_paths) + path->length + ((score->total_ants - score->diff) % score->nbr_of_paths > 0 ? 1 : 0);
@@ -22,7 +22,7 @@ void	add_path_to_score(t_score *score, t_path *path)
 	path->length = -1;
 }
 
-int		update_score_if_improved_by_path(t_score *score, t_path *path)
+static int		update_score_if_improved_by_path(t_score *score, t_path *path)
 {
 	int new_diff;
 	int new_score;
@@ -59,18 +59,18 @@ static t_path	*get_next_shortest_path(t_list *paths)
 	shortest = NULL;
 	while ((path_ptr = get_path_from_node(node_ptr)))
 	{
-		if (path_ptr->length >= 0 && path_ptr->head->recorded == 0)
+		if (path_ptr->length >= 0 && path_ptr->recorded == 0)
 		{
 			if (!shortest || path_ptr->length < shortest->length)
 			{
-				if (!path_ptr->head->recorded) //recorded field to put into t_path
+				if (!path_ptr->recorded) //recorded field to put into t_path
 					shortest = path_ptr;
 			}
 		}
 		node_ptr = node_ptr->next;
 	}
 	if (shortest)
-		shortest->head->recorded = 1;
+		shortest->recorded = 1;
 	return (shortest);
 }
 
@@ -83,7 +83,8 @@ void	get_new_score(t_route *route, t_score *new_score)
 	{
 		if (update_score_if_improved_by_path(new_score, path))
 		{
-			print_dbg(0, "\tPath %s of length %d improves score, recording.\n", path->head->name, path->length);
+			print_dbg(0, "\tPath %s of length %d improves score, recording.\n",
+				path->head->name, path->length);
 			add_path_to_score(new_score, path);
 		}
 		else

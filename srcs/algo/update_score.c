@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 21:05:31 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/06/18 17:34:49 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/18 19:21:42 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static void	remove_recorded_mark(t_path ***path_container)
 	t_path *path;
 
 	path = **path_container;
-	path->head->recorded = 0;
+	path->recorded = 0;
 }
 
 static void	replace_score(t_score *old_score, t_score *new_score)
