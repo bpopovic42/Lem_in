@@ -6,19 +6,20 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 21:23:42 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/06/18 19:20:55 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/18 19:26:20 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
-#include "ft_printf.h"
 
-static void	add_path_to_score(t_score *score, t_path *path)
+static void		add_path_to_score(t_score *s, t_path *path)
 {
-	score->nbr_of_paths += 1;
-	score->output_size = ((score->total_ants - score->diff) / score->nbr_of_paths) + path->length + ((score->total_ants - score->diff) % score->nbr_of_paths > 0 ? 1 : 0);
-	score->longest_path_size = path->length;
-	path->final_length = path->length; //WILL BE USED TO RETRIEVE PATH IF SCORE IS BETTER
+	s->nbr_of_paths += 1;
+	s->output_size = ((s->total_ants - s->diff) / s->nbr_of_paths)
+		+ path->length + ((s->total_ants - s->diff)
+			% s->nbr_of_paths > 0 ? 1 : 0);
+	s->longest_path_size = path->length;
+	path->final_length = path->length;
 	path->length = -1;
 }
 
@@ -63,7 +64,7 @@ static t_path	*get_next_shortest_path(t_list *paths)
 		{
 			if (!shortest || path_ptr->length < shortest->length)
 			{
-				if (!path_ptr->recorded) //recorded field to put into t_path
+				if (!path_ptr->recorded)
 					shortest = path_ptr;
 			}
 		}
@@ -74,7 +75,7 @@ static t_path	*get_next_shortest_path(t_list *paths)
 	return (shortest);
 }
 
-void	get_new_score(t_route *route, t_score *new_score)
+void			get_new_score(t_route *route, t_score *new_score)
 {
 	t_path *path;
 
