@@ -6,13 +6,13 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 20:59:29 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/06/13 16:42:33 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/18 17:57:30 by bopopovi         ###   ########.fr       */
 /*                                                                            */ /* ************************************************************************** */
 
 #include "lem_in.h"
 #include "ft_printf.h"
 
-int		path_is_shorter(t_path *path, t_path *shortest)
+static int		path_is_shorter(t_path *path, t_path *shortest)
 {
 
 	if (path->head->blocked || path->length >= 0)
@@ -25,7 +25,7 @@ int		path_is_shorter(t_path *path, t_path *shortest)
 	return (0);
 }
 
-t_path	*get_next_shortest_path(t_list *paths)
+static t_path	*get_next_shortest_path(t_list *paths)
 {
 	t_node *node_ptr;
 	t_path *path_ptr;
@@ -49,11 +49,11 @@ void	mark_next_paths(t_graph *graph, t_list *paths, t_queue *bfs)
 	t_path *path_ptr;
 
 	path_ptr = NULL;
-	reweight_graph(graph, paths, bfs);
+	reweight_graph(graph, bfs);
 	while ((path_ptr = get_next_shortest_path(paths)))
 	{
 		mark_path(path_ptr);
-		reweight_graph(graph, paths, bfs);
+		reweight_graph(graph, bfs);
 	}
 	print_dbg(1, "ALL PATHS MARKED FOR TURN\n", NULL);
 }
