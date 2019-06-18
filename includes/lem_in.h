@@ -3,9 +3,9 @@
 
 # include "libft.h"
 
-/*
-** DEFINES
-*/
+/************
+** DEFINES **
+************/
 
 # define LMN_BUFF_SIZE 15000
 # define ERR_DBG 1
@@ -22,9 +22,9 @@
 # define EINVMAP_MSG "Invalid map."
 # define ENOPATH_MSG "No valid path."
 
-/*
-** STRUCTURES
-*/
+/***************
+** STRUCTURES **
+***************/
 
 typedef struct		s_pos
 {
@@ -137,9 +137,9 @@ int		room_has_conflict(t_graph *graph, t_room *room);
 int		init_graph(t_graph *graph);
 void	free_graph(t_graph *graph);
 
-/************
-** COMMON  **
-************/
+/***********
+** COMMON **
+***********/
 
 t_room	*get_room_from_node(t_node *node);
 t_path	*get_path_from_node(t_node *path_container);
@@ -153,9 +153,9 @@ int		room_is_start(t_room *room);
 int		room_has_multiple_links(t_room *room);
 int		room_is_end_connected(t_room *room);
 
-/*
-** ALGO
-*/
+/*********
+** ALGO **
+*********/
 
 int		init_bfs_queue(t_queue **bfs, size_t nbr_of_rooms);
 void	free_bfs_queue(t_queue **bfs);
@@ -187,9 +187,9 @@ void	sort_paths_by_head_distance(t_list *paths);
 void	update_paths_length(t_list *paths);
 int		update_score(t_graph *graph, t_route *route);
 
-/*
-** OUTPUT
-*/
+/***********
+** OUTPUT **
+***********/
 
 void	lemin_perror(int error_code, char *line);
 void	move_ants(t_path *path, int *ants_count, int *first_ant);
