@@ -169,8 +169,6 @@ int		get_best_route(t_graph *graph, t_route *route);
 void	get_new_score(t_route *route, t_score *new_score);
 void	clean_graph(t_graph *graph);
 void	clean_weight(t_graph *graph);
-void	clean_path_length(t_node *path_container);
-void	clean_marks(t_graph *graph, t_list *paths);
 void	reweight_graph(t_graph *graph, t_queue *bfs);
 void	mark_next_paths(t_graph *graph, t_list *paths, t_queue *bfs);
 void	mark_path(t_path *path);
