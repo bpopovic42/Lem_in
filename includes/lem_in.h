@@ -1,130 +1,50 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lem_in.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/06/06 08:42:42 by bopopovi          #+#    #+#             */
+/*   Updated: 2019/06/18 20:31:13 by bopopovi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef LEM_IN_H
 # define LEM_IN_H
 
 # include "libft.h"
+# include "lem_in_structs.h"
 
-/************
-** DEFINES **
-************/
+# define LMN_BUFF_SIZE	15000
+# define ERR_DBG		1
+# define DBG_PRINT		0
+# define STDIN			0
+# define EINVANT		1
+# define ENEROOM		2
+# define ENELINK		3
+# define EINVMAP		4
+# define ENOPATH		5
+# define EINVANT_MSG	"Invalid number of ants."
+# define ENEROOM_MSG	"Invalid number of rooms."
+# define ENELINK_MSG	"Invalid number of links."
+# define EINVMAP_MSG	"Invalid map."
+# define ENOPATH_MSG	"No valid path."
+# define START_CMD		"##start"
+# define END_CMD		"##end"
+# define HTABLE_SIZE	1000
 
-# define LMN_BUFF_SIZE 15000
-# define ERR_DBG 1
-# define DBG_PRINT 0
-# define STDIN 0
-# define EINVANT	1
-# define ENEROOM	2
-# define ENELINK	3
-# define EINVMAP	4
-# define ENOPATH	5
-# define EINVANT_MSG "Invalid number of ants."
-# define ENEROOM_MSG "Invalid number of rooms."
-# define ENELINK_MSG "Invalid number of links."
-# define EINVMAP_MSG "Invalid map."
-# define ENOPATH_MSG "No valid path."
-# define START_CMD "##start"
-# define END_CMD "##end"
-# define HTABLE_SIZE 1000
-
-/***************
-** STRUCTURES **
-***************/
-
-typedef struct		s_pos
-{
-	int				x;
-	int				y;
-}					t_pos;
-
-typedef struct	s_file
-{
-	char		*data;
-	size_t		capacity;
-	size_t		size;
-}				t_file;
-
-typedef struct		s_room
-{
-	char			*command;
-	char			*name;
-	int				end_distance;
-	int				start_distance;
-	int				final_distance;
-	int				blocked;
-	int				cleaned;
-	struct s_room	*from;
-	struct s_room	*to;
-	struct s_room	*solution_to;
-	struct s_room	*solution_from;
-	int				solution_len;
-	int				ant;
-	t_list			*links;
-	struct s_pos	pos;
-}					t_room;
-
-typedef struct		s_score
-{
-	int				total_ants;
-	int				diff;
-	int				output_size;
-	int				nbr_of_paths;
-	int				longest_path_size;
-}					t_score;
-
-typedef struct		s_path
-{
-	t_room			*head;
-	t_room			*last_ant;
-	int				length;
-	int				final_length;
-	int				is_solution;
-	int				recorded;
-	int				ants;
-}					t_path;
-
-typedef struct	s_route
-{
-	t_score		*score;
-	t_list		*paths;
-}				t_route;
-
-typedef struct		s_output
-{
-	int				longest_path_len;
-	t_list			*paths;
-}					t_output;
-
-typedef struct		s_graph
-{
-	int				ants;
-	size_t			nbr_of_rooms;
-	size_t			nbr_of_links;
-	t_room			*start;
-	t_room			*end;
-	t_vect			*room_list;
-	t_htable		*rooms;
-	char			*last_command;
-}					t_graph;
-
-typedef struct		s_queue
-{
-	t_room			**rooms;
-	size_t			capacity;
-	size_t			size;
-	size_t			head;
-	size_t			tail;
-}					t_queue;
-
-/************
-** PARSING **
-************/
+/*
+** PARSING
+*/
 
 int		parse_input(int *ants, t_graph *graph, t_file *file);
-int		parse_line(t_graph *graph, int *ants, const char *line, char **cmd_list);
+int		parse_line(t_graph *graph, int *ants, const char *line, char **cmds);
 int		line_is_comment(const char *line);
 int		line_is_command(const char *line);
 int		line_is_link(const char *line);
 int		line_is_room(const char *line);
-int		parse_command(t_graph *graph, const char *cmd, char **cmd_list);
+int		parse_command(t_graph *graph, const char *cmd, char **cmds);
 int		parse_room(t_graph *graph, const char *line);
 int		parse_link(t_graph *graph, const char *link);
 int		file_append(t_file *file, char *line);
@@ -133,15 +53,12 @@ void	free_room(t_room **room);
 void	free_room_ptr(void *data, size_t data_size);
 int		create_room_if_valid(char **room_data, t_room **room);
 int		room_has_conflict(t_graph *graph, t_room *room);
-
-
-// GRAPH_UTILS
 int		init_graph(t_graph *graph);
 void	free_graph(t_graph *graph);
 
-/***********
-** COMMON **
-***********/
+/*
+** COMMON
+*/
 
 t_room	*get_room_from_node(t_node *node);
 t_path	*get_path_from_node(t_node *path_container);
@@ -155,9 +72,9 @@ int		room_is_start(t_room *room);
 int		room_has_multiple_links(t_room *room);
 int		room_is_end_connected(t_room *room);
 
-/*********
-** ALGO **
-*********/
+/*
+** ALGO
+*/
 
 int		init_bfs_queue(t_queue **bfs, size_t nbr_of_rooms);
 void	free_bfs_queue(t_queue **bfs);
@@ -189,9 +106,9 @@ void	mark_new_route(t_route *route);
 void	path_remove_recorded_mark(t_path ***path_container);
 void	path_remove_solution_mark(t_path ***path_container);
 
-/***********
-** OUTPUT **
-***********/
+/*
+** OUTPUT
+*/
 
 void	lemin_perror(int error_code, char *line);
 void	move_ants(t_path *path, int *ants_count, int *first_ant);

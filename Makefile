@@ -66,7 +66,7 @@ LFT_INC_DIR	=	$(addprefix $(LFTDIR)/, $(IDIR))
 
 LFT_INC		=	$(addprefix $(LFTDIR)/, $(IDIR)/libft.h $(IDIR)/ft_printf.h)
 
-LMN_INC		=	$(addprefix $(IDIR)/, lem_in.h)
+LMN_INC		=	$(addprefix $(IDIR)/, lem_in.h lem_in_structs.h)
 
 HEADERS		=	$(LFT_INC) $(LMN_INC)
 
