@@ -6,46 +6,11 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/19 22:56:40 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/06/17 19:46:02 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/18 16:32:04 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
-#include "ft_printf.h"
-
-__attribute__((unused)) static int fun_abs(int a)
-{ return (a * (1 - 2 * (a < 0)));
-}
-
-__attribute__((unused)) void tmp_print_rooms(t_room *src)
-{
-	t_room *ptr;
-
-	ptr = src;
-	while (ptr && !room_is_end(ptr))
-	{
-		ft_printf("%s ", ptr->name);
-		ptr = ptr->solution_to;
-	}
-	ft_putchar('\n');
-}
-
-__attribute__((unused)) void tmp_print_paths_rooms(t_list *paths)
-{
-	t_node *ptr;
-	t_path *path;
-
-	ptr = paths->head;
-	while (ptr)
-	{
-		path = *(t_path**)ptr->data;
-		if (path->head->is_solution > 0)
-		{
-			tmp_print_rooms(path->head);
-		}
-		ptr = ptr->next;
-	}
-}
 
 static int		local_exit(t_graph *graph, t_file *file, t_route *route, int retval)
 {
