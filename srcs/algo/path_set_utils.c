@@ -1,36 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   path_utils.c                                       :+:      :+:    :+:   */
+/*   path_set_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/06/06 20:12:42 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/06/18 19:14:05 by bopopovi         ###   ########.fr       */
+/*   Created: 2019/06/18 19:13:37 by bopopovi          #+#    #+#             */
+/*   Updated: 2019/06/18 19:14:00 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-void	free_path(t_path **path)
+void	path_set_head(t_path *path, t_room *head)
 {
-	ft_bzero(*path, sizeof(*path));
-	ft_memdel((void**)path);
+	path->head = head;
 }
 
-void	free_path_from_node(t_path ***path)
+void	path_set_final_length(t_path *path, int final_length)
 {
-	free_path(*path);
-	ft_memdel((void**)path);
+	path->final_length = final_length;
 }
 
-t_path	*path_new(void)
+void	path_set_length(t_path *path, int length)
 {
-	t_path *new_path;
-
-	if (!(new_path = ft_memalloc(sizeof(*new_path))))
-		return (NULL);
-	new_path->final_length = -1;
-	new_path->length = -1;
-	return (new_path);
+	path->length = length;
 }
