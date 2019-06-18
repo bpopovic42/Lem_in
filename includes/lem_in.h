@@ -172,7 +172,7 @@ void	clean_graph(t_graph *graph);
 void	clean_weight(t_graph *graph);
 void	clean_path_length(t_node *path_container);
 void	clean_marks(t_graph *graph, t_list *paths);
-void	reweight_graph(t_graph *graph, t_list *paths, t_queue *bfs);
+void	reweight_graph(t_graph *graph, t_queue *bfs);
 void	mark_next_paths(t_graph *graph, t_list *paths, t_queue *bfs);
 void	mark_path(t_path *path);
 void	free_path(t_path **path);

@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/08 10:49:40 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/06/18 16:17:09 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/18 17:53:07 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,10 +97,8 @@ void	clean_marks(t_graph *graph, t_list *paths)
 	ft_lstiter(paths, &clean_path_length);
 }
 
-void	reweight_graph(t_graph *graph, t_list *paths, t_queue *bfs)
+void	reweight_graph(t_graph *graph, t_queue *bfs)
 {
 	clean_weight(graph);
 	weight_graph(bfs, graph->end, graph->start);
-	//update_paths_length(paths);
-	(void)paths;
 }
