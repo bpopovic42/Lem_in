@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/04 16:09:29 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/05/28 21:40:21 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/18 16:48:56 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	erase_ptr(void **ptr)
 	ft_bzero(ptr, sizeof(ptr));
 }
 
-void	free_room_ptr(void *data, size_t data_size)
+void		free_room_ptr(void *data, size_t data_size)
 {
 	t_room **ptr;
 

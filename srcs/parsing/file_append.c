@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/29 18:16:42 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/05/29 19:27:27 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/18 16:45:55 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,3 @@ int			file_append(t_file *file, char *line)
 	file->size = new_file_size;
 	return (0);
 }
-
-
