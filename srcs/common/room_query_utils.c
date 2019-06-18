@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 18:38:09 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/06/18 16:39:33 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/18 16:41:12 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 int		room_is_end(t_room *room)
 {
-	if (room && room->command && !ft_strcmp("##end", room->command))
+	if (room && room->command && !ft_strcmp(END_CMD, room->command))
 		return (1);
 	return (0);
 }
 
 int		room_is_start(t_room *room)
 {
-	if (room && room->command && !ft_strcmp("##start", room->command))
+	if (room && room->command && !ft_strcmp(START_CMD, room->command))
 		return (1);
 	return (0);
 }

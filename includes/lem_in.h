@@ -21,6 +21,8 @@
 # define ENELINK_MSG "Invalid number of links."
 # define EINVMAP_MSG "Invalid map."
 # define ENOPATH_MSG "No valid path."
+# define START_CMD "##start"
+# define END_CMD "##end"
 
 /***************
 ** STRUCTURES **
