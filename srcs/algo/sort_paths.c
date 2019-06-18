@@ -6,13 +6,13 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/14 19:11:36 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/06/18 17:58:44 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/18 18:35:55 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-static int		sort_by_end_distance(void *node_a, void *node_b)
+static int	sort_by_end_distance(void *node_a, void *node_b)
 {
 	t_path *path_a;
 	t_path *path_b;
@@ -22,7 +22,7 @@ static int		sort_by_end_distance(void *node_a, void *node_b)
 	return (path_a->length < path_b->length);
 }
 
-void	sort_paths_by_head_distance(t_list *paths)
+void		sort_paths_by_head_distance(t_list *paths)
 {
 	t_node	*node_ptr;
 	t_path	*path_ptr;
