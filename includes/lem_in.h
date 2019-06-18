@@ -50,7 +50,6 @@ typedef struct		s_room
 	int				start_distance;
 	int				final_distance;
 	int				blocked;
-	int				pid;
 	int				cleaned;
 	int				recorded;
 	struct s_room	*from;

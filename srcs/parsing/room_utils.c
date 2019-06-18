@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/04 16:09:29 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/06/18 16:48:56 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/18 17:58:15 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ static void	initialize_room_data(t_room *room, t_pos *coord)
 	room->end_distance = -1;
 	room->start_distance = -1;
 	room->final_distance = -1;
-	room->pid = -1;
 	room->from = NULL;
 	room->to = NULL;
 	room->blocked = 0;
