@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 20:39:12 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/06/18 16:15:42 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/18 17:56:39 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int			find_best_route(t_graph *graph, t_route *route, t_queue *bfs)
 	{
 		print_dbg(0, "\t--- TURN %d ---\n", tmp_turn);
 		print_dbg(0, "\t(1st path is %s)\n", first_path->head->name);
-		reweight_graph(graph, route->paths, bfs);
+		reweight_graph(graph, bfs);
 		mark_path(first_path);
 		mark_next_paths(graph, route->paths, bfs);
 		update_score(graph, route);
