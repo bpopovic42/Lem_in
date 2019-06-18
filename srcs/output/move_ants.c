@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/28 01:29:10 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/06/18 16:22:11 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/18 20:02:07 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static void	advance_path_ants(t_path *path, int *ants_count, int *first_ant)
 	while (room_ptr && !room_is_start(room_ptr))
 	{
 		if (!room_ptr->ant && room_ptr != path->head)
-			break;
+			break ;
 		if (room_ptr != path->head)
 			move_ant_to_next_room(room_ptr, first_ant);
 		else
@@ -83,7 +83,7 @@ static void	advance_path_ants(t_path *path, int *ants_count, int *first_ant)
 		path->last_ant = path->last_ant->solution_to;
 }
 
-void	move_ants(t_path *path, int *ants_count, int *first_ant)
+void		move_ants(t_path *path, int *ants_count, int *first_ant)
 {
 	if (!room_is_end(path->head))
 	{
@@ -94,6 +94,6 @@ void	move_ants(t_path *path, int *ants_count, int *first_ant)
 	else
 	{
 		move_new_ant_to_path(path, ants_count, first_ant);
-		return;
+		return ;
 	}
 }
