@@ -1,5 +1,5 @@
 1. Refactor (files, names, functions, see list below)
-2. Norm
+2. Norm (not. libft's files)
 3. Final check for potential errors/leaks (see list below)
 4. Optional : fine tune program, give a last look at the algo for any improvement,
 	improve tester, make the repo nicer and add a description
@@ -8,7 +8,6 @@ FIX :
 
 TO CHECK :
 check for segfaults and issues (get some maps from friends)
-re-check parsing isn't broken
 integer overflows
 libft's functions :
 	ft_strlen, ft_strncmp
@@ -16,21 +15,18 @@ libft's functions :
 Improve strcnpy function
 Check makefile's working properly
 Re-check leaks in case of malloc failure
-Weird leak reports in valgrind on 'sujet3.map' variations (only at school)
-Reading a folder just returns a read error (probably normal)
 Function pointers casts validity ((void*)free_fn_ptr))
 
 REFACTORING :
-Make data access functions ? (instead of (*(t_room**)) casts)
+find_best_route.c 'break_link' handling (not normed)
+Give a final look at the output process
 Make functions for comparisons (IF UNINITIALIZED OR SMALLER THAN instead of (!var || var < var2)
 Rework structures names and variables:
 	t_anthill instead of graph
 	anthill substructures : marks/flags/path/solution ?
 	parsing specific structure ? (not. *last_command variable field)
-Rename 'compute_solution' into 'record_selected_paths_if_better
 Rename 'solution_to/from' to 'solution_prev/next'
 Handle pointers erasing better (affected files : 'room_utils.c, )
-Two 'graph_utils' files (algo and parsing)
 Find a better srcs/ structure
 
 ADD :
