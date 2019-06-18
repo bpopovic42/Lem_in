@@ -6,12 +6,11 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 20:52:23 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/06/18 17:46:30 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/18 20:16:01 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
-#include "ft_printf.h"
 
 static void		mark_next_room(t_room **from, t_room **next)
 {

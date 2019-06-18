@@ -6,12 +6,11 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 20:39:12 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/06/18 19:48:25 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/18 20:16:04 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
-#include "ft_printf.h"
 
 static void	clean_path_lengths(t_path ***path)
 {
@@ -21,13 +20,13 @@ static void	clean_path_lengths(t_path ***path)
 
 int			find_best_route(t_graph *graph, t_route *route, t_queue *bfs)
 {
+	int		break_flag;
 	t_path	*first_path;
 	t_node	*node_ptr;
-	bool	break_flag;
 
+	break_flag = 0;
 	first_path = NULL;
 	node_ptr = route->paths->head;
-	break_flag = false;
 	ft_lstiter(route->paths, (void*)&clean_path_lengths);
 	while ((first_path = get_path_from_node(node_ptr)))
 	{
@@ -37,11 +36,11 @@ int			find_best_route(t_graph *graph, t_route *route, t_queue *bfs)
 		mark_path(first_path);
 		mark_next_paths(graph, route->paths, bfs);
 		update_score(graph, route);
-		if (!break_flag || break_link(first_path) == 0)
+		if (!break_flag || !break_link(first_path))
 			node_ptr = node_ptr->next;
 		if (!node_ptr && !break_flag)
 		{
-			break_flag = true;
+			break_flag = 1;
 			node_ptr = route->paths->head;
 		}
 		clean_graph(graph);
