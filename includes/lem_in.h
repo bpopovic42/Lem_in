@@ -23,6 +23,7 @@
 # define ENOPATH_MSG "No valid path."
 # define START_CMD "##start"
 # define END_CMD "##end"
+# define HTABLE_SIZE 1000
 
 /***************
 ** STRUCTURES **
