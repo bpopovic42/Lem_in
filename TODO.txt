@@ -30,6 +30,8 @@ Rework structures names and variables:
 Rename 'compute_solution' into 'record_selected_paths_if_better
 Rename 'solution_to/from' to 'solution_prev/next'
 Handle pointers erasing better (affected files : 'room_utils.c, )
+Two 'graph_utils' files (algo and parsing)
+Find a better srcs/ structure
 
 ADD :
 Tester :
