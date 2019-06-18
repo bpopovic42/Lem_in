@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 17:32:51 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/06/18 19:31:48 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/18 19:36:08 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void	mark_solution_path(t_path *path)
 	path->final_length = -1;
 }
 
-void	mark_new_route(t_route *route)
+void		mark_new_route(t_route *route)
 {
 	t_node *node_ptr;
 	t_path *path_ptr;
