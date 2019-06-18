@@ -6,20 +6,21 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 20:59:29 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/06/18 17:57:30 by bopopovi         ###   ########.fr       */
-/*                                                                            */ /* ************************************************************************** */
+/*   Updated: 2019/06/18 19:18:13 by bopopovi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "lem_in.h"
-#include "ft_printf.h"
 
 static int		path_is_shorter(t_path *path, t_path *shortest)
 {
-
 	if (path->head->blocked || path->length >= 0)
 		return (0);
 	else if (path->head->end_distance >= 0)
 	{
-		if (shortest == NULL || shortest->head->end_distance > path->head->end_distance)
+		if (shortest == NULL)
+			return (1);
+		else if (shortest->head->end_distance > path->head->end_distance)
 			return (1);
 	}
 	return (0);
@@ -44,7 +45,7 @@ static t_path	*get_next_shortest_path(t_list *paths)
 	return (shortest);
 }
 
-void	mark_next_paths(t_graph *graph, t_list *paths, t_queue *bfs)
+void			mark_next_paths(t_graph *graph, t_list *paths, t_queue *bfs)
 {
 	t_path *path_ptr;
 
