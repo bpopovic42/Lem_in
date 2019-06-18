@@ -1,5 +1,5 @@
 1. Refactor (files, names, functions, see list below)
-2. Norm (not. libft's files)
+2. Norm (one file left)
 3. Final check for potential errors/leaks (see list below)
 4. Optional : fine tune program, give a last look at the algo for any improvement,
 	improve tester, make the repo nicer and add a description
