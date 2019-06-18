@@ -5,6 +5,7 @@
 	improve tester, make the repo nicer and add a description
 
 FIX :
+Maps in /problematic_maps
 
 TO CHECK :
 check for segfaults and issues (get some maps from friends)
