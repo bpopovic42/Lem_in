@@ -6,14 +6,14 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 20:52:23 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/06/13 16:48:19 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/18 17:35:49 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 #include "ft_printf.h"
 
-void	mark_next_room(t_room **from, t_room **next)
+static void	mark_next_room(t_room **from, t_room **next)
 {
 	print_dbg(0, "\t[Marking] %s->%s\n", (*from)->name, (*next)->name);
 	(*from)->to = (*next);
@@ -27,7 +27,7 @@ void	mark_next_room(t_room **from, t_room **next)
 	}
 }
 
-int		link_is_shorter(t_room *src, t_room *link, t_room *shortest)
+static int		link_is_shorter(t_room *src, t_room *link, t_room *shortest)
 {
 	//ft_printf("for room %s link %s is ", src->name, link->name);
 	if (link == src->from || room_is_start(link) || link->blocked)
@@ -57,7 +57,7 @@ int		link_is_shorter(t_room *src, t_room *link, t_room *shortest)
 	return (0);
 }
 
-t_room	*get_shortest_link(t_room *src) //DIRTY
+static t_room	*get_shortest_link(t_room *src) //DIRTY
 {
 	t_node	*link_ptr;
 	t_room	*shortest;
@@ -82,7 +82,7 @@ t_room	*get_shortest_link(t_room *src) //DIRTY
 	return (shortest);
 }
 
-void	unmark_path(t_path *path, t_room *last_marked_room)
+static void	unmark_path(t_path *path, t_room *last_marked_room)
 {
 	t_room *ptr;
 	t_room *previous;
@@ -114,7 +114,8 @@ void	mark_path(t_path *path)
 
 	if ((from && room_is_end(ptr)) || (room_is_end(from) && !ptr)) // if end is properly reached or start->end
 	{
-		print_dbg(2, "\tPath successfully marked, setting length %d\n", from->start_distance);
+		print_dbg(2, "\tPath successfully marked, setting length %d\n",
+			from->start_distance);
 		path_set_length(path, from->start_distance);
 		if (!ptr) // if start->end, block it
 			path->head->blocked = 1; //UNSURE

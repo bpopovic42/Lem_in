@@ -189,6 +189,7 @@ void	init_score(t_score *score);
 void	sort_paths_by_head_distance(t_list *paths);
 void	update_paths_length(t_list *paths);
 int		update_score(t_graph *graph, t_route *route);
+void	mark_new_route(t_route *route);
 
 /***********
 ** OUTPUT **
