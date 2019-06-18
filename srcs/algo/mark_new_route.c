@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 17:32:51 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/06/18 17:34:16 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/18 19:31:48 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ static void	mark_solution_path(t_path *path)
 {
 	t_room *room_ptr;
 
+	path->is_solution = 1;
 	room_ptr = path->head;
-	room_ptr->is_solution = 1; // Should go into t_path
 	while (room_ptr && !room_is_end(room_ptr))
 	{
 		print_dbg(0, "%s ", room_ptr->name);

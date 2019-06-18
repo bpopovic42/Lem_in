@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/04 16:09:29 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/06/18 19:22:02 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/18 19:31:06 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ static void	initialize_room_data(t_room *room, t_pos *coord)
 	room->solution_to = NULL;
 	room->solution_from = NULL;
 	room->solution_len = -1;
-	room->is_solution = 0;
 	room->ant = 0;
 }
 

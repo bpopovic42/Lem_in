@@ -56,7 +56,6 @@ typedef struct		s_room
 	struct s_room	*solution_to;
 	struct s_room	*solution_from;
 	int				solution_len;
-	int				is_solution;
 	int				ant;
 	t_list			*links;
 	struct s_pos	pos;
@@ -77,6 +76,7 @@ typedef struct		s_path
 	t_room			*last_ant;
 	int				length;
 	int				final_length;
+	int				is_solution;
 	int				recorded;
 	int				ants;
 }					t_path;

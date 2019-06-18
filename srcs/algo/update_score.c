@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 21:05:31 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/06/18 19:21:42 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/18 19:31:54 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ static void	remove_previous_route_marks(t_graph *graph)
 		next_ptr = ft_vector_get(graph->room_list, i);
 		if (!room_is_start(next_ptr))
 		{
-			next_ptr->is_solution = 0;
 			next_ptr->solution_len = -1;
 			next_ptr->solution_from = NULL;
 			next_ptr->solution_to = NULL;
@@ -41,12 +40,20 @@ static int	new_score_is_better(t_score *previous, t_score *new)
 	return (0);
 }
 
-static void	remove_recorded_mark(t_path ***path_container)
+static void	path_remove_recorded_mark(t_path ***path_container)
 {
 	t_path *path;
 
 	path = **path_container;
 	path->recorded = 0;
+}
+
+static void	path_remove_solution_mark(t_path ***path_container)
+{
+	t_path *path;
+
+	path = **path_container;
+	path->is_solution = 0;
 }
 
 static void	replace_score(t_score *old_score, t_score *new_score)
@@ -69,9 +76,10 @@ int			update_score(t_graph *graph, t_route *route)
 	{
 		print_dbg(1, "ROUTE IS BETTER", NULL);
 		replace_score(route->score, &new_score);
+		ft_lstiter(route->paths, (void*)&path_remove_solution_mark);
 		remove_previous_route_marks(graph);
 		mark_new_route(route);
 	}
-	ft_lstiter(route->paths, (void*)&remove_recorded_mark);
+	ft_lstiter(route->paths, (void*)&path_remove_recorded_mark);
 	return (0);
 }
