@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/18 18:25:24 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/06/18 18:29:22 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/18 19:27:09 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int			weight_graph(t_queue *bfs, t_room *src, t_room *target)
 	return (0);
 }
 
-void	clean_weight(t_graph *graph)
+void		clean_weight(t_graph *graph)
 {
 	size_t i;
 	t_room *next_ptr;
@@ -65,7 +65,7 @@ void	clean_weight(t_graph *graph)
 	}
 }
 
-void	reweight_graph(t_graph *graph, t_queue *bfs)
+void		reweight_graph(t_graph *graph, t_queue *bfs)
 {
 	clean_weight(graph);
 	weight_graph(bfs, graph->end, graph->start);
