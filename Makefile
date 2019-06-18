@@ -29,8 +29,7 @@ ALGO		=	$(addprefix $(ALGO_DIR)/, \
 		find_best_route.c get_best_route.c get_new_score.c \
 		mark_next_paths.c mark_path.c path_utils.c route_utils.c \
 		update_score.c sort_paths.c bfs_utils.c clean_graph.c score_utils.c \
-		update_paths_length.c break_link.c mark_new_route.c \
-		graph_weight_utils.c)
+		break_link.c mark_new_route.c graph_weight_utils.c)
 
 CMN_DIR		=	common
 
