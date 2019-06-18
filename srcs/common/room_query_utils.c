@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 18:38:09 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/06/18 16:37:16 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/18 16:39:33 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,18 +35,18 @@ int		room_has_multiple_links(t_room *room)
 
 int		room_is_end_connected(t_room *room)
 {
-	t_room	*ptr;
-	t_node	*links_ptr;
+	t_room	*link;
+	t_node	*node;
 
 	if (room)
 	{
-		links_ptr = room->links->head;
-		while (links_ptr)
+		node = room->links->head;
+		while (node)
 		{
-			ptr = *(t_room**)links_ptr->data;
-			if (room_is_end(ptr))
+			link = get_room_from_node(node);
+			if (room_is_end(link))
 				return (1);
-			links_ptr = links_ptr->next;
+			node = node->next;
 		}
 	}
 	return (0);
