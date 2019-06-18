@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 19:33:14 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/06/18 16:16:10 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/18 17:52:11 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	local_exit(t_queue **bfs, int retval)
 	return (retval);
 }
 
-static void	graph_mark_end_distance(t_room *end, t_queue *bfs) //DIRTY
+static void	graph_mark_end_distance(t_room *end, t_queue *bfs)
 {
 	t_room	*current;
 	t_room	*next_ptr;
@@ -33,26 +33,29 @@ static void	graph_mark_end_distance(t_room *end, t_queue *bfs) //DIRTY
 		links_ptr = current->links->head;
 		while (links_ptr)
 		{
-			next_ptr = *(t_room**)links_ptr->data;
-			if (!room_is_end(next_ptr) && !room_is_start(next_ptr) && next_ptr->end_distance < 0)
+			next_ptr = get_room_from_node(links_ptr);
+			if (!room_is_end(next_ptr) && !room_is_start(next_ptr))
 			{
-				next_ptr->end_distance = current->end_distance + 1;
-				bfs_add(bfs, next_ptr);
+				if (next_ptr->end_distance < 0)
+				{
+					next_ptr->end_distance = current->end_distance + 1;
+					bfs_add(bfs, next_ptr);
+				}
 			}
 			links_ptr = links_ptr->next;
 		}
 	}
 }
 
-static int		initialize_path_heads(t_graph *graph, t_list *paths)
+static int	initialize_path_heads(t_graph *graph, t_list *paths)
 {
+	t_path *tmp;
 	t_room *room;
 	t_node *node;
-	t_path *tmp;
 
+	tmp = NULL;
 	room = NULL;
 	node = graph->start->links->head;
-	tmp = NULL;
 	while (node)
 	{
 		room = get_room_from_node(node);
@@ -84,5 +87,5 @@ int			get_best_route(t_graph *graph, t_route *route)
 		return (local_exit(&bfs, -1));
 	sort_paths_by_head_distance(route->paths);
 	find_best_route(graph, route, bfs);
-	return (local_exit(&bfs, 0)); //nbr of paths found
+	return (local_exit(&bfs, 0));
 }
