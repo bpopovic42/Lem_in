@@ -6,11 +6,12 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 19:33:14 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/06/13 20:27:00 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/18 16:16:10 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
+
 static int	local_exit(t_queue **bfs, int retval)
 {
 	if (*bfs)
@@ -43,7 +44,7 @@ static void	graph_mark_end_distance(t_room *end, t_queue *bfs) //DIRTY
 	}
 }
 
-int			initialize_path_heads(t_graph *graph, t_list *paths)
+static int		initialize_path_heads(t_graph *graph, t_list *paths)
 {
 	t_room *room;
 	t_node *node;

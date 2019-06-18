@@ -6,14 +6,14 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 17:06:36 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/06/17 16:39:27 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/18 16:22:36 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 #include "ft_printf.h"
 
-void	add_remaining_ants_to_paths(t_route *route, int ants)
+static void	add_remaining_ants_to_paths(t_route *route, int ants)
 {
 	int		div_ants;
 	int		surplus;
@@ -36,13 +36,13 @@ void	add_remaining_ants_to_paths(t_route *route, int ants)
 	}
 }
 
-void	set_path(t_route *route, t_path *path)
+static void	set_path(t_route *route, t_path *path)
 {
 	path->ants = route->score->longest_path_size - path->head->solution_len;
 	print_dbg(0, "For path %s of length %d, %d surplus ants\n", path->head->name, path->head->solution_len, path->ants);
 }
 
-int		set_paths(t_route *route, int ants)
+static int		set_paths(t_route *route, int ants)
 {
 	t_path	*path_ptr;
 	t_node	*node_ptr;
@@ -59,7 +59,7 @@ int		set_paths(t_route *route, int ants)
 	return (0);
 }
 
-void	print_ants_route(t_route *route, int ants, t_room *end)
+static void	print_ants_route(t_route *route, int ants, t_room *end)
 {
 	int ants_count;
 	int first_ant;
@@ -82,7 +82,7 @@ void	print_ants_route(t_route *route, int ants, t_room *end)
 	}
 }
 
-void	remove_non_solution_paths(t_route *route)
+static void	remove_non_solution_paths(t_route *route)
 {
 	t_node *node;
 	t_node *node_next;

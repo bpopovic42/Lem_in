@@ -6,14 +6,14 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/28 01:29:10 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/06/05 16:46:54 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/18 16:22:11 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 #include "ft_printf.h"
 
-void	print_ant(int ant, char *room_name, int *first_ant)
+static void	print_ant(int ant, char *room_name, int *first_ant)
 {
 	if (!*first_ant)
 		ft_printf(" L%d-%s", ant, room_name);
@@ -24,7 +24,7 @@ void	print_ant(int ant, char *room_name, int *first_ant)
 	}
 }
 
-void	move_ant_to_next_room(t_room *room, int *first_ant)
+static void	move_ant_to_next_room(t_room *room, int *first_ant)
 {
 	if (room->ant)
 	{
@@ -38,7 +38,7 @@ void	move_ant_to_next_room(t_room *room, int *first_ant)
 	}
 }
 
-void	move_new_ant_to_path(t_path *path, int *ants_count, int *first_ant)
+static void	move_new_ant_to_path(t_path *path, int *ants_count, int *first_ant)
 {
 	t_room *ptr;
 
@@ -54,7 +54,7 @@ void	move_new_ant_to_path(t_path *path, int *ants_count, int *first_ant)
 	}
 }
 
-void	advance_path_ants(t_path *path, int *ants_count, int *first_ant)
+static void	advance_path_ants(t_path *path, int *ants_count, int *first_ant)
 {
 	t_room *room_ptr;
 

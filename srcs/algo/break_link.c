@@ -6,14 +6,14 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/25 16:50:38 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/06/13 16:48:56 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/18 16:14:57 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 #include "ft_printf.h"
 
-int		remove_link(t_room *room, t_room *link)
+static int		remove_link(t_room *room, t_room *link)
 {
 	t_node	*links_ptr;
 	t_room	*ptr;
@@ -33,7 +33,7 @@ int		remove_link(t_room *room, t_room *link)
 	return (0);
 }
 
-int		has_alternative(t_room *room)
+static int		has_alternative(t_room *room)
 {
 	t_node	*links_ptr;
 	t_room	*ptr;

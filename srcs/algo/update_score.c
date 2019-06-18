@@ -6,14 +6,14 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 21:05:31 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/06/17 16:53:26 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/18 16:21:03 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 #include "ft_printf.h"
 
-void	mark_solution_path(t_path *path)
+static void	mark_solution_path(t_path *path)
 {
 	t_room *room_ptr;
 
@@ -30,7 +30,7 @@ void	mark_solution_path(t_path *path)
 	path->final_length = -1;
 }
 
-void	mark_new_route(t_route *route)
+static void	mark_new_route(t_route *route)
 {
 	t_node *node_ptr;
 	t_path *path_ptr;
@@ -49,7 +49,7 @@ void	mark_new_route(t_route *route)
 	}
 }
 
-void	remove_previous_route_marks(t_graph *graph)
+static void	remove_previous_route_marks(t_graph *graph)
 {
 	t_room *next_ptr;
 	size_t i;
@@ -69,7 +69,7 @@ void	remove_previous_route_marks(t_graph *graph)
 	}
 }
 
-int		new_score_is_better(t_score *previous, t_score *new)
+static int		new_score_is_better(t_score *previous, t_score *new)
 {
 	if (!previous || previous->output_size < 0)
 		return (1);
@@ -78,7 +78,7 @@ int		new_score_is_better(t_score *previous, t_score *new)
 	return (0);
 }
 
-void	remove_recorded_mark(t_path ***path_container)
+static void	remove_recorded_mark(t_path ***path_container)
 {
 	t_path *path;
 
@@ -86,7 +86,7 @@ void	remove_recorded_mark(t_path ***path_container)
 	path->head->recorded = 0;
 }
 
-void	replace_score(t_score *old_score, t_score *new_score)
+static void	replace_score(t_score *old_score, t_score *new_score)
 {
 	old_score->total_ants = new_score->total_ants;
 	old_score->diff = new_score->diff;

@@ -6,13 +6,13 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/07 15:32:51 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/06/13 14:44:35 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/18 16:20:26 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-void	update_path_length(t_node *path_container)
+static void	update_path_length(t_node *path_container)
 {
 	t_path *path;
 

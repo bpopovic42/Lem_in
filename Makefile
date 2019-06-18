@@ -26,7 +26,7 @@ PARSING		=	$(addprefix  $(PARSING_DIR)/, \
 ALGO_DIR	=	algo
 
 ALGO		=	$(addprefix $(ALGO_DIR)/, \
-		algo_data_utils.c find_best_route.c get_best_route.c get_new_score.c \
+		find_best_route.c get_best_route.c get_new_score.c \
 		mark_next_paths.c mark_path.c path_utils.c route_utils.c \
 		update_score.c sort_paths.c bfs_utils.c graph_utils.c score_utils.c \
 		update_paths_length.c break_link.c)
@@ -40,7 +40,7 @@ CMN			=	$(addprefix $(CMN_DIR)/, \
 LMN_OUT_DIR	=	output
 
 LMN_OUT		=	$(addprefix $(LMN_OUT_DIR)/, \
-		error_utils.c print_result.c move_ants.c output.c)
+		error_utils.c move_ants.c output.c)
 
 LMN_FILES	=	$(addprefix $(LMNDIR)/, \
 		$(CMN) $(PARSING) $(LMN_OUT) $(ALGO))
