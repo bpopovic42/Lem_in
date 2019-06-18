@@ -6,20 +6,20 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 18:38:09 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/05/13 18:53:52 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/18 16:37:16 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-int			room_is_end(t_room *room)
+int		room_is_end(t_room *room)
 {
 	if (room && room->command && !ft_strcmp("##end", room->command))
 		return (1);
 	return (0);
 }
 
-int			room_is_start(t_room *room)
+int		room_is_start(t_room *room)
 {
 	if (room && room->command && !ft_strcmp("##start", room->command))
 		return (1);
