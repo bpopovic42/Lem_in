@@ -6,12 +6,11 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 17:06:36 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/06/18 16:22:36 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/18 20:14:52 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
-#include "ft_printf.h"
 
 static void	add_remaining_ants_to_paths(t_route *route, int ants)
 {
@@ -36,24 +35,21 @@ static void	add_remaining_ants_to_paths(t_route *route, int ants)
 	}
 }
 
-static void	set_path(t_route *route, t_path *path)
+static int	set_paths_ants(t_route *route, int ants)
 {
-	path->ants = route->score->longest_path_size - path->head->solution_len;
-	print_dbg(0, "For path %s of length %d, %d surplus ants\n", path->head->name, path->head->solution_len, path->ants);
-}
+	t_path	*path;
+	t_node	*node;
 
-static int		set_paths(t_route *route, int ants)
-{
-	t_path	*path_ptr;
-	t_node	*node_ptr;
-
-	path_ptr = NULL;
-	node_ptr = route->paths->head;
-	while (node_ptr)
+	path = NULL;
+	node = route->paths->head;
+	while (node)
 	{
-		path_ptr = get_path_from_node(node_ptr);
-		set_path(route, path_ptr);
-		node_ptr = node_ptr->next;
+		path = get_path_from_node(node);
+		set_path(route, path);
+		path->ants = route->score->longest_path_size - path->head->solution_len;
+		print_dbg(0, "For path %s of length %d, %d surplus ants\n",
+			path->head->name, path->head->solution_len, path->ants);
+		node = node->next;
 	}
 	add_remaining_ants_to_paths(route, ants);
 	return (0);
@@ -61,10 +57,10 @@ static int		set_paths(t_route *route, int ants)
 
 static void	print_ants_route(t_route *route, int ants, t_room *end)
 {
-	int ants_count;
-	int first_ant;
-	t_node *node_ptr;
-	t_path *path_ptr;
+	int		ants_count;
+	int		first_ant;
+	t_node	*node_ptr;
+	t_path	*path_ptr;
 
 	ants_count = 1;
 	print_dbg(0, "Total ants : %d\n\n", ants);
@@ -102,7 +98,7 @@ static void	remove_non_solution_paths(t_route *route)
 	}
 }
 
-int		print_ants(t_graph *graph, t_route *route)
+int			print_ants(t_graph *graph, t_route *route)
 {
 	remove_non_solution_paths(route);
 	set_paths(route, graph->ants);
