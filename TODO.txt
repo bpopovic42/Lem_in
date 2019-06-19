@@ -10,9 +10,7 @@ Maps in /problematic_maps
 TO CHECK :
 check for segfaults and issues (get some maps from friends)
 integer overflows
-libft's functions :
-	ft_strncmp
-	hash, vectors and bitmaps
+libft's functions : ft_strncmp hash, vectors and bitmaps
 	improve strncpy function
 Re-check leaks in case of malloc failure
 Function pointers casts validity ((void*)free_fn_ptr))
@@ -32,4 +30,3 @@ Find a better srcs/ structure
 ADD :
 Tester :
 	Handle case where generator isn't provided
-	average saving/loading/displaying + comparison for set with -o/-i
