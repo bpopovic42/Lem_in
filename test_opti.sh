@@ -168,6 +168,7 @@ function run_from_folder
 			print_formatted_results $time $target_solution $solution $answer $file
 			record_map $answer "$file_content" $OUTPUT_DIR/"$(basename $output_file)"
 		fi
+		((TEST_AMOUNT+=1))
 	done
 }
 
@@ -183,9 +184,18 @@ function run_from_generator
 		solution=$(get_output_size)
 		let answer=$solution-$target_solution
 		print_formatted_results $time $target_solution $solution $answer $output_file
+		((turns_sum+=$solution-$target_solution))
+		time_sum="$(echo ${time_sum}+${time} | bc | awk '{printf "%.2f", $0}')"
 		record_map $answer "$file_content" $OUTPUT_DIR/$output_file
 		wait_for_next_generator_seed $time
 	done
+}
+
+function print_footer
+{
+	echo "|---------------------------------------------------------|"
+	printf "|    average time : $time_avg     |    average result : $turns_avg      |\n"
+	echo " ---------------------------------------------------------"
 }
 
 get_cmdl_options $@
@@ -197,9 +207,18 @@ fi
 
 print_header
 
+time_sum=0
+time_avg=0
+turns_sum=0
+turns_avg=0
+
 if [[ $INPUT_DIR == "" ]]; then
 	run_from_generator
 elif [[ $INPUT_DIR != "" ]]; then
 	run_from_folder
 fi
-echo " ---------------------------------------------------------"
+
+time_avg="$(echo ${time_sum}/${TEST_AMOUNT} | bc -l | awk '{printf "%.2f", $0}')"
+turns_avg="$(echo ${turns_sum}/${TEST_AMOUNT} | bc)"
+
+print_footer
