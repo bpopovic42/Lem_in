@@ -6,7 +6,6 @@ OUTPUT_DIR=""
 INPUT_DIR=""
 EXE="lem-in"
 GENERATOR_ARG="--big"
-TMP_FILE="big_tmp.map"
 TEST_AMOUNT=1
 OUT_FILES_PREFIX="test_"
 OUT_FILES_SUFFIX=".map"
@@ -70,20 +69,20 @@ function print_previous_result
 		else
 			printf "|% 6d${CLR}      |" $previous_result
 		fi
-		printf " (file : %s)" $file
+		printf " (input file : %s)" $file
 	else
 		printf "|% 6s      |" "N/A"
-		printf " (file : %s)" "N/A"
+		printf " (input file : %s)" "N/A"
 	fi
 }
 
 function record_map
 {
 	result=$1
-	input=$2
+	input="$2"
 	output=$3
 	if [[ $OUTPUT_DIR != "" ]]; then
-		input_contents="$(cat $input | grep -v "#PREVIOUS_RESULT")"
+		input_contents="$(echo "$input" | grep -v "#PREVIOUS_RESULT")"
 		echo "#PREVIOUS_RESULT = $result" > $output
 		echo "$input_contents" >> $output
 	fi
@@ -151,11 +150,9 @@ function print_formatted_results
 
 function get_output_size
 {
-	local_file=$1
-
-	out=$((./$EXE < $local_file )2>&1)
-	out=`echo "$out" | grep '^L' | wc -l | sed 's/^ *//'`
-	echo $out
+	output_size=$((echo "$file_content" | ./$EXE)2>&1)
+	output_size=`echo "$output_size" | grep '^L' | wc -l | sed 's/^ *//'`
+	echo $output_size
 }
 
 function run_from_folder
@@ -164,11 +161,12 @@ function run_from_folder
 		output_file=$file
 		target_solution="$(grep -m 1 '#Here is the number*' $file | awk 'NF>1{print $NF}')"
 		if [[ $target_solution != "" ]]; then
-			time=$((/usr/bin/time ./$EXE < $file) 2>&1 | grep real | awk '{print $1}')
-			solution=$(get_output_size $file)
+			file_content="$(cat $file)"
+			time=$((echo "$file_content" | /usr/bin/time ./$EXE) 2>&1 | grep real | awk '{print $1}')
+			solution=$(get_output_size)
 			let answer=$solution-$target_solution
 			print_formatted_results $time $target_solution $solution $answer $file
-			record_map $answer $file $OUTPUT_DIR/"$(basename $output_file)"
+			record_map $answer "$file_content" $OUTPUT_DIR/"$(basename $output_file)"
 		fi
 	done
 }
@@ -179,15 +177,13 @@ function run_from_generator
 	for (( i = 1; i < $TEST_AMOUNT+1; i++ )) do
 		formatted_index="$(printf "%.${padding}d" $i)"
 		output_file="$OUT_FILES_PREFIX$formatted_index$OUT_FILES_SUFFIX"
-		echo $output_file
-		exit
-		./generator $GENERATOR_ARG > $TMP_FILE
-		target_solution="$(grep -m 1 '#Here is the number*' $TMP_FILE | awk 'NF>1{print $NF}')"
-		time=$((/usr/bin/time ./$EXE < $TMP_FILE) 2>&1 | grep real | awk '{print $1}')
-		solution=$(get_output_size $TMP_FILE)
+		file_content=$(./generator $GENERATOR_ARG)
+		target_solution="$(echo $file_content | grep -m 1 '#Here is the number*' | awk 'NF>1{print $NF}')"
+		time=$((echo "$file_content" | /usr/bin/time ./$EXE) 2>&1 | grep real | awk '{print $1}')
+		solution=$(get_output_size)
 		let answer=$solution-$target_solution
-		print_formatted_results $time $target_solution $solution $answer
-		record_map $answer $TMP_FILE $OUTPUT_DIR/$output_file
+		print_formatted_results $time $target_solution $solution $answer $output_file
+		record_map $answer "$file_content" $OUTPUT_DIR/$output_file
 		wait_for_next_generator_seed $time
 	done
 }
@@ -207,10 +203,3 @@ elif [[ $INPUT_DIR != "" ]]; then
 	run_from_folder
 fi
 echo " ---------------------------------------------------------"
-if [[ -e $TMP_FILE ]]; then
-	rm -i $TMP_FILE
-fi
-
-#time="$((time (./lem-in < big_tmp.txt)) | grep -E real)"
-#time=`echo ${lem_in_out} | awk '{print $3}'`
-#echo "target = $target_solution, solution = $solution"
