@@ -5,7 +5,7 @@
 OUTPUT_DIR=""
 INPUT_DIR=""
 EXE="lem-in"
-GENERATOR_ARG="--big"
+GENERATOR_ARG="--big-superposition"
 TEST_AMOUNT=1
 OUT_FILES_PREFIX="test_"
 OUT_FILES_SUFFIX=".map"
