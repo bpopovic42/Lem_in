@@ -173,11 +173,14 @@ function run_from_folder
 	done
 }
 
-
 function run_from_generator
 {
-	for (( i = 0; i < $TEST_AMOUNT; i++ )) do
-		output_file="$OUT_FILE_PREFIX$i$OUT_FILE_SUFFIX"
+	padding="$(echo -n $TEST_AMOUNT | wc -c | sed 's/ //g')"
+	for (( i = 1; i < $TEST_AMOUNT+1; i++ )) do
+		formatted_index="$(printf "%.${padding}d" $i)"
+		output_file="$OUT_FILES_PREFIX$formatted_index$OUT_FILES_SUFFIX"
+		echo $output_file
+		exit
 		./generator $GENERATOR_ARG > $TMP_FILE
 		target_solution="$(grep -m 1 '#Here is the number*' $TMP_FILE | awk 'NF>1{print $NF}')"
 		time=$((/usr/bin/time ./$EXE < $TMP_FILE) 2>&1 | grep real | awk '{print $1}')
