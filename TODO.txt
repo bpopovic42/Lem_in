@@ -33,4 +33,3 @@ ADD :
 Tester :
 	Handle case where generator isn't provided
 	average saving/loading/displaying + comparison for set with -o/-i
-	remove input filename display if no input
