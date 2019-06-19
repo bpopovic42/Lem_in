@@ -26,7 +26,3 @@ Rework structures names and variables:
 Rename 'solution_to/from' to 'solution_prev/next'
 Handle pointers erasing better (affected files : 'room_utils.c, )
 Find a better srcs/ structure
-
-ADD :
-Tester :
-	Handle case where generator isn't provided
