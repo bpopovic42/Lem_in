@@ -71,7 +71,7 @@ function print_previous_result
 		fi
 		printf " (input file : %s)" $file
 	else
-		printf "|% 6s      |" "N/A"
+		printf "|% 7s     |" "N/A"
 		printf " (input file : %s)" "N/A"
 	fi
 }
@@ -184,17 +184,44 @@ function run_from_generator
 		solution=$(get_output_size)
 		let answer=$solution-$target_solution
 		print_formatted_results $time $target_solution $solution $answer $output_file
-		((turns_sum+=$solution-$target_solution))
-		time_sum="$(echo ${time_sum}+${time} | bc | awk '{printf "%.2f", $0}')"
+		results_sum="$(echo ${results_sum}+\(${solution}-${target_solution}\) | bc -l)"
+		time_sum="$(echo ${time_sum}+${time} | bc -l | awk '{printf "%.2f", $0}')"
 		record_map $answer "$file_content" $OUTPUT_DIR/$output_file
 		wait_for_next_generator_seed $time
 	done
 }
 
+function print_avg
+{
+	printf "|    average time : "
+	if (( $(echo "$time_avg < 1.0" | bc -l) )); then
+		printf "${GREEN}"
+	elif (( $(echo "$time_avg < 3.0" | bc -l) )); then
+		printf "${ORANGE}"
+	else
+		printf "${RED}"
+	fi
+	printf "%s" $time_avg
+	printf "${CLR}"
+	printf "    |"
+
+	printf "   average result : "
+	if (( $(echo "$results_avg < 1.0" | bc -l) )); then
+		printf "${GREEN}"
+	elif (( $(echo "$results_avg < 3.0" | bc -l) )); then
+		printf "${ORANGE}"
+	else
+		printf "${RED}"
+	fi
+	printf "%-9s" $results_avg
+	printf "${CLR}"
+	printf "|\n"
+}
+
 function print_footer
 {
 	echo "|---------------------------------------------------------|"
-	printf "|    average time : $time_avg     |    average result : $turns_avg      |\n"
+	print_avg
 	echo " ---------------------------------------------------------"
 }
 
@@ -209,8 +236,8 @@ print_header
 
 time_sum=0
 time_avg=0
-turns_sum=0
-turns_avg=0
+results_sum=0
+results_avg=0
 
 if [[ $INPUT_DIR == "" ]]; then
 	run_from_generator
@@ -219,6 +246,6 @@ elif [[ $INPUT_DIR != "" ]]; then
 fi
 
 time_avg="$(echo ${time_sum}/${TEST_AMOUNT} | bc -l | awk '{printf "%.2f", $0}')"
-turns_avg="$(echo ${turns_sum}/${TEST_AMOUNT} | bc)"
+results_avg="$(echo ${results_sum}/${TEST_AMOUNT} | bc -l | awk '{printf "%.2f", $0}')"
 
 print_footer
