@@ -31,4 +31,6 @@ Find a better srcs/ structure
 
 ADD :
 Tester :
-	average of time and lines as well as best and worst
+	Handle case where generator isn't provided
+	average saving/loading/displaying + comparison for set with -o/-i
+	remove input filename display if no input
