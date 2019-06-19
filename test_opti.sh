@@ -9,6 +9,9 @@ GENERATOR_ARG="--big-superposition"
 TEST_AMOUNT=1
 OUT_FILES_PREFIX="test_"
 OUT_FILES_SUFFIX=".map"
+AVG_FILENAME=".avg"
+TIME_AVG_PATTERN="TIME_AVG"
+RESULT_AVG_PATTERN="RESULT_AVG"
 
 readonly GREEN="\e[92m"
 readonly RED="\e[31m"
@@ -207,7 +210,7 @@ function print_avg
 	printf "   average result : "
 	if (( $(echo "$results_avg < 1.0" | bc -l) )); then
 		printf "${GREEN}"
-	elif (( $(echo "$results_avg < 3.0" | bc -l) )); then
+	elif (( $(echo "$results_avg < 6.0" | bc -l) )); then
 		printf "${ORANGE}"
 	else
 		printf "${RED}"
@@ -217,15 +220,60 @@ function print_avg
 	printf "|\n"
 }
 
+function print_previous_avg
+{
+	avg_file_contents=$(cat ${INPUT_DIR}/${AVG_FILENAME})
+	previous_time_avg=$(echo "$avg_file_contents" | grep "$TIME_AVG_PATTERN=.*" | sed "s/${TIME_AVG_PATTERN}=//g")
+	previous_result_avg=$(echo "$avg_file_contents" | grep "$RESULT_AVG_PATTERN=.*" | sed "s/${RESULT_AVG_PATTERN}=//g")
+	time_avg_diff="$(echo ${time_avg}- ${previous_time_avg} | bc -l | awk '{printf "%.2f", $0}')"
+	results_avg_diff="$(echo ${results_avg}- ${previous_result_avg} | bc -l | awk '{printf "%.2f", $0}')"
+
+	printf "|    previous : "
+	if (( $(echo "$time_avg_diff <= -0.25" | bc -l) )); then
+		printf "${GREEN}"
+	elif (( $(echo "$time_avg_diff <= 0.25" | bc -l) )); then
+		printf ""
+	elif (( $(echo "$time_avg_diff <= 0.75" | bc -l) )); then
+		printf "${ORANGE}"
+	else
+		printf "${RED}"
+	fi
+	printf "%-8s" $time_avg_diff
+	printf "${CLR}"
+	printf "    |"
+
+	printf "   previous : "
+	if (( $(echo "$results_avg_diff <= -0.25" | bc -l) )); then
+		printf "${GREEN}"
+	elif (( $(echo "$results_avg_diff <= 0.25" | bc -l) )); then
+		printf ""
+	elif (( $(echo "$results_avg_diff <= 0.55" | bc -l) )); then
+		printf "${ORANGE}"
+	else
+		printf "${RED}"
+	fi
+	printf "%-15s" $results_avg_diff
+	printf "${CLR}"
+	printf "|\n"
+
+}
+
 function print_footer
 {
 	echo "|---------------------------------------------------------|"
 	print_avg
+	if [[ $INPUT_DIR != "" && -e $INPUT_DIR/$AVG_FILENAME ]]; then
+		print_previous_avg
+	fi
 	echo " ---------------------------------------------------------"
 }
 
+function dump_avg
+{
+	printf "$TIME_AVG_PATTERN=$time_avg\n$RESULT_AVG_PATTERN=$results_avg" > $OUTPUT_DIR/$AVG_FILENAME
+}
+
 get_cmdl_options $@
-echo $OUTPUT_DIR
 
 if [[ ! -e $EXE ]]; then
 	make
@@ -246,5 +294,9 @@ fi
 
 time_avg="$(echo ${time_sum}/${TEST_AMOUNT} | bc -l | awk '{printf "%.2f", $0}')"
 results_avg="$(echo ${results_sum}/${TEST_AMOUNT} | bc -l | awk '{printf "%.2f", $0}')"
+
+if [[ $OUTPUT_DIR != "" ]]; then
+	dump_avg
+fi
 
 print_footer
