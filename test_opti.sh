@@ -12,6 +12,7 @@ OUT_FILES_SUFFIX=".map"
 AVG_FILENAME=".avg"
 TIME_AVG_PATTERN="TIME_AVG"
 RESULT_AVG_PATTERN="RESULT_AVG"
+GENERATOR_NAME="generator"
 
 readonly GREEN="\e[92m"
 readonly RED="\e[31m"
@@ -159,6 +160,7 @@ function get_output_size
 
 function run_from_folder
 {
+	print_header
 	for file in $INPUT_DIR/*; do
 		output_file=$file
 		target_solution="$(grep -m 1 '#Here is the number*' $file | awk 'NF>1{print $NF}')"
@@ -176,11 +178,17 @@ function run_from_folder
 
 function run_from_generator
 {
+	if [[ ! -e $GENERATOR_NAME ]]; then
+		echo "Error : couldn't find generator program."
+		exit 1
+	fi
+
+	print_header
 	padding="$(echo -n $TEST_AMOUNT | wc -c | sed 's/ //g')"
 	for (( i = 1; i < $TEST_AMOUNT+1; i++ )) do
 		formatted_index="$(printf "%.${padding}d" $i)"
 		output_file="$OUT_FILES_PREFIX$formatted_index$OUT_FILES_SUFFIX"
-		file_content=$(./generator $GENERATOR_ARG)
+		file_content=$(./$GENERATOR_NAME $GENERATOR_ARG)
 		target_solution="$(echo $file_content | grep -m 1 '#Here is the number*' | awk 'NF>1{print $NF}')"
 		time=$((echo "$file_content" | /usr/bin/time ./$EXE) 2>&1 | grep real | awk '{print $1}')
 		solution=$(get_output_size)
@@ -279,7 +287,6 @@ if [[ ! -e $EXE ]]; then
 	make
 fi
 
-print_header
 
 time_sum=0
 time_avg=0
