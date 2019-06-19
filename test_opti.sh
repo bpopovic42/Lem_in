@@ -72,7 +72,6 @@ function print_previous_result
 		printf " (input file : %s)" $file
 	else
 		printf "|% 7s     |" "N/A"
-		printf " (input file : %s)" "N/A"
 	fi
 }
 
