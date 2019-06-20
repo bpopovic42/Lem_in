@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/19 22:56:40 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/06/18 16:36:31 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/20 15:41:02 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static int	graph_has_solution(t_route *route)
 {
 	if (route->paths->size <= 0)
 	{
-		lemin_perror(ENOPATH, ENOPATH_MSG);
+		lemin_perror(ENOPATH, NULL);
 		return (0);
 	}
 	return (1);
