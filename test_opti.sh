@@ -9,12 +9,9 @@ GENERATOR_ARG="--big-superposition"
 TEST_AMOUNT=1
 OUT_FILES_PREFIX="test_"
 OUT_FILES_SUFFIX=".map"
-AVG_FILENAME=".avg"
-TIME_AVG_PATTERN="TIME_AVG"
+AVG_FILENAME=".avg" TIME_AVG_PATTERN="TIME_AVG"
 RESULT_AVG_PATTERN="RESULT_AVG"
-GENERATOR_NAME="generator"
-
-readonly GREEN="\e[92m"
+GENERATOR_NAME="generator" readonly GREEN="\e[92m"
 readonly RED="\e[31m"
 readonly CLR="\e[0;m"
 readonly ORANGE="\e[38;5;208m"
@@ -161,6 +158,7 @@ function get_output_size
 function run_from_folder
 {
 	print_header
+	TEST_AMOUNT=0
 	for file in $INPUT_DIR/*; do
 		output_file=$file
 		target_solution="$(grep -m 1 '#Here is the number*' $file | awk 'NF>1{print $NF}')"
@@ -169,6 +167,8 @@ function run_from_folder
 			time=$((echo "$file_content" | /usr/bin/time ./$EXE) 2>&1 | grep real | awk '{print $1}')
 			solution=$(get_output_size)
 			let answer=$solution-$target_solution
+			results_sum="$(echo ${results_sum}+\(${solution}-${target_solution}\) | bc -l)"
+			time_sum="$(echo ${time_sum}+${time} | bc -l | awk '{printf "%.2f", $0}')"
 			print_formatted_results $time $target_solution $solution $answer $file
 			record_map $answer "$file_content" $OUTPUT_DIR/"$(basename $output_file)"
 		fi
@@ -236,7 +236,7 @@ function print_previous_avg
 	time_avg_diff="$(echo ${time_avg}- ${previous_time_avg} | bc -l | awk '{printf "%.2f", $0}')"
 	results_avg_diff="$(echo ${results_avg}- ${previous_result_avg} | bc -l | awk '{printf "%.2f", $0}')"
 
-	printf "|    previous : "
+	printf "|    last average : "
 	if (( $(echo "$time_avg_diff <= -0.25" | bc -l) )); then
 		printf "${GREEN}"
 	elif (( $(echo "$time_avg_diff <= 0.25" | bc -l) )); then
@@ -246,11 +246,11 @@ function print_previous_avg
 	else
 		printf "${RED}"
 	fi
-	printf "%-8s" $time_avg_diff
+	printf "%-8s" $previous_time_avg
 	printf "${CLR}"
-	printf "    |"
+	printf "|"
 
-	printf "   previous : "
+	printf "   last average   : "
 	if (( $(echo "$results_avg_diff <= -0.25" | bc -l) )); then
 		printf "${GREEN}"
 	elif (( $(echo "$results_avg_diff <= 0.25" | bc -l) )); then
@@ -260,7 +260,7 @@ function print_previous_avg
 	else
 		printf "${RED}"
 	fi
-	printf "%-15s" $results_avg_diff
+	printf "%-9s" $previous_result_avg
 	printf "${CLR}"
 	printf "|\n"
 
@@ -286,7 +286,6 @@ get_cmdl_options $@
 if [[ ! -e $EXE ]]; then
 	make
 fi
-
 
 time_sum=0
 time_avg=0
