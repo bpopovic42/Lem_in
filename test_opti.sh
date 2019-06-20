@@ -96,7 +96,7 @@ function print_result
 	printf "|"
 	if (( $result <= 0 )); then
 		printf "${GREEN}"
-	elif (( $result < 10 )); then
+	elif (( $result <= 6 )); then
 		printf "${ORANGE}"
 	else
 		printf "${RED}"
@@ -109,9 +109,9 @@ function print_time
 {
 	time=$1
 	printf "|"
-	if (( $(echo "$time < 1.0" | bc -l) )); then
+	if (( $(echo "$time <= 2.0" | bc -l) )); then
 		printf "${GREEN}"
-	elif (( $(echo "$time < 3.0" | bc -l) )); then
+	elif (( $(echo "$time <= 4.0" | bc -l) )); then
 		printf "${ORANGE}"
 	else
 		printf "${RED}"
@@ -206,9 +206,9 @@ function run_from_generator
 function print_avg
 {
 	printf "|    average time : "
-	if (( $(echo "$time_avg < 1.0" | bc -l) )); then
+	if (( $(echo "$time_avg <= 2.0" | bc -l) )); then
 		printf "${GREEN}"
-	elif (( $(echo "$time_avg < 3.0" | bc -l) )); then
+	elif (( $(echo "$time_avg < 4.0" | bc -l) )); then
 		printf "${ORANGE}"
 	else
 		printf "${RED}"
@@ -218,7 +218,7 @@ function print_avg
 	printf "    |"
 
 	printf "   average result : "
-	if (( $(echo "$results_avg < 1.0" | bc -l) )); then
+	if (( $(echo "$results_avg <= 1.0" | bc -l) )); then
 		printf "${GREEN}"
 	elif (( $(echo "$results_avg < 6.0" | bc -l) )); then
 		printf "${ORANGE}"
