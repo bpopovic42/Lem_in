@@ -7,6 +7,7 @@ TODO :
 	Decide wether I should return 1 in case of error or not
 	Importe more maps & check against another lemin
 	Recheck leaks, norm and errors
+	Check Makefile's libft re-compilation
 
 SHOULD'VE :
 	Implemented an 'error_logger' to record non fatal errors, avoiding some debugging trouble as occured with the 'duplicate_link.map'
