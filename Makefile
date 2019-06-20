@@ -80,7 +80,7 @@ CFLAGS		=	$(DEBUG) $(if $(SILENT), , -Wall -Wextra -Werror)
 
 ############################## RULES ###########################################
 
-all			:	$(NAME)
+all			:	mklib $(NAME)
 
 $(NAME)	:	$(LFT) $(LMN_OBJ) $(LMN_INC)
 			@$(CC) $(CFLAGS) -o $(NAME) $(LMN_OBJ) $(LFT) $(INCS)
@@ -94,9 +94,9 @@ $(ODIR)/%.o	:	$(SDIR)/%.c $(HEADERS)
 			@$(CLR)
 			@echo -n $@
 
-$(LFT)		:	$(LFT_INC)
-		@$(IF_NO_LFT)
-		@$(MAKE) DEBUG="$(DEBUG)" -C $(LFTDIR)
+mklib		:
+	@$(IF_NO_LFT)
+	@$(MAKE) DEBUG="$(DEBUG)" -C $(LFTDIR)
 
 clean		:
 	@$(MAKE) clean -C $(LFTDIR)
