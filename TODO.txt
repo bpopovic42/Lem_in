@@ -10,6 +10,7 @@ TODO :
 	Check Makefile's libft re-compilation
 	Edit rest of maps to fit their description
 	Modify error tester to print the file before the results
+	Give a last check at bfs functions.
 
 ISSUE :
 	map_samples/incomplete_map/2_instructions_2
