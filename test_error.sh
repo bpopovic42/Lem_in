@@ -56,9 +56,9 @@ function test_each_file_in_dir () {
 	done;
 	if (( $ERROR_STATUS == 1 )); then
 		ERROR_STATUS=0
-		printf "${RED}\t\tErrors found\n${CLR}"
+		printf "${RED}Errors found\n${CLR}"
 	else
-		printf "${GREEN}\t\tOK\n${CLR}"
+		printf "${GREEN}OK\n${CLR}"
 	fi;
 
 }
@@ -74,6 +74,6 @@ if [ $? -ne 0 ]; then
 fi
 
 for dir in "${FILES_LIST[@]}"; do
-	printf "Processing $dir : "
+	printf "Processing %-20s" "$dir :"
 	test_each_file_in_dir $dir
 done
