@@ -1,4 +1,4 @@
-10
+999
 ##start
 start 0 1
 ##end
@@ -13,5 +13,8 @@ end 1 0
 7 7 7
 8 8 8
 9 9 9
-##bad placed command
-start-end
+start-0
+0-1
+1-2
+start-0
+2-end
