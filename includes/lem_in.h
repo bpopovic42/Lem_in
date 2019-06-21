@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 08:42:42 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/06/18 20:31:13 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/21 15:37:28 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 # define EINVANT_MSG	"Invalid number of ants."
 # define ENEROOM_MSG	"Invalid number of rooms."
 # define ENELINK_MSG	"Invalid number of links."
-# define EINVMAP_MSG	"Invalid map."
+# define EINVMAP_MSG	"Invalid map, no start or end."
 # define ENOPATH_MSG	"No valid path."
 # define START_CMD		"##start"
 # define END_CMD		"##end"
