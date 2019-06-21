@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/19 22:56:40 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/06/20 15:41:02 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/21 13:21:46 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ int			main(void)
 		return (local_exit(&graph, &file, &route, 1));
 	if (!graph_has_solution(&route))
 		return (local_exit(&graph, &file, &route, 1));
-	print_dbg(0, "Final score : %d\n", route.score->output_size);
 	ft_putendl(file.data);
 	if (print_ants(&graph, &route) != 0)
 		return (local_exit(&graph, &file, &route, 1));
