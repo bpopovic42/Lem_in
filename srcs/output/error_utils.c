@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/27 16:47:04 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/06/18 20:01:14 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/21 15:36:20 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void				lemin_perror(int error_code, char *line)
 		ft_printf(": %s{eoc}\n", get_error_msg(error_code));
 		if (line && error_code != EINVMAP)
 		{
-			ft_printf("{red}Problematic line :{eoc}\n");
+			ft_printf("{red}Last processed line :{eoc}\n");
 			ft_printf("%s {red}<-{eoc}\n", line);
 		}
 	}
