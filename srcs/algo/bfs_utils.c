@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/29 17:53:11 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/05/20 20:12:57 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/20 16:20:25 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ int		init_bfs_queue(t_queue **bfs, size_t nbr_of_rooms)
 {
 	if (!(*bfs = ft_memalloc(sizeof(**bfs))))
 		return (-1);
-	ft_bzero(*bfs, sizeof(**bfs));
 	if (!((*bfs)->rooms = ft_memalloc(sizeof(t_room*) * nbr_of_rooms)))
 	{
 		free_bfs_queue(bfs);
@@ -36,24 +35,35 @@ void	free_bfs_queue(t_queue **bfs)
 
 void	bfs_add(t_queue *bfs, t_room *room)
 {
-	if (bfs->tail + 1 >= (bfs->capacity - 1))
-		bfs->tail = 0;
-	else if (!(bfs->head == bfs->tail && bfs->size == 0))
-		bfs->tail++;
-	bfs->rooms[bfs->tail] = room;
-	bfs->size++;
+	if ((bfs->size + 1) <= bfs->capacity)
+	{
+		if (bfs->tail >= (bfs->capacity - 1))
+			bfs->tail = 0;
+		else
+			bfs->tail++;
+		bfs->rooms[bfs->tail] = room;
+		if (bfs->size == 0)
+			bfs->head = bfs->tail;
+		bfs->size++;
+	}
 }
 
 t_room	*bfs_pop(t_queue *bfs)
 {
 	t_room *tmp;
 
-	tmp = bfs->rooms[bfs->head];
-	bfs->rooms[bfs->head] = NULL;
-	if (bfs->head + 1 >= (bfs->capacity - 1))
-		bfs->head = 0;
-	else
-		bfs->head++;
-	bfs->size--;
+	tmp = NULL;
+	if (bfs->size > 0)
+	{
+		tmp = bfs->rooms[bfs->head];
+		bfs->rooms[bfs->head] = NULL;
+		if (bfs->head >= (bfs->capacity - 1))
+			bfs->head = 0;
+		else
+			bfs->head++;
+		bfs->size--;
+		if (bfs->size == 0)
+			bfs->tail = bfs->head;
+	}
 	return (tmp);
 }
