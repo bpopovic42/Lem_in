@@ -9,6 +9,7 @@ LEAKS=$([[ $1 = "leaks" ]] && echo "1" || echo "0")
 LEAKS_FOUND=0
 FILES_LIST=()
 OVERRIDE=-1
+COMPILATION_OPT='CC="gcc"'
 
 readonly GREEN="\e[92m"
 readonly RED="\e[31m"
@@ -44,7 +45,7 @@ function test_each_file_in_dir () {
 	output=$OUTPUT_DIR/$1.txt
 	for file in $MAPS_DIR/$dir/*; do
 		printf "[ ${file##*/} ] :\n\n" >> "${output}"
-		result=$(sh run.sh $file 2>&1)
+		result=$(sh run.sh $file $COMPILATION_OPT 2>&1)
 		exit_status=$(echo $?)
 		if (( $exit_status == 0 )); then
 			printf "${GREEN}OK\n${CLR}" >> "${output}"
