@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/13 17:06:36 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/06/18 20:16:54 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/21 13:19:02 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static int	set_paths_ants(t_route *route, int ants)
 	{
 		path = get_path_from_node(node);
 		path->ants = route->score->longest_path_size - path->head->solution_len;
-		print_dbg(0, "For path %s of length %d, %d surplus ants\n",
+		algo_dbg(0, "For path %s of length %d, %d surplus ants\n",
 			path->head->name, path->head->solution_len, path->ants);
 		node = node->next;
 	}
@@ -62,7 +62,7 @@ static void	print_ants_route(t_route *route, int ants, t_room *end)
 	t_path	*path_ptr;
 
 	ants_count = 1;
-	print_dbg(0, "Total ants : %d\n\n", ants);
+	algo_dbg(0, "Total ants : %d\n\n", ants);
 	while (end->ant < ants)
 	{
 		first_ant = 1;
