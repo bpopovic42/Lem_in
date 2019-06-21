@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/28 21:05:46 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/06/18 17:06:15 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/21 15:14:54 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,20 @@ int			room_has_conflict(t_graph *graph, t_room *room)
 	{
 		ptr = ft_vector_get(graph->room_list, i);
 		if (room_has_duplicated_name(room, ptr))
+		{
+			print_warning("Duplicated room name : '%s'", room->name);
 			return (1);
+		}
 		else if (room_has_duplicated_command(room, ptr))
+		{
+			print_warning("Command redefinition : '%s'", room->command);
 			return (1);
+		}
 		else if (room_has_duplicated_coordinates(room, ptr))
+		{
+			print_warning("Duplicated coordinates in room : '%s'", room->name);
 			return (1);
+		}
 		i++;
 	}
 	return (0);

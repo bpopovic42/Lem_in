@@ -18,7 +18,8 @@
 
 # define LMN_BUFF_SIZE	15000
 # define ERR_DBG		1
-# define DBG_PRINT		0
+# define WARN_DBG		1
+# define ALGO_DBG		0
 # define STDIN			0
 # define EINVANT		1
 # define ENEROOM		2
@@ -62,7 +63,8 @@ void	free_graph(t_graph *graph);
 
 t_room	*get_room_from_node(t_node *node);
 t_path	*get_path_from_node(t_node *path_container);
-void	print_dbg(int is_msg_last, const char *fmt_msg, ...);
+void	algo_dbg(int is_msg_last, const char *fmt_msg, ...);
+void	print_warning(const char *fmt_msg, ...);
 int		init_file(t_file *file);
 void	free_file(t_file *file);
 int		link_add(t_graph *graph, t_room *a, t_room *b);

@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/26 20:06:07 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/05/29 21:15:17 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/21 15:41:55 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,20 @@ int			parse_link(t_graph *graph, const char *link)
 	if (!(rooms = ft_strsplit(link, "-")))
 		return (local_exit(rooms, -1));
 	if (!ft_strcmp(rooms[0], rooms[1]))
+	{
+		print_warning("Room links to itself : '%s-%s'", rooms[0], rooms[1]);
 		return (local_exit(rooms, 1));
+	}
 	else if (!room_exists(graph, rooms[0]) || !room_exists(graph, rooms[1]))
+	{
+		print_warning("Undefined room in link : '%s-%s'", rooms[0], rooms[1]);
 		return (local_exit(rooms, 1));
+	}
 	else if (link_exists(graph, rooms[0], rooms[1]))
+	{
+		print_warning("Duplicated link : '%s-%s'", rooms[0], rooms[1]);
 		return (local_exit(rooms, 1));
+	}
 	if (record_link(graph, rooms[0], rooms[1]) < 0)
 		return (local_exit(rooms, -1));
 	return (local_exit(rooms, 0));

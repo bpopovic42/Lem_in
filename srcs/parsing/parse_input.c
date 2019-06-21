@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/14 16:59:13 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/06/18 16:47:09 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/21 15:37:48 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,10 @@ int			parse_input(int *ants, t_graph *graph, t_file *file)
 		ft_strdel(&line);
 	}
 	if (error_status < 0)
+	{
+		print_warning("Read failed", NULL);
 		return (local_exit(line, cmd_list, error_status));
+	}
 	else if ((error_status = check_input(*ants, graph)) > 0)
 		lemin_perror(error_status, line);
 	return (local_exit(line, cmd_list, error_status));

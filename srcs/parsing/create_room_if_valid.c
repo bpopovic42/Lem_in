@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/28 19:39:48 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/05/28 20:15:09 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/21 15:08:43 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,20 @@ static int		room_data_is_valid(char **room_data)
 	x = room_data[1];
 	y = room_data[2];
 	if (ft_strchr(room_name, '-'))
+	{
+		print_warning("Invalid character '-' in room name : '%s'", room_name);
 		return (0);
+	}
 	else if (!ft_is_valid_int(x) || !ft_is_valid_int(y))
+	{
+		print_warning("Invalid position for room : '%s'", room_name);
 		return (0);
+	}
 	else if (ft_atoi(x) < 0 || ft_atoi(y) < 0)
+	{
+		print_warning("Negative position value for room : '%s'", room_name);
 		return (0);
+	}
 	return (1);
 }
 
