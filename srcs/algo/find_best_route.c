@@ -51,10 +51,10 @@ int			find_best_route(t_graph *graph, t_route *route, t_queue *bfs)
 	node_ptr = route->paths->head;
 	while (node_ptr)
 	{
-		print_dbg(0, "\t--- NEXT TURN ---\n");
+		algo_dbg(0, "\t--- NEXT TURN ---\n");
 		clean_graph_and_paths(graph, route->paths);
 		first_path = get_path_from_node(node_ptr);
-		print_dbg(0, "\t(1st path is %s)\n", first_path->head->name);
+		algo_dbg(0, "\t(1st path is %s)\n", first_path->head->name);
 		mark_first_path(graph, first_path, bfs);
 		mark_next_paths(graph, route->paths, bfs);
 		update_score(graph, route);
@@ -62,7 +62,7 @@ int			find_best_route(t_graph *graph, t_route *route, t_queue *bfs)
 			node_ptr = node_ptr->next;
 		if (set_break_flag(&break_flag, node_ptr))
 			node_ptr = route->paths->head;
-		print_dbg(1, "", NULL);
+		algo_dbg(1, "", NULL);
 	}
 	return (0);
 }

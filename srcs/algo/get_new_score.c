@@ -79,12 +79,12 @@ void			get_new_score(t_route *route, t_score *new_score)
 {
 	t_path *path;
 
-	print_dbg(0, "Computing score for current route :\n", NULL);
+	algo_dbg(0, "Computing score for current route :\n", NULL);
 	while ((path = get_next_shortest_path(route->paths)))
 	{
 		if (update_score_if_improved_by_path(new_score, path))
 		{
-			print_dbg(0, "\tPath %s of length %d improves score, recording.\n",
+			algo_dbg(0, "\tPath %s of length %d improves score, recording.\n",
 				path->head->name, path->length);
 			add_path_to_score(new_score, path);
 		}

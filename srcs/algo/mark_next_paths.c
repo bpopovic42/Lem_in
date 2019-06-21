@@ -56,5 +56,5 @@ void			mark_next_paths(t_graph *graph, t_list *paths, t_queue *bfs)
 		mark_path(path_ptr);
 		reweight_graph(graph, bfs);
 	}
-	print_dbg(1, "ALL PATHS MARKED FOR TURN\n", NULL);
+	algo_dbg(1, "ALL PATHS MARKED FOR TURN\n", NULL);
 }

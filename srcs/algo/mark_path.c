@@ -14,7 +14,7 @@
 
 static void		mark_next_room(t_room **from, t_room **next)
 {
-	print_dbg(0, "\t[Marking] %s->%s\n", (*from)->name, (*next)->name);
+	algo_dbg(0, "\t[Marking] %s->%s\n", (*from)->name, (*next)->name);
 	(*from)->to = (*next);
 	(*from)->blocked = 1;
 	(*from)->cleaned = 0;
@@ -87,19 +87,19 @@ void			mark_path(t_path *path)
 	ptr = NULL;
 	from = path->head;
 	from->start_distance = 1;
-	print_dbg(0, "Marking path %s :\n", from->name);
+	algo_dbg(0, "Marking path %s :\n", from->name);
 	while (!room_is_end(ptr) && (ptr = get_shortest_link(from)))
 		mark_next_room(&from, &ptr);
 	if ((from && room_is_end(ptr)) || (room_is_end(from) && !ptr))
 	{
-		print_dbg(2, "\tPath marked, length %d\n", from->start_distance);
+		algo_dbg(2, "\tPath marked, length %d\n", from->start_distance);
 		path_set_length(path, from->start_distance);
 		if (!ptr)
 			path->head->blocked = 1;
 	}
 	else
 	{
-		print_dbg(1, "\tFailed to mark path, cleaning.");
+		algo_dbg(1, "\tFailed to mark path, cleaning.");
 		unmark_path(path, from);
 	}
 }

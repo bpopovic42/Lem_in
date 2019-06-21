@@ -64,7 +64,7 @@ int			break_link(t_path *path)
 		if (room_has_multiple_links(ptr) && !room_is_end_connected(ptr)
 			&& !room_is_end(ptr) && !room_is_start(ptr) && alt)
 		{
-			print_dbg(1, "\nRemoving link %s->%s\n", ptr->name, ptr->to->name);
+			algo_dbg(1, "\nRemoving link %s->%s\n", ptr->name, ptr->to->name);
 			remove_link(ptr, ptr->to);
 			remove_link(ptr->to, ptr);
 			return (1);

@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 21:05:31 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/06/18 19:34:47 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/21 13:20:00 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int			update_score(t_graph *graph, t_route *route)
 	get_new_score(route, &new_score);
 	if (new_score_is_better(route->score, &new_score))
 	{
-		print_dbg(1, "ROUTE IS BETTER", NULL);
+		algo_dbg(1, "ROUTE IS BETTER", NULL);
 		replace_score(route->score, &new_score);
 		ft_lstiter(route->paths, (void*)&path_remove_solution_mark);
 		remove_previous_route_marks(graph);

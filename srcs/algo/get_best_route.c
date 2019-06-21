@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 19:33:14 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/06/18 17:52:11 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/21 13:19:48 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,5 +87,6 @@ int			get_best_route(t_graph *graph, t_route *route)
 		return (local_exit(&bfs, -1));
 	sort_paths_by_head_distance(route->paths);
 	find_best_route(graph, route, bfs);
+	algo_dbg(0, "Final score : %d\n", route->score->output_size);
 	return (local_exit(&bfs, 0));
 }
