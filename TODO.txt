@@ -1,5 +1,4 @@
 TODO :
-	Run ccepre's tester against all your maps & compare with another lem-in
 	Recheck leaks, norm and errors
 	Re-check leaks in case of malloc failure
 
