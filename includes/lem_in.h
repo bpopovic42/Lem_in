@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 08:42:42 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/06/21 15:37:28 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/22 17:45:23 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@
 # include "lem_in_structs.h"
 
 # define LMN_BUFF_SIZE	15000
-# define ERR_DBG		1
-# define WARN_DBG		1
+# define ERR_DBG		0
+# define WARN_DBG		0
 # define ALGO_DBG		0
 # define STDIN			0
 # define EINVANT		1
