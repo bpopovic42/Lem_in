@@ -11,7 +11,6 @@ TODO :
 	Edit rest of maps to fit their description
 	Give a last check at bfs functions.
 	Run ccepre's tester against all your maps & compare with another lem-in
-	Issue in incomplete_maps/room_definition_in_links.map
 
 ISSUE :
 	map_samples/incomplete_map/2_instructions_2
