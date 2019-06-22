@@ -1,10 +1,6 @@
 TODO :
 	Re-check leaks in case of malloc failure
-	Function pointers casts validity ((void*)free_fn_ptr))
-	Try breaking link only once per path
-	Re-test your parser (commands) & overall time consumption impact
 	Something messed up files, recheck norm
-	Decide wether I should return 1 in case of error or not
 	Importe more maps & check against another lemin
 	Recheck leaks, norm and errors
 	Check Makefile's libft re-compilation
