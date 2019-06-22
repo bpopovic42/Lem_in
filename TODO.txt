@@ -1,14 +1,9 @@
 TODO :
-	Re-check leaks in case of malloc failure
-	Something messed up files, recheck norm
-	Importe more maps & check against another lemin
-	Recheck leaks, norm and errors
-	Check Makefile's libft re-compilation
 	Give a last check at bfs functions.
+	Check Makefile's libft re-compilation
 	Run ccepre's tester against all your maps & compare with another lem-in
-
-ISSUE :
-	map_samples/incomplete_map/2_instructions_2
+	Recheck leaks, norm and errors
+	Re-check leaks in case of malloc failure
 
 SHOULD'VE :
 	Implemented an 'error_logger' to record non fatal errors, avoiding some debugging trouble as occured with the 'duplicate_link.map'
