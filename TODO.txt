@@ -4,7 +4,6 @@ TODO :
 	Importe more maps & check against another lemin
 	Recheck leaks, norm and errors
 	Check Makefile's libft re-compilation
-	Edit rest of maps to fit their description
 	Give a last check at bfs functions.
 	Run ccepre's tester against all your maps & compare with another lem-in
 
