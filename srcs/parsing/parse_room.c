@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/27 18:41:55 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/06/22 20:38:02 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/22 20:41:05 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,10 @@ static int		record_room(t_graph *graph, t_room *room)
 	if (!room_has_conflict(graph, room))
 	{
 		if (ft_vector_append(graph->room_list, (void**)&room) < 0)
+		{
+			free_room(&room);
 			return (-1);
+		}
 		if (ft_hashpush_data(graph->rooms, room->name, room, sizeof(*room)) < 0)
 			return (-1);
 		update_graph_data(graph, room);
