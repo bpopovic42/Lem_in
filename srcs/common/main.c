@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/19 22:56:40 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/06/21 13:21:46 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/22 17:45:03 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,15 +49,22 @@ int			main(void)
 	t_file		file;
 	t_graph		graph;
 	t_route		route;
+	int			error;
 
+	error = 0;
 	if (init_lem_in_data(&graph, &file, &route) < 0)
 		return (local_exit(&graph, &file, &route, 1));
-	if (parse_input(&graph.ants, &graph, &file) != 0)
-		return (local_exit(&graph, &file, &route, 1));
+	if ((error = parse_input(&graph.ants, &graph, &file)) != 0)
+	{
+		if (error > 0)
+			return (local_exit(&graph, &file, &route, 0));
+		else
+			return (local_exit(&graph, &file, &route, 1));
+	}
 	if (get_best_route(&graph, &route) < 0)
 		return (local_exit(&graph, &file, &route, 1));
 	if (!graph_has_solution(&route))
-		return (local_exit(&graph, &file, &route, 1));
+		return (local_exit(&graph, &file, &route, 0));
 	ft_putendl(file.data);
 	if (print_ants(&graph, &route) != 0)
 		return (local_exit(&graph, &file, &route, 1));
