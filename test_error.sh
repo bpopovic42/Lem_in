@@ -11,6 +11,7 @@ FILES_LIST=()
 OVERRIDE=-1
 COMPILATION_OPT='CC="gcc"'
 PRINT_MAP=1
+PRINT_COMPLETE_OUTPUT=1
 
 readonly GREEN="\e[92m"
 readonly RED="\e[31m"
@@ -64,7 +65,11 @@ function test_each_file_in_dir()
 		print_original_map $file
 		echo "LEM_IN OUTPUT :" >> "${output}"
 		if (( $exit_status == 0 )); then
-			printf "${GREEN}OK\n${CLR}" >> "${output}"
+			if (( $PRINT_COMPLETE_OUTPUT == 1 )); then
+				echo "$result" >> "${output}"
+			else
+				printf "${GREEN}OK\n${CLR}" >> "${output}"
+			fi
 		else
 			echo -e "$result" >> "${output}"
 			ERROR_STATUS=1
