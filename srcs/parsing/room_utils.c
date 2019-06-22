@@ -6,7 +6,7 @@
 /*   By: bopopovi <bopopovi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/04 16:09:29 by bopopovi          #+#    #+#             */
-/*   Updated: 2019/06/18 19:31:06 by bopopovi         ###   ########.fr       */
+/*   Updated: 2019/06/22 19:25:51 by bopopovi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ void		free_room(t_room **room)
 
 static void	initialize_room_data(t_room *room, t_pos *coord)
 {
+	ft_bzero(room, sizeof(*room));
+	room->command = NULL;
 	room->pos = *coord;
 	room->end_distance = -1;
 	room->start_distance = -1;
@@ -66,6 +68,7 @@ t_room		*new_room(char *name, t_pos *coord)
 
 	if (!(new_room = ft_memalloc(sizeof(*new_room))))
 		return (NULL);
+	initialize_room_data(new_room, coord);
 	if (!(new_room->name = ft_strdup(name)))
 	{
 		free_room(&new_room);
@@ -76,6 +79,5 @@ t_room		*new_room(char *name, t_pos *coord)
 		free_room(&new_room);
 		return (NULL);
 	}
-	initialize_room_data(new_room, coord);
 	return (new_room);
 }
