@@ -10,13 +10,15 @@ LEAKS_FOUND=0
 FILES_LIST=()
 OVERRIDE=-1
 COMPILATION_OPT='CC="gcc"'
+PRINT_MAP=1
 
 readonly GREEN="\e[92m"
 readonly RED="\e[31m"
 readonly CLR="\e[0;m"
 readonly ORANGE="\e[38;5;208m"
 
-function prompt_override() {
+function prompt_override()
+{
 	read -p "Some files already exists, override ?" yn
 	case $yn in
 		[Yy]* ) echo 1; return;;
@@ -24,7 +26,8 @@ function prompt_override() {
 	esac
 }
 
-function get_files_to_process () {
+function get_files_to_process()
+{
 	for dir in $1/*; do
 		if [[ -d $dir ]]; then
 			outputFile="${dir##*/}"
@@ -41,12 +44,25 @@ function get_files_to_process () {
 	done
 }
 
-function test_each_file_in_dir () {
+function print_original_map()
+{
+	file_to_print="$1"
+	if (( $PRINT_MAP == 1 )); then
+		echo "MAP :" >> "${output}"
+		cat $file_to_print >> "${output}"
+		echo "" >> "${output}"
+	fi
+}
+
+function test_each_file_in_dir()
+{
 	output=$OUTPUT_DIR/$1.txt
 	for file in $MAPS_DIR/$dir/*; do
 		printf "[ ${file##*/} ] :\n\n" >> "${output}"
-		result=$(sh run.sh $file $COMPILATION_OPT 2>&1)
+		result=$($EXE < $file 2>&1)
 		exit_status=$(echo $?)
+		print_original_map $file
+		echo "LEM_IN OUTPUT :" >> "${output}"
 		if (( $exit_status == 0 )); then
 			printf "${GREEN}OK\n${CLR}" >> "${output}"
 		else
@@ -67,6 +83,8 @@ function test_each_file_in_dir () {
 if [ ! -e $OUTPUT_DIR ]; then
 	mkdir $OUTPUT_DIR
 fi
+
+make re $COMPILATION_OPT
 
 get_files_to_process $MAPS_DIR
 
