@@ -57,6 +57,7 @@ function print_original_map()
 
 function test_each_file_in_dir()
 {
+	ERROR_STATUS=0
 	output=$OUTPUT_DIR/$1.txt
 	for file in $MAPS_DIR/$dir/*; do
 		printf "[ ${file##*/} ] :\n\n" >> "${output}"
